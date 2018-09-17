@@ -31,8 +31,8 @@
     <div class="wrapper" style="height: auto; min-height: 100%;">
         <header class="main-header">
             <a href="/admin/home" class="logo hidden-xs">
-                <span class="logo-mini"><i class="home-icon fa fa-home fa-lg"></i>&nbsp;<b>52gai</b></span>
-                <span class="logo-lg"><i class="home-icon fa fa-home fa-lg"></i>&nbsp;<b>52gai</b>后台管理</span>
+                <span class="logo-mini"><i class="home-icon fa fa-home fa-lg"></i>&nbsp;<b>shop</b></span>
+                <span class="logo-lg"><i class="home-icon fa fa-home fa-lg"></i>&nbsp;<b>shop</b>后台管理</span>
             </a>
             <nav class="navbar navbar-static-top">
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">

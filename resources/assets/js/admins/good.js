@@ -413,9 +413,6 @@ $('.edit-good-form').validate({
         },
         goodCategoryId: {
             required: true
-        },
-        brandId: {
-            required: true
         }
     },
     messages: {
@@ -424,9 +421,6 @@ $('.edit-good-form').validate({
         },
         goodCategoryId: {
             required: "请选择商品分类"
-        },
-        brandId: {
-            required: "请选择商品品牌"
         }
     }
 });

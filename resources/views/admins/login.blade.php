@@ -19,7 +19,7 @@
 		<div class="loginbox">
 			<form method='post' class="login-form">
 				<div class="form-group text-center">
-					<h2 style="color:#fff"><strong>52gai后台管理</strong></h2>
+					<h2 style="color:#fff"><strong>shop后台管理</strong></h2>
 				</div>
 				<textarea id="pubkey" class="pubkey hidden">-----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCX9KeF+LPmJL5S4krtnDHqWG3xudzkeWDvjLHkXGECKIA66u5Zg2n1RiPdccZnW/4SNp7gpnjW4noFuDcLrYfQkppuWkIW324jqUHH2tclMMr2eAOq0LLFKSFn1Hs97Bf/sWoklDKwt+JRgtFhMRiENspM/c9dYtjSe5F7kq9JKwIDAQAB-----END PUBLIC KEY-----</textarea>
 				<div class="input-div">

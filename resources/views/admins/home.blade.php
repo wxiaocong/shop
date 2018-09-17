@@ -183,14 +183,6 @@
                                 <col width="140px" />
                                 <col />
                             </colgroup>
-                            <thead>
-                                <tr>
-                                    <th>品牌数量</th>
-                                    <td>
-                                        {{ $brandCount }}<small>个</small>
-                                    </td>
-                                </tr>
-                            </thead>
                             <tbody>
                                 <tr>
                                     <th>商品数(sku)</th>
@@ -202,12 +194,6 @@
                                     <th>有库存商品数(sku)</th>
                                     <td>
                                         {{ $validSkuCount }}<small>个</small>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>限时特价商品数</th>
-                                    <td>
-                                        {{ $promotionSkuCount }}<small>个</small>
                                     </td>
                                 </tr>
                             </tbody>
