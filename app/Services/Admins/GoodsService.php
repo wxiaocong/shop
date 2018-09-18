@@ -500,7 +500,7 @@ class GoodsService
         $goodsSpec->attr_ids        = $attrIds;
         $goodsSpec->values          = $attrValues;
         $goodsSpec->number          = intVal($goodSkuParams['storeNum'][$index]);
-        $goodsSpec->warning_num     = intVal($goodSkuParams['warningNum'][$index]);
+        $goodsSpec->wait_number     = intVal($goodSkuParams['warningNum'][$index]);
         $goodsSpec->sell_price      = intval($goodSkuParams['sellPrice'][$index] * 100);
         $goodsSpec->member_price    = intval($goodSkuParams['memberPrice'][$index] * 100);
         $goodsSpec->wholesale_price = intval($goodSkuParams['wholesalePrice'][$index] * 100);
