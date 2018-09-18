@@ -3,7 +3,7 @@
 <header class="zyw-header">
     <div class="zyw-container white-color">
         <div class="head-l">
-            <a href="javascript:{{$_COOKIE['lastRecord'] ?? "self.location='/'"}};" target="_self"><i class="iconfont icon-fanhui1"></i></a>
+            <a href="javascript:window.location.replace('/goods/{{$goodsInfo->id}}');" target="_self"><i class="iconfont icon-fanhui1"></i></a>
         </div>
         <h1>确认订单</h1>
     </div>
@@ -30,7 +30,7 @@
       <div class="weui-panel__bd">
         <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
           <div class="weui-media-box__hd">
-            <img class="weui-media-box__thumb" src="{{ $goodsInfo->img }}">
+            <img class="weui-media-box__thumb" src="{{ $goodsInfo->img }}?x-oss-process=image/resize,w_80,h_80">
           </div>
           <div class="weui-media-box__bd">
             <h4 class="weui-media-box__title">{{ $goodsInfo->name }}</h4>

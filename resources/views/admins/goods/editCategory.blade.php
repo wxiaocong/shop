@@ -61,6 +61,7 @@
                     <div style="float:left;margin-right:6px;"><img style="max-width: 200px;" src="{{$categoryInfo->pic}}"></div>
                     @endif
                     <input class="fileUpload" type="file" name="file">
+                    <p class="help-block">建议高度80px,宽度和高度比例为1：1</p>
                 </td>
             </tr>
             <tr>
@@ -126,6 +127,7 @@ function createFileinput(className)
         uploadUrl:'/fileUpload/uploadLocalFile', //上传的地址
         allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
         uploadExtraData:{'dataType': 'file'},
+        maxFileSize:50,
         uploadAsync: true, //默认异步上传
         showUpload: false, //是否显示上传按钮
         showRemove: false, //显示移除按钮

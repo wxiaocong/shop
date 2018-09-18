@@ -9,13 +9,13 @@
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     @foreach(explode(',',$val->img) as $img)
-                    <div class="swiper-slide"><img src="{{$img}}" class="order-item-img"></div>
+                    <div class="swiper-slide"><img src="{{$img}}?x-oss-process=image/resize,w_80,h_80" class="order-item-img"></div>
                     @endforeach
                 </div>
             </div>
             @else
             <a href="javascript:;" class="pull-left">
-                <img src="{{$val->img}}" alt="" class="media-object order-item-img">
+                <img src="{{$val->img}}?x-oss-process=image/resize,w_80,h_80" alt="" class="media-object order-item-img">
             </a>
             <div class="media-body">
                 <div class="order-item-info">

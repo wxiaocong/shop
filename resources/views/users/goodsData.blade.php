@@ -2,7 +2,7 @@
 <li class="col-sm-6 col-xs-6 ware-box">
     <a href="/goods/{{ $val->id }}">
         <div class="ware-img">
-            <img src="{{empty($val->img) ? elixir('images/users/carnetmotors.jpg') : $val->img}}" alt="">
+            @if(!empty($val->img))<img src="{{$val->img}}?x-oss-process=image/resize,w_160,h_160" >@endif
         </div>
         <h3 class="ware-title">{{$val->name}}</h3>
         @if(empty($val->award_value))

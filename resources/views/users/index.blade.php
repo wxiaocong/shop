@@ -1,13 +1,14 @@
 @include('users.inc.header')
+@include('users.inc.search')
 <section class="zyw-container">
     @if (!empty($adPositions))
     <div class="swiper-container">
         <div class="swiper-wrapper ad-swiper">
             @foreach ($adPositions as $ad)
-            <a href="{{$ad->url}}" class="swiper-slide"><img src="{{$ad->img}}" alt="{{$ad->title}}"></a>
+            <a href="{{$ad->url}}" class="swiper-slide"><img src="{{$ad->img}}?x-oss-process=image/resize,w_640,h_180" alt="{{$ad->title}}"></a>
             @endforeach
         </div>
-        <!-- 分页器 -->
+        <!-- 如果需要分页器 -->
         <div class="swiper-pagination"></div>
     </div>
     @endif
@@ -19,11 +20,10 @@
                 <li class="col-sm-6 col-xs-6 ware-box">
                     <a href="\goods\{{$recommend->id}}">
                         <div class="ware-img">
-                            <img src="{{$recommend->img}}" alt="">
+                            @if(!empty($recommend->img))<img src="{{$recommend->img}}?x-oss-process=image/resize,w_160,h_160">@endif
                             <span class="ware-vip">热卖</span>
                         </div>
                         <h3 class="ware-title">{{$recommend->name}}</h3>
-                        <p class="ware-des">{{$recommend->cust_partno}}</p>
                         <span class="ware-prince red-color">￥{{ sprintf("%.2f",$recommend->sell_price/100)}}</span>
                     </a>
                 </li>

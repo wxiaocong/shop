@@ -142,7 +142,7 @@ $(document).ready(function() {
                     $('.buy-now').removeAttr('disabled').removeClass('footer-danger').html('立即购买');
                 }
                 
-                $('.spec-head-img img').prop('src',jsonObject.img);//sku小图
+                $('.spec-head-img img').prop('src',jsonObject.img+'?x-oss-process=image/resize,w_80,h_80');//sku小图
                 $('.details-title').html(jsonObject.name);//主名称
                 $('.spec-weight').html(jsonObject.weight);//重量
                 //sku选择页面信息修改
@@ -154,7 +154,7 @@ $(document).ready(function() {
                 slige_imgs = JSON.parse(jsonObject.imgs);
                 if(slige_imgs.length > 0) {
                     for(index in slige_imgs){
-                        slideHtml += "<div class='swiper-slide'><img src='" + slige_imgs[index] + "' ></div>";
+                        slideHtml += "<div class='swiper-slide'><img src='" + slige_imgs[index] + "?x-oss-process=image/resize,h_400' ></div>";
                     }
                     $('.swiper-wrapper').html(slideHtml);
                     swiper = resetSwip();

@@ -15,7 +15,7 @@
     height:375px;
 }
 .swiper-slide img{
-    max-height:375px;
+    max-height:400px;
 }
 .spec-num{
     height:60px;
@@ -81,7 +81,7 @@ del{
 <header class="zyw-header">
     <div class="zyw-container white-color">
         <div class="head-l">
-            <a href="javascript:{{$_COOKIE['lastRecord'] ?? "self.location='/'"}};" target="_self"><i class="iconfont icon-fanhui1"></i></a>
+            <a href="javascript:history.back(-1);" target="_self"><i class="iconfont icon-fanhui1"></i></a>
         </div>
         <h1>商品详情</h1>
         <div class="head-r"><i class="iconfont icon-gengduo"></i></div>
@@ -92,9 +92,9 @@ del{
     <div class="item-img">
         <div class="swiper-wrapper">
             @forelse ($defaultImgs as $img)
-            <div class="swiper-slide"><img src="{{ $img }}" ></div>
+            <div class="swiper-slide"><img src="{{ $img }}?x-oss-process=image/resize,h_400" ></div>
             @empty
-            <div class="swiper-slide"><img src="{{elixir('images/users/carnetmotors.jpg')}}" alt=""></div>
+            <div class="swiper-slide"></div>
             @endforelse
         </div>
         <!-- Add Pagination -->
@@ -117,14 +117,13 @@ del{
             <div class="weui-popup__modal">
                 <div class="item-spec-layer white-bgcolor">
                     <div class="spec-head clearfix">
-                        <div class="spec-head-img"><img src="{{$goodsInfo->img}}" ></div>
+                        <div class="spec-head-img"><img src="{{$goodsInfo->img}}?x-oss-process=image/resize,w_80,h_80" ></div>
                         <strong class="spec-head-prince theme-color">￥
                         <span>
                         </span>
                         </strong>
                         <p class="spec-head-intro">商品编号：<span>{{ $goodsInfo->cust_partno }}</span></p>
                     </div>
-                    @if (!empty($skus))
                     <div class="spec-info clearfix">
                         @foreach($skus as $sku)
                         <div class="spec-info-hd">{{$sku->name}}</div>
@@ -138,7 +137,6 @@ del{
                         </div>
                         @endforeach
                     </div>
-                    @endif
                     <form method="post" action="/goods/purchase" id="purchase-form">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     <input type="hidden" name="spec_id" id="spec_id" value="{{ $goodsInfo->id }}">
