@@ -41,6 +41,7 @@ class CreateUsersTable extends Migration
 
             $table->string('mobile', 20)->nullable()->comment('手机号');
             $table->string('password', 100)->comment('密码');
+            $table->string('openid', 50)->nullable()->comment('微信openid');
             $table->string('headimgurl', 200)->nullable()->comment('微信头像');
             $table->string('nickname', 100)->nullable()->comment('昵称');
             $table->tinyInteger('sex')->unsigned()->default(0)->comment('性别1男2女0未知');

@@ -319,17 +319,13 @@ function createSkuFields(type, valueName, idsStr, valuesStr, operateType)
             html += '<input name="goodSku[id][]" type="hidden" value="0"/>';
         }
         html += '<input class="form-control input-sm" name="goodSku[name][]" type="text" value=""/></td>';
-        html += '<td><input class="form-control input-sm" name="goodSku[custNo][]" type="text" value=""/></td>';
-        html += '<td><input class="form-control input-sm" name="goodSku[barCode][]" type="text" value=""/></td>';
     } else {
         html += '<td class="good-sku-tbody-number">';
         html += '<input name="goodSku[specIds][]" type="hidden" value="' + idsStr +'"/>';
         html += '<input name="goodSku[specValues][]" type="hidden" value="' + valuesStr +'"/>';
         html += '<input class="form-control input-sm" name="goodSku[storeNum][]" type="text" value="0" onkeyup="onlyNum(this)"/></td>';
-        html += '<td><input class="form-control input-sm" name="goodSku[warningNum][]" type="text" value="0" onkeyup="onlyNum(this)"/></td>';
         html += '<td><input class="form-control input-sm" name="goodSku[sellPrice][]" type="text" value="0.00" onkeyup="onlyAmount(this)"/></td>';
         html += '<td><input class="form-control input-sm" name="goodSku[memberPrice][]" type="text" value="0.00" onkeyup="onlyAmount(this)"/></td>';
-        html += '<td><input class="form-control input-sm" name="goodSku[wholesalePrice][]" type="text" value="0.00" onkeyup="onlyAmount(this)"/></td>';
         html += '<td><input class="form-control input-sm" name="goodSku[costPrice][]" type="text" value="0.00" onkeyup="onlyAmount(this)"/></td>';
         html += '<td><input class="form-control input-sm" name="goodSku[weight][]" type="text" value="0" onkeyup="onlyNum(this)"/></td>';
         if ($('.good-state input[name="state"]:checked').val() == 2) {
@@ -356,9 +352,6 @@ function createSkuFields(type, valueName, idsStr, valuesStr, operateType)
         html += '</div>';
         html += '</div>';
         html += '</td>';
-        if (operateType == 'edit') {
-            html += '<td><button class="btn btn-primary btn-sm good-sku-new-relation-spec" type="button">关联</button></td>';
-        }
     }
 
     return html;

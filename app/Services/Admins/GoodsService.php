@@ -386,26 +386,15 @@ class GoodsService
         $good->content         = trimSpace($request->input('content', ''));
         $good->name            = trimSpace($request->input('name', ''));
         $good->category_id     = intVal(trimSpace($request->input('goodCategoryId', config('statuses.zeroAndOne.zero.code'))));
-        $good->brand_id        = intVal(trimSpace($request->input('brandId', config('statuses.zeroAndOne.zero.code'))));
-        $good->merchant_id     = intVal(trimSpace($request->input('merchantId', config('statuses.zeroAndOne.zero.code'))));
         $good->goods_type      = intVal(trimSpace($request->input('modelTypeId', config('statuses.zeroAndOne.zero.code'))));
-        $good->virtual_type    = trimSpace($request->input('virtualType', config('statuses.good.virtualType.entity.code')));
-        $good->bar_code        = trimSpace($request->input('barCode', ''));
-        $good->cust_partno     = trimSpace($request->input('custNo', ''));
         $good->unit            = trimSpace($request->input('unit', ''));
         $good->total_num       = intVal(trimSpace($request->input('totalNum', config('statuses.zeroAndOne.zero.code'))));
-        $good->warning_num     = intVal(trimSpace($request->input('warningNum', config('statuses.zeroAndOne.zero.code'))));
         $good->weight          = intVal(trimSpace($request->input('weight', config('statuses.zeroAndOne.zero.code'))));
         $good->sell_price      = intval(trimSpace($request->input('sellPrice', config('statuses.zeroAndOne.zero.code'))) * 100);
         $good->member_price    = intval(trimSpace($request->input('memberPrice', config('statuses.zeroAndOne.zero.code'))) * 100);
-        $good->wholesale_price = intval(trimSpace($request->input('wholesalePrice', config('statuses.zeroAndOne.zero.code'))) * 100);
         $good->cost_price      = intval(trimSpace($request->input('costPrice', config('statuses.zeroAndOne.zero.code'))) * 100);
         $good->state           = trimSpace($request->input('state', config('statuses.good.state.putaway.code')));
-        $good->hot             = trimSpace($request->input('hot', config('statuses.zeroAndOne.zero.code')));
-        $good->new             = trimSpace($request->input('new', config('statuses.zeroAndOne.zero.code')));
-        $good->best            = trimSpace($request->input('best', config('statuses.zeroAndOne.zero.code')));
         $good->recommend       = trimSpace($request->input('recommend', config('statuses.zeroAndOne.zero.code')));
-        $good->freeshipping    = trimSpace($request->input('freeshipping', config('statuses.zeroAndOne.zero.code')));
         $good->sort            = intVal(trimSpace($request->input('sort', 99)));
 
         return $good;
@@ -471,7 +460,7 @@ class GoodsService
      *
      * @return App\Models\GoodsSpec
      */
-    private static function setGoodSkuValues($goodsSpec, $good, $goodSkuParams, $index, $click, $saleNum, $jiyouId)
+    private static function setGoodSkuValues($goodsSpec, $good, $goodSkuParams, $index, $click, $saleNum)
     {
         $attrIds    = '';
         $attrValues = '';
@@ -494,23 +483,17 @@ class GoodsService
         $goodsSpec->goods_id           = $good->id;
         $goodsSpec->category_id        = $good->category_id;
         $goodsSpec->category_parent_id = $good->category_parent_id;
-        $goodsSpec->brand_id           = $good->brand_id;
         $goodsSpec->name               = trimSpace((isset($goodSkuParams['name'][$index]) && $goodSkuParams['name'][$index] != '') ?
             $goodSkuParams['name'][$index] : $good->name . ' ' . implode(' ', explode(',', $attrValues)));
         $goodsSpec->attr_ids        = $attrIds;
         $goodsSpec->values          = $attrValues;
         $goodsSpec->number          = intVal($goodSkuParams['storeNum'][$index]);
-        $goodsSpec->wait_number     = intVal($goodSkuParams['warningNum'][$index]);
         $goodsSpec->sell_price      = intval($goodSkuParams['sellPrice'][$index] * 100);
         $goodsSpec->member_price    = intval($goodSkuParams['memberPrice'][$index] * 100);
-        $goodsSpec->wholesale_price = intval($goodSkuParams['wholesalePrice'][$index] * 100);
         $goodsSpec->cost_price      = intval($goodSkuParams['costPrice'][$index] * 100);
         $goodsSpec->weight          = intval($goodSkuParams['weight'][$index]);
-        $goodsSpec->bar_code        = trimSpace($goodSkuParams['barCode'][$index]);
-        $goodsSpec->cust_partno     = trimSpace($goodSkuParams['custNo'][$index]);
         $goodsSpec->click           = intval($click);
         $goodsSpec->sale_num        = intval($saleNum);
-        $goodsSpec->jiyou_good_id   = intval($jiyouId);
 
         //当商品是下架状态/sku库存数量为0/sku销售价为0,设置sku状态为下架
         if ($good->state == config('statuses.good.state.soldOut.code') || $goodsSpec->number == 0 || $goodsSpec->sell_price == 0) {

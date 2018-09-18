@@ -48,16 +48,6 @@ class Category extends Model
     }
 
     /**
-     * Get the relational models of brand.
-     *
-     * @return array[App\Models\Brand]
-     */
-    public function brand()
-    {
-        return $this->belongsToMany('App\Models\Brand', 'goods', 'category_parent_id', 'brand_id');
-    }
-
-    /**
      * Get the relational models of AdminRightCategory.
      *
      * @return App\Models\Admins\AdminRightCategory

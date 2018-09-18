@@ -36,17 +36,6 @@
                             <input class="form-control" name="name" type="text" value="{{ $good->name }}"/>
                         </td>
                     </tr>
-                    <tr>
-                        <th>虚实类型：</th>
-                        <td>
-                            <label class="radio-inline">
-                                <input type="radio" name="virtualType" value="1" @if($good->virtual_type != 0) checked @endif>实体商品
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="virtualType" value="0" @if($good->virtual_type == 0) checked @endif>虚拟商品
-                            </label>
-                        </td>
-                    </tr>
                     <tr class="good-state">
                         <th>是否上架：</th>
                         <td>
@@ -62,36 +51,13 @@
                     <tr>
                         <th>商品推荐：</th>
                         <td>
-                            <label class="checkbox-inline"><input name="hot" type="checkbox" value="1" @if($good->hot == 1) checked @endif>热卖</label>
-                            <label class="checkbox-inline"><input name="new" type="checkbox" value="1" @if($good->new == 1) checked @endif>新品 </label>
-                            <label class="checkbox-inline"><input name="best" type="checkbox" value="1" @if($good->best == 1) checked @endif>精品 </label>
                             <label class="checkbox-inline"><input name="recommend" type="checkbox" value="1" @if($good->recommend == 1) checked @endif>推荐 </label>
-                            <label class="checkbox-inline"><input name="freeshipping" type="checkbox" value="1" @if($good->freeshipping == 1) checked @endif>包邮 </label>
                         </td>
                     </tr>
                     <tr>
                         <th>排序：</th>
                         <td>
                             <input class="form-control" type="text" name="sort" value="{{ $good->sort }}" onkeyup="onlyNum(this)"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>所属商户：</th>
-                        <td>
-                            <select class="form-control" name="merchantId">
-                                <option value="0">52gai自营 </option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>所属品牌：</th>
-                        <td>
-                            <select class="form-control" name="brandId">
-                                <option value="0">选择品牌</option>
-                                @foreach ($brandList as $brand)
-                                    <option value="{{ $brand->id }}" @if($good->brand_id == $brand->id) selected @endif>{{ $brand->short_name }}</option>
-                                @endforeach
-                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -170,24 +136,19 @@
                             <table class="table table-bordered">
                                 <thead class="good-sku-thead">
                                     <tr>
-                                        <td style="width: 10%">sku名称</td>
-                                        <td style="width: 9%">sku编码（料号）</td>
-                                        <td style="width: 9%">sku条码</td>
+                                        <td style="width: 15%">sku名称</td>
                                         @if (isset($goodSpecs) && isset($goodSpecs['specNames']) && count($goodSpecs['specNames']) > 0)
                                         @foreach ($goodSpecs['specNames'] as $specName)
-                                        <td class="good-sku-thead-number good-sku-spec" style="width: 5%">{{ $specName }}</td>
+                                        <td class="good-sku-thead-number good-sku-spec" style="width: 10%">{{ $specName }}</td>
                                         @endforeach
                                         @endif
-                                        <td class="good-sku-thead-number" style="width: 5%">库存</td>
-                                        <td style="width: 5%">预警库存</td>
-                                        <td style="width: 5%">销售价格</td>
-                                        <td style="width: 5%">会员价格</td>
-                                        <td style="width: 5%">批发价格</td>
-                                        <td style="width: 5%">成本价格</td>
-                                        <td style="width: 5%">重量(克)</td>
-                                        <td style="width: 6%">状态</td>
-                                        <td style="width: 3%">图片</td>
-                                        <td style="width: 6%">关联旧数据</td>
+                                        <td class="good-sku-thead-number" style="width: 10%">库存</td>
+                                        <td style="width: 10%">销售价格</td>
+                                        <td style="width: 10%">会员价格</td>
+                                        <td style="width: 10%">成本价格</td>
+                                        <td style="width: 10%">重量(克)</td>
+                                        <td style="width: 10%">状态</td>
+                                        <td style="width: 10%">图片</td>
                                     </tr>
                                 </thead>
                                 <tbody class="good-sku-tbody">
@@ -198,8 +159,6 @@
                                                 <input name="goodSku[id][]" type="hidden" value="{{ $spec['relationSpecId'] }}"/>
                                                 <input class="form-control input-sm" name="goodSku[name][]" type="text" value="{{ $spec['name'] }}"/>
                                             </td>
-                                            <td><input class="form-control input-sm" name="goodSku[custNo][]" type="text" value="{{ $spec['custNo'] }}"/></td>
-                                            <td><input class="form-control input-sm" name="goodSku[barCode][]" type="text" value="{{ $spec['barCode'] }}"/></td>
                                             @if (isset($spec['idKeyValues']) && count($spec['idKeyValues']) > 0)
                                             @foreach ($spec['idKeyValues'] as $key => $value)
                                             @if ($key > 0)
@@ -212,10 +171,8 @@
                                                 <input name="goodSku[specValues][]" type="hidden" value="{{ $spec['values'] }}"/>
                                                 <input class="form-control input-sm" name="goodSku[storeNum][]" type="text" value="{{ $spec['storeNum'] }}" onkeyup="onlyNum(this)"/>
                                             </td>
-                                            <td><input class="form-control input-sm" name="goodSku[warningNum][]" type="text" value="{{ $spec['warningNum'] }}" onkeyup="onlyNum(this)"/></td>
                                             <td><input class="form-control input-sm" name="goodSku[sellPrice][]" type="text" value="{{ $spec['sellPrice'] }}" onkeyup="onlyAmount(this)"/></td>
                                             <td><input class="form-control input-sm" name="goodSku[memberPrice][]" type="text" value="{{ $spec['memberPrice'] }}" onkeyup="onlyAmount(this)"/></td>
-                                            <td><input class="form-control input-sm" name="goodSku[wholesalePrice][]" type="text" value="{{ $spec['wholesalePrice'] }}" onkeyup="onlyAmount(this)"/></td>
                                             <td><input class="form-control input-sm" name="goodSku[costPrice][]" type="text" value="{{ $spec['costPrice'] }}" onkeyup="onlyAmount(this)"/></td>
                                             <td><input class="form-control input-sm" name="goodSku[weight][]" type="text" value="{{ $spec['weight'] }}" onkeyup="onlyNum(this)"/></td>
                                             <td class="good-sku-state">
@@ -258,11 +215,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                @if ($spec['relationSpecId'] == 0)
-                                                    <button class="btn btn-primary btn-sm good-sku-new-relation-spec" type="button">关联</button>
-                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -356,24 +308,19 @@
 <table class="table table-bordered">
     <thead class="good-sku-thead">
         <tr>
-            <td style="width: 10%">sku名称</td>
-            <td style="width: 9%">sku编码</td>
-            <td style="width: 9%">sku条码</td>
+            <td style="width: 15%">sku名称</td>
             @if (isset($goodSpecs) && isset($goodSpecs['specNames']) && count($goodSpecs['specNames']) > 0)
             @foreach ($goodSpecs['specNames'] as $specName)
-            <td class="good-sku-thead-number good-sku-spec" style="width: 5%">{{ $specName }}</td>
+            <td class="good-sku-thead-number good-sku-spec" style="width: 10%">{{ $specName }}</td>
             @endforeach
             @endif
-            <td class="good-sku-thead-number" style="width: 5%">库存</td>
-            <td style="width: 5%">预警库存</td>
-            <td style="width: 5%">销售价格</td>
-            <td style="width: 5%">会员价格</td>
-            <td style="width: 5%">批发价格</td>
-            <td style="width: 5%">成本价格</td>
-            <td style="width: 5%">重量(克)</td>
-            <td style="width: 5%">状态</td>
-            <td style="width: 5%">图片</td>
-            <td style="width: 6%">关联旧数据</td>
+            <td class="good-sku-thead-number" style="width: 10%">库存</td>
+            <td style="width: 10%">销售价格</td>
+            <td style="width: 10%">会员价格</td>
+            <td style="width: 10%">成本价格</td>
+            <td style="width: 10%">重量(克)</td>
+            <td style="width: 10%">状态</td>
+            <td style="width: 10%">图片</td>
         </tr>
     </thead>
     <tbody class="good-sku-tbody">
@@ -384,8 +331,6 @@
                     <input name="goodSku[id][]" type="hidden" value="{{ $spec['relationSpecId'] }}"/>
                     <input class="form-control input-sm" name="goodSku[name][]" type="text" value="{{ $spec['name'] }}"/>
                 </td>
-                <td><input class="form-control input-sm" name="goodSku[custNo][]" type="text" value="{{ $spec['custNo'] }}"/></td>
-                <td><input class="form-control input-sm" name="goodSku[barCode][]" type="text" value="{{ $spec['barCode'] }}"/></td>
                 @if (isset($spec['idKeyValues']) && count($spec['idKeyValues']) > 0)
                 @foreach ($spec['idKeyValues'] as $key => $value)
                 @if ($key > 0)
@@ -398,10 +343,8 @@
                     <input name="goodSku[specValues][]" type="hidden" value="{{ $spec['values'] }}"/>
                     <input class="form-control input-sm" name="goodSku[storeNum][]" type="text" value="{{ $spec['storeNum'] }}" onkeyup="onlyNum(this)"/>
                 </td>
-                <td><input class="form-control input-sm" name="goodSku[warningNum][]" type="text" value="{{ $spec['warningNum'] }}" onkeyup="onlyNum(this)"/></td>
                 <td><input class="form-control input-sm" name="goodSku[sellPrice][]" type="text" value="{{ $spec['sellPrice'] }}" onkeyup="onlyAmount(this)"/></td>
                 <td><input class="form-control input-sm" name="goodSku[memberPrice][]" type="text" value="{{ $spec['memberPrice'] }}" onkeyup="onlyAmount(this)"/></td>
-                <td><input class="form-control input-sm" name="goodSku[wholesalePrice][]" type="text" value="{{ $spec['wholesalePrice'] }}" onkeyup="onlyAmount(this)"/></td>
                 <td><input class="form-control input-sm" name="goodSku[costPrice][]" type="text" value="{{ $spec['costPrice'] }}" onkeyup="onlyAmount(this)"/></td>
                 <td><input class="form-control input-sm" name="goodSku[weight][]" type="text" value="{{ $spec['weight'] }}" onkeyup="onlyNum(this)"/></td>
                 <td class="good-sku-state">
@@ -444,100 +387,11 @@
                         </div>
                     </div>
                 </td>
-                <td>
-                    @if ($spec['relationSpecId'] == 0)
-                        <button class="btn btn-primary btn-sm good-sku-new-relation-spec" type="button">关联</button>
-                    @endif
-                </td>
             </tr>
         @endforeach
         @endif
     </tbody>
 </table>
-</div>
-<div class="modal fade" id="oldGoodSku" tabindex="-1" role="dialog" aria-labelledby="oldGoodSkuLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="oldGoodSkuLabel">旧sku</h4>
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered">
-                    <thead class="old-good-sku-thead">
-                        <tr>
-                            <td style="width: 10%">sku名称</td>
-                            <td style="width: 9%">sku编码</td>
-                            <td style="width: 9%">sku条码</td>
-                            @if (isset($goodSpecs) && isset($goodSpecs['skuSpecNames']) && count($goodSpecs['skuSpecNames']) > 0)
-                            @foreach ($goodSpecs['skuSpecNames'] as $specName)
-                            <td style="width: 5%">{{ $specName }}</td>
-                            @endforeach
-                            @endif
-                            <td style="width: 5%">库存</td>
-                            <td style="width: 6%">预警数</td>
-                            <td style="width: 5%">销售价</td>
-                            <td style="width: 5%">会员价</td>
-                            <td style="width: 5%">批发价</td>
-                            <td style="width: 5%">成本价</td>
-                            <td style="width: 6%">重量(克)</td>
-                            <td style="width: 5%">状态</td>
-                        </tr>
-                    </thead>
-                    <tbody class="old-good-sku-tbody">
-                        @if (isset($goodSpecs) && isset($goodSpecs['skus']) && count($goodSpecs['skus']) > 0)
-                        @foreach ($goodSpecs['skus'] as $spec)
-                            <tr>
-                                <td class="good-radio">
-                                    <div class="radio">
-                                    <label>
-                                    <input type="radio" class="old-good-sku-id" value="{{ $spec['id'] }}" @if($spec['relationValues'] != 0) disabled @endif/>
-                                    {{ $spec['name'] }}
-                                    <input class="old-good-sku-name" type="hidden" value="{{ $spec['name'] }}"/>
-                                    <input class="old-good-sku-relation-attr-values" type="hidden" value="{{ $spec['relationValues'] }}"/>
-                                    </label>
-                                    </div>
-                                </td>
-                                <td>{{ $spec['custNo'] }}<input class="old-good-sku-cust-no" type="hidden" value="{{ $spec['custNo'] }}"/></td>
-                                <td>{{ $spec['barCode'] }}<input class="old-good-sku-bar-code" type="hidden" value="{{ $spec['barCode'] }}"/></td>
-                                @if (isset($spec['idKeyValues']) && count($spec['idKeyValues']) > 0)
-                                @foreach ($spec['idKeyValues'] as $key => $value)
-                                @if ($key > 0)
-                                <td>{{ $value }}<input class="old-good-sku-spec-value" type="hidden" value="{{ $value }}"/></td>
-                                @endif
-                                @endforeach
-                                @endif
-                                <td>
-                                    {{ $spec['storeNum'] }}
-                                    <input class="old-good-sku-spec-ids" type="hidden" value="{{ $spec['attrIds'] }}"/>
-                                    <input class="old-good-sku-spec-values" type="hidden" value="{{ $spec['values'] }}"/>
-                                    <input class="old-good-sku-store-num" type="hidden"  value="{{ $spec['storeNum'] }}"/>
-                                </td>
-                                <td>{{ $spec['warningNum'] }}<input class="old-good-sku-warning-num" type="hidden" value="{{ $spec['warningNum'] }}"/></td>
-                                <td>{{ $spec['sellPrice'] }}<input class="old-good-sku-sell-price" type="hidden" value="{{ $spec['sellPrice'] }}"/></td>
-                                <td>{{ $spec['memberPrice'] }}<input class="old-good-sku-member-price" type="hidden" value="{{ $spec['memberPrice'] }}"/></td>
-                                <td>{{ $spec['wholesalePrice'] }}<input class="old-good-sku-wholesale-price" type="hidden" value="{{ $spec['wholesalePrice'] }}"/></td>
-                                <td>{{ $spec['costPrice'] }}<input class="old-good-sku-cost-price" type="hidden" value="{{ $spec['costPrice'] }}"/></td>
-                                <td>{{ $spec['weight'] }}<input class="old-good-sku-weight" type="hidden" value="{{ $spec['weight'] }}"/></td>
-                                <td>@if($spec['state'] != 2) 上架  @else 下架 @endif<input class="old-good-sku-state" type="hidden" value="{{ $spec['state'] }}"/>
-                                    @if(isset($spec['imgs']) && count(json_decode($spec['imgs'])) > 0)
-                                        @foreach (json_decode($spec['imgs']) as $img)
-                                            <input class="old-good-sku-img" type="hidden" value="{{ $img }}"/>
-                                        @endforeach
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                        @endif
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-default good-sku-new-relation-spec-close" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-sm btn-danger good-sku-new-relation-spec-submit" data-dismiss="modal">确定</button>
-            </div>
-        </div>
-    </div>
 </div>
 @include('include.message')
 @include('admins.goods.include.categoryDialog')
@@ -557,5 +411,4 @@
 <script src="{{ elixir('js/common/fileUpload.js') }}"></script>
 <script src="{{ elixir('js/admins/goodCategory.js') }}"></script>
 <script src="{{ elixir('js/admins/good.js') }}"></script>
-<script src="{{ elixir('js/admins/editGood.js') }}"></script>
 @include('admins.footer')

@@ -46,13 +46,7 @@
 					@endif
 				</div>
 				<button class="btn btn-primary goods-category-button" type="button"><i class="fa fa-list"></i> 选择分类</button>
-				商品品牌<select class="form-control" name="brandId" style="margin-left:5px;margin-right:5px;">
-					<option value="0">选择品牌</option>
-					@foreach ($brandList as $brand)
-						<option value="{{ $brand->id }}" @if($brandId == $brand->id) selected @endif>{{ $brand->short_name }}</option>
-					@endforeach
-				</select>
-				<input class="form-control" name="search" type="text" value="@if(isset($search) && $search != '') {{ $search }} @endif" placeholder="商品名称/SKU名称/编号(料号)/条形码" style="width:260px;" >
+				<input class="form-control" name="search" type="text" value="@if(isset($search) && $search != '') {{ $search }} @endif" placeholder="商品名称/SKU名称" style="width:260px;" >
 				<button class="btn btn-default" type="submit">
 				    <i class="fa fa-search"></i>搜 索
 				</button>
@@ -63,7 +57,6 @@
 				<th></th>
 				<th>商品名称</th>
 				<th>分类</th>
-				<th>品牌</th>
 				<th>销售价</th>
 				<th>库存</th>
 				<th>状态</th>
@@ -81,9 +74,6 @@
 						</td>
 						<td>
 							{{ $data->category->name }}
-						</td>
-						<td>
-							{{ $data->brand->short_name }}
 						</td>
 						<td><a href="javascript:void(0);"  title="点击更新价格" class="udpate-price">@if(isset($data->goodsSpecs) && count($data->goodsSpecs) > 0) {{ round(($data->goodsSpecs)[0]->sell_price/100, 2) }} @else {{ round($data->sell_price/100, 2) }} @endif</a></td>
 						<td><a href="javascript:void(0);"  title="点击更新库存" class="udpate-total-num">

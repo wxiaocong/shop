@@ -35,17 +35,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>虚实类型：</th>
-                        <td>
-                            <label class="radio-inline">
-                                <input type="radio" name="virtualType" value="1" checked>实体商品
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="virtualType" value="0">虚拟商品
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
                         <th>是否上架：</th>
                         <td class="good-state">
                             <label class="radio-inline">
@@ -60,36 +49,13 @@
                     <tr>
                         <th>商品推荐：</th>
                         <td>
-                            <label class="checkbox-inline"><input name="hot" type="checkbox" value="1">热卖</label>
-                            <label class="checkbox-inline"><input name="new" type="checkbox" value="1">新品 </label>
-                            <label class="checkbox-inline"><input name="best" type="checkbox" value="1">精品 </label>
                             <label class="checkbox-inline"><input name="recommend" type="checkbox" value="1">推荐 </label>
-                            <label class="checkbox-inline"><input name="freeshipping" type="checkbox" value="1">包邮 </label>
                         </td>
                     </tr>
                     <tr>
                         <th>排序：</th>
                         <td>
                             <input class="form-control" type="text" name="sort" value="99" onkeyup="onlyNum(this)"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>所属商户：</th>
-                        <td>
-                            <select class="form-control" name="merchantId">
-                                <option value="0">52gai自营 </option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>所属品牌：</th>
-                        <td>
-                            <select class="form-control" name="brandId">
-                                <option value="0">选择品牌</option>
-                                @foreach ($brandList as $brand)
-                                    <option value="{{ $brand->id }}">{{ $brand->short_name }}</option>
-                                @endforeach
-                            </select>
                         </td>
                     </tr>
                     <tr>
@@ -128,32 +94,24 @@
                                 <thead class="good-sku-thead">
                                     <tr>
                                         <td style="width: 10%">sku名称</td>
-                                        <td style="width: 9%">sku编码（料号）</td>
-                                        <td style="width: 9%">sku条码</td>
-                                        <td class="good-sku-thead-number" style="width: 5%">库存</td>
-                                        <td style="width: 5%">预警库存</td>
-                                        <td style="width: 5%">销售价格</td>
-                                        <td style="width: 5%">会员价格</td>
-                                        <td style="width: 5%">批发价格</td>
-                                        <td style="width: 5%">成本价格</td>
-                                        <td style="width: 5%">重量(克)</td>
-                                        <td style="width: 6%">状态</td>
-                                        <td style="width: 3%">图片</td>
+                                        <td class="good-sku-thead-number" style="width: 10%">库存</td>
+                                        <td style="width: 10%">销售价格</td>
+                                        <td style="width: 10%">会员价格</td>
+                                        <td style="width: 10%">成本价格</td>
+                                        <td style="width: 10%">重量(克)</td>
+                                        <td style="width: 10%">状态</td>
+                                        <td style="width: 10%">图片</td>
                                     </tr>
                                 </thead>
                                 <tbody class="good-sku-tbody">
                                     <tr>
                                         <td><input class="form-control input-sm" name="goodSku[name][]" type="text" value=""/></td>
-                                        <td><input class="form-control input-sm" name="goodSku[custNo][]" type="text" value=""/></td>
-                                        <td><input class="form-control input-sm" name="goodSku[barCode][]" type="text" value=""/></td>
                                         <td class="good-sku-tbody-number">
                                         <input name="goodSku[specIds][]" type="hidden" value="0"/>
                                         <input name="goodSku[specValues][]" type="hidden" value="0"/>
                                         <input class="form-control input-sm" name="goodSku[storeNum][]" type="text" value="0" onkeyup="onlyNum(this)"/></td>
-                                        <td><input class="form-control input-sm" name="goodSku[warningNum][]" type="text" value="0" onkeyup="onlyNum(this)"/></td>
                                         <td><input class="form-control input-sm" name="goodSku[sellPrice][]" type="text" value="0.00" onkeyup="onlyAmount(this)"/></td>
                                         <td><input class="form-control input-sm" name="goodSku[memberPrice][]" type="text" value="0.00" onkeyup="onlyAmount(this)"/></td>
-                                        <td><input class="form-control input-sm" name="goodSku[wholesalePrice][]" type="text" value="0.00" onkeyup="onlyAmount(this)"/></td>
                                         <td><input class="form-control input-sm" name="goodSku[costPrice][]" type="text" value="0.00" onkeyup="onlyAmount(this)"/></td>
                                         <td><input class="form-control input-sm" name="goodSku[weight][]" type="text" value="0" onkeyup="onlyNum(this)"/></td>
                                         <td class="good-sku-state">

@@ -34,6 +34,7 @@ class CreateGoodsSpecTable extends Migration
             $table->integer('category_parent_id')->comment('分类父ID');
             $table->string('name', 200)->comment('sku名称');
             $table->integer('number')->default(0)->comment('库存');
+            $table->integer('wait_number')->unsigned()->default(0)->comment('待发货数量');
             $table->integer('warning_num')->default(0)->comment('预警库存');
             $table->bigInteger('sell_price')->comment('销售价格');
             $table->bigInteger('member_price')->comment('会员价格');
@@ -44,6 +45,7 @@ class CreateGoodsSpecTable extends Migration
             $table->string('img', 200)->nullable()->comment('主图');
             $table->text('imgs')->nullable()->comment('明细组图');
             $table->tinyInteger('state')->default(0)->comment('商品状态 0正常 2下架 ');
+            
 
             // create index
             $table->index('goods_id');

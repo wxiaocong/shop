@@ -116,20 +116,13 @@ class GoodsDao extends BaseDao
     {
         $builder = Goods::leftJoin('goods_spec', 'goods.id', '=', 'goods_spec.goods_id')->select('goods.*');
 
-        if (array_key_exists('brandId', $params) && $params['brandId'] != 0) {
-            $builder->where('goods.brand_id', $params['brandId']);
-        }
         if (array_key_exists('categoryParentId', $params) && $params['categoryParentId'] != 0) {
             $builder->where('goods.category_parent_id', $params['categoryParentId']);
         }
         if (array_key_exists('search', $params) && $params['search'] != '') {
             $builder->where(function ($query) use ($params) {
                 $query->where('goods.name', 'like', '%' . $params['search'] . '%')
-                    ->orWhere('goods.cust_partno', 'like', '%' . $params['search'] . '%')
-                    ->orWhere('goods.bar_code', 'like', '%' . $params['search'] . '%')
-                    ->orWhere('goods_spec.name', 'like', '%' . $params['search'] . '%')
-                    ->orWhere('goods_spec.cust_partno', 'like', '%' . $params['search'] . '%')
-                    ->orWhere('goods_spec.bar_code', 'like', '%' . $params['search'] . '%');
+                    ->orWhere('goods_spec.name', 'like', '%' . $params['search'] . '%');
             });
         }
         if (array_key_exists('sort', $params)) {
@@ -141,7 +134,6 @@ class GoodsDao extends BaseDao
         }
 
         $builder->groupBy('goods.id');
-
         return new Page($builder->paginate($pageSize, array('*'), 'page', $curPage));
     }
 

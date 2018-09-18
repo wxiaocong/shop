@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admins\Goods\GoodRequest;
 use App\Services\Admins\GoodsService;
 use App\Services\Admins\ModelService;
-use App\Services\BrandService;
 use App\Services\CategoryService;
 use App\Services\GoodsSpecService;
 use App\Utils\Page;
@@ -20,16 +19,13 @@ class GoodController extends Controller
         $curPage                    = trimSpace(request('curPage', 1));
         $pageSize                   = trimSpace(request('pageSize', Page::PAGESIZE));
         $params['search']           = trimSpace(request('search', ''));
-        $params['brandId']          = trimSpace(request('brandId', 0));
         $params['categoryParentId'] = trimSpace(request('goodCategoryId', 0));
 
         $page = GoodsService::findByPageAndParams($curPage, $pageSize, $params);
 
         return view('admins.goods.goods')
             ->with('categoryList', CategoryService::findByParentId())
-            ->with('brandList', BrandService::findByParams())
             ->with('search', $params['search'])
-            ->with('brandId', $params['brandId'])
             ->with('goodCategory', CategoryService::findById($params['categoryParentId']))
             ->with('page', $page);
     }
@@ -38,8 +34,7 @@ class GoodController extends Controller
     {
         return view('admins.goods.addGood')
             ->with('categoryList', CategoryService::findByParentId())
-            ->with('modelList', ModelService::findByParams())
-            ->with('brandList', BrandService::findByParams());
+            ->with('modelList', ModelService::findByParams());
     }
 
     public function store(GoodRequest $request)
@@ -76,7 +71,6 @@ class GoodController extends Controller
         return view('admins.goods.editGood')
             ->with('categoryList', CategoryService::findByParentId())
             ->with('modelList', ModelService::findByParams())
-            ->with('brandList', BrandService::findByParams())
             ->with('goodAttrs', $this->disposeGoodAttrs($good->goodsAttrs, $modelAttrs))
             ->with('goodSpecs', $this->generateSpecDatas($good, $good->goodsSpecs, $modelSpecs))
             ->with('good', $good);
