@@ -17,14 +17,6 @@ class GoodsSpecDao extends BaseDao
     {
         //不显示积分商品 500
         return GoodsSpec::join('category as c', 'goods_spec.category_parent_id', '=', 'c.id')
-            ->leftJoin('promotions as p', function ($leftJoin) {
-                $leftJoin->on('goods_spec.id', '=', 'p.condition')
-                    ->whereRaw("CURRENT_DATE() between p.start_time and p.end_time")
-                    ->where('p.is_close', 0)
-                    ->where('p.type', config('statuses.promotion.type.speed.code'))
-                    ->where('p.award_type', config('statuses.promotion.awardType.speed.code'))
-                    ->whereNull('p.deleted_at');
-            })->whereRaw('p.id is NULL')
             ->where('goods_spec.state', 0)
             ->where('c.parent_id', '!=', 500)
             ->orderByRaw(DB::raw("IF(goods_spec.number>0,1,0) desc"))
@@ -106,32 +98,8 @@ class GoodsSpecDao extends BaseDao
     //确认订单切换数量
     public static function changeNum($spec_id = 0, $num = 1)
     {
-        //是否在活动时间内
-        $isGoing = PromotionDao::isGoingTime();
-        $builder = GoodsSpec::where('goods_spec.id', $spec_id);
-        if ($isGoing) {
-            $builder->leftJoin('promotions as p', function ($leftJoin) {
-                $leftJoin->on('goods_spec.id', '=', 'p.condition')
-                    ->whereRaw("CURRENT_DATE() between p.start_time and p.end_time")
-                    ->where('is_close', 0)
-                    ->where('p.type', config('statuses.promotion.type.speed.code'))
-                    ->where('p.award_type', config('statuses.promotion.awardType.speed.code'))
-                    ->whereNull('p.deleted_at');
-            })->select('goods_spec.id', 'goods_spec.number', 'goods_spec.sell_price', 'goods_spec.state', 'p.id as promotion_id', 'p.award_value', 'p.order_num', 'p.selled_num');
-        } else {
-            $builder->select('goods_spec.id', 'goods_spec.number', 'goods_spec.sell_price', 'goods_spec.state');
-        }
-        $returnObj = $builder->first();
-
-        //活动可下单数量
-        $returnObj->promotion_number = 0;
-        if (!empty($returnObj->award_value) && $returnObj->state == 0) {
-            $award_value   = json_decode($returnObj->award_value);
-            $multipleLimit = config('order.multipleLimit'); //预下单倍数
-                                                            //活动可购数量
-            $returnObj->promotion_number = min($award_value->onceNum, ($award_value->totalNum - $returnObj->selled_num), ($multipleLimit * $award_value->totalNum - $returnObj->order_num));
-            $returnObj->isGoing          = $isGoing;
-        } elseif ($returnObj->state > 0) {
+        $returnObj = GoodsSpec::where('goods_spec.id', $spec_id)->select('goods_spec.id', 'goods_spec.number', 'goods_spec.sell_price', 'goods_spec.state')->first();
+        if ($returnObj->state > 0) {
             //已下架
             $returnObj->number = 0;
         }
@@ -180,21 +148,8 @@ class GoodsSpecDao extends BaseDao
     public static function changeSpec($goods_id, $spec, $spec_id = 0, $num = 1)
     {
         //没有根据角色查询不同价格
-        //是否在活动时间内
-        $isGoing = PromotionDao::isGoingTime();
         $builder = GoodsSpec::where('goods_spec.goods_id', $goods_id);
-        if ($isGoing) {
-            $builder->leftJoin('promotions as p', function ($leftJoin) {
-                $leftJoin->on('goods_spec.id', '=', 'p.condition')
-                    ->whereRaw("CURRENT_DATE() between p.start_time and p.end_time")
-                    ->where('is_close', 0)
-                    ->where('p.type', config('statuses.promotion.type.speed.code'))
-                    ->where('p.award_type', config('statuses.promotion.awardType.speed.code'))
-                    ->whereNull('p.deleted_at');
-            })->select('goods_spec.id', 'goods_spec.name', 'goods_spec.attr_ids', 'goods_spec.values', 'goods_spec.number', 'goods_spec.sell_price', 'goods_spec.cust_partno', 'goods_spec.weight', 'goods_spec.img', 'goods_spec.imgs', 'goods_spec.state', 'p.id as promotion_id', 'p.award_value', 'p.order_num', 'p.selled_num');
-        } else {
-            $builder->select('goods_spec.id', 'goods_spec.name', 'goods_spec.attr_ids', 'goods_spec.values', 'goods_spec.number', 'goods_spec.sell_price', 'goods_spec.cust_partno', 'goods_spec.weight', 'goods_spec.img', 'goods_spec.imgs', 'goods_spec.state');
-        }
+        $builder->select('goods_spec.id', 'goods_spec.name', 'goods_spec.attr_ids', 'goods_spec.values', 'goods_spec.number', 'goods_spec.sell_price', 'goods_spec.weight', 'goods_spec.img', 'goods_spec.imgs', 'goods_spec.state');
         //单sku
         if (empty($spec) && $spec_id) {
             $returnArr = $builder->where('goods_spec.id', $spec_id)->first();
@@ -213,18 +168,7 @@ class GoodsSpecDao extends BaseDao
                 }
             }
         }
-        //活动可下单数量
-        $returnArr->promotion_number = 0;
-        if (!empty($returnArr->award_value) && $returnArr->state == 0) {
-            $award_value   = json_decode($returnArr->award_value);
-            $multipleLimit = config('order.multipleLimit'); //预下单倍数
-                                                            //活动可购数量
-            $returnArr->promotion_number = min($award_value->onceNum, ($award_value->totalNum - $returnArr->selled_num), ($multipleLimit * $award_value->totalNum - $returnArr->order_num));
-            $returnArr->isGoing          = $isGoing;
-            //活动进行时间
-            $returnArr->startTime = substr_replace(config('system.promotion.startTime'), ':', '-2', 0);
-            $returnArr->endTime   = substr_replace(config('system.promotion.endTime'), ':', '-2', 0);
-        } elseif ($returnArr->state > 0) {
+        if ($returnArr->state > 0) {
             //已下架
             $returnArr->number = 0;
         }
@@ -234,31 +178,10 @@ class GoodsSpecDao extends BaseDao
     //spec商品详情
     public static function findSpecGoodsById($spec_id)
     {
-        //是否在活动时间内
-        $isGoing = PromotionDao::isGoingTime();
-        $builder = GoodsSpec::join('goods as g', 'goods_spec.goods_id', '=', 'g.id')->where(array('goods_spec.id' => $spec_id, 'goods_spec.state' => 0));
-        if ($isGoing) {
-            $builder->leftJoin('promotions as p', function ($leftJoin) {
-                $leftJoin->on('goods_spec.id', '=', 'p.condition')
-                    ->whereRaw("CURRENT_DATE() between p.start_time and p.end_time")
-                    ->where('is_close', 0)
-                    ->where('p.type', config('statuses.promotion.type.speed.code'))
-                    ->where('p.award_type', config('statuses.promotion.awardType.speed.code'))
-                    ->whereNull('p.deleted_at');
-            })->select('goods_spec.*', 'g.description', 'g.unit', 'p.id as promotionId', 'p.award_value', 'p.order_num', 'p.selled_num');
-        } else {
-            $builder->select('goods_spec.*', 'g.description', 'g.unit');
-        }
-        $returnObj = $builder->first();
-        //活动可下单数量
-        $returnObj->promotion_number = 0;
-        if (!empty($returnObj->award_value)) {
-            $award_value   = json_decode($returnObj->award_value);
-            $multipleLimit = config('order.multipleLimit'); //预下单倍数
-                                                            //活动可购数量
-            $returnObj->promotion_number = min($award_value->onceNum, ($award_value->totalNum - $returnObj->selled_num), ($multipleLimit * $award_value->totalNum - $returnObj->order_num));
-        }
-        return $returnObj;
+        return GoodsSpec::join('goods as g', 'goods_spec.goods_id', '=', 'g.id')
+            ->where(array('goods_spec.id' => $spec_id, 'goods_spec.state' => 0))
+            ->select('goods_spec.*', 'g.description', 'g.unit')
+            ->first();
     }
 
     /**

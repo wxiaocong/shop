@@ -32,25 +32,10 @@ class GoodsDao extends BaseDao
      */
     public static function findByPage($curPage, $pageSize, $params)
     {
-        $builder = GoodsSpec::with('brand')->where('goods_spec.state', 0)->offset($pageSize * ($curPage - 1))->limit($pageSize);
-        //是否在活动时间内
-        $isGoing = PromotionDao::isGoingTime();
-        if ($isGoing) {
-            $builder->leftJoin('promotions as p', function ($leftJoin) {
-                $leftJoin->on('goods_spec.id', '=', 'p.condition')
-                    ->whereRaw("CURRENT_DATE() between p.start_time and p.end_time")
-                    ->where('p.is_close', 0)
-                    ->where('p.type', config('statuses.promotion.type.speed.code'))
-                    ->where('p.award_type', config('statuses.promotion.awardType.speed.code'))
-                    ->whereNull('p.deleted_at');
-            })->select('goods_spec.*', 'p.award_value');
-        }
+        $builder = GoodsSpec::where('goods_spec.state', 0)->offset($pageSize * ($curPage - 1))->limit($pageSize);
 
         if (array_key_exists('category_parent_id', $params) && $params['category_parent_id'] > 0) {
             $builder->where('goods_spec.category_parent_id', $params['category_parent_id']);
-        }
-        if (array_key_exists('brand_id', $params) && $params['brand_id'] > 0) {
-            $builder->where('goods_spec.brand_id', $params['brand_id']);
         }
         if (array_key_exists('category_id', $params) && $params['category_id'] > 0) {
             $builder->where('goods_spec.category_id', $params['category_id']);
@@ -62,9 +47,8 @@ class GoodsDao extends BaseDao
             $builder->where('state', $params['state']);
         }
         if (array_key_exists('search', $params) && $params['search'] != '') {
-            $builder->where(function ($query) use ($params, $isGoing) {
-                $query->orWhere('goods_spec.name', 'like', '%' . $params['search'] . '%')
-                    ->orWhere('goods_spec.cust_partno', 'like', '%' . $params['search'] . '%');
+            $builder->where(function ($query) use ($params) {
+                $query->orWhere('goods_spec.name', 'like', '%' . $params['search'] . '%');
             });
         }
         if (array_key_exists('sort', $params)) {

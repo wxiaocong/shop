@@ -39,13 +39,13 @@ class AdminMenuSelect
         if ($request->ajax()) {
             return $next($request);
         } else {
-            if (!Redis::exists('52gai.menu.select')) {
+            if (!Redis::exists('menu.select')) {
                 $menus = $this->generateRedisMenu();
-                Redis::setex('52gai.menu.select', (60 * 60 * 24 * 30), serialize($menus)); //保存一个月
+                Redis::setex('menu.select', (60 * 60 * 24 * 30), serialize($menus)); //保存一个月
             }
 
             $action = $request->route()->getActionName();
-            $menus  = unserialize(Redis::get('52gai.menu.select'));
+            $menus  = unserialize(Redis::get('menu.select'));
             if (array_key_exists($action, $menus)) {
                 $menu = array();
                 foreach ($menus[$action] as $key => $menuArr) {

@@ -71,12 +71,6 @@ del{
 .buy-now{
     text-align:center;
 }
-.cart-notice{
-    font-size: 12px;
-    color: #e93b3d;
-    padding: 6px 0;
-    display:none;
-}
 </style>
 <header class="zyw-header">
     <div class="zyw-container white-color">
@@ -92,7 +86,7 @@ del{
     <div class="item-img">
         <div class="swiper-wrapper">
             @forelse ($defaultImgs as $img)
-            <div class="swiper-slide"><img src="{{ $img }}?x-oss-process=image/resize,h_400" ></div>
+            <div class="swiper-slide"><img src="{{ $img }}" ></div>
             @empty
             <div class="swiper-slide"></div>
             @endforelse
@@ -117,7 +111,7 @@ del{
             <div class="weui-popup__modal">
                 <div class="item-spec-layer white-bgcolor">
                     <div class="spec-head clearfix">
-                        <div class="spec-head-img"><img src="{{$goodsInfo->img}}?x-oss-process=image/resize,w_80,h_80" ></div>
+                        <div class="spec-head-img"><img src="{{$goodsInfo->img}}" ></div>
                         <strong class="spec-head-prince theme-color">￥
                         <span>
                         </span>
@@ -202,7 +196,6 @@ del{
         </div>
     </div>
     <div class="item-precent white-bgcolor" id="item-precent">
-        <div class="cart-notice">说明:仅通过立即购物方式享受限时特价,购物车商品原价结算</div>
         <h4>图文详情</h4>
         <div id="goods-content">
             {!! $goodsInfo->goods->content !!}
@@ -253,7 +246,7 @@ if (isWeiXin()) {
         //发送给朋友
         wx.onMenuShareAppMessage({
             title: "{{ $goodsInfo['name'] }}",
-            desc: "我在www.52gai.com发现了一个不错的商品，赶快来看看吧。", 
+            desc: "我在植得艾发现了一个不错的商品，赶快来看看吧。", 
             imgUrl:  "{{$goodsInfo->img}}", 
             success: function () { 
                 $.toast("分享成功", "text");

@@ -13,7 +13,7 @@
     </div>
     @endif
     <div class="index-wares">
-        <div class="wares-title" style="color:#90C846;">精品推荐</div>
+        <div class="wares-title" style="color:#e93b3d;">精品推荐</div>
         <div class="wares-cont">
             <ul class="clearfix">
                 @forelse($recommends as $recommend)

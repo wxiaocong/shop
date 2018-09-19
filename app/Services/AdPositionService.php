@@ -19,7 +19,7 @@ class AdPositionService
             $adPosition = new AdPosition();
         }
         $adPosition->title = $title;
-        $adPosition->img   = $img;
+        $adPosition->img   = '/files/'.$img;
         $adPosition->url   = $url;
 
         $adPosition = AdPositionDao::save($adPosition, session('adminUser')->id);

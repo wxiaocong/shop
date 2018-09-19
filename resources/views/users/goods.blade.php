@@ -101,21 +101,6 @@
 <div id="filter_container" class="weui-popup__container">
   <div class="weui-popup__overlay"></div>
   <div class="weui-popup__modal">
-    <div class="weui-cell">品牌</div>
-    <div class="weui-cell-flex brand-flex">
-        <div class="weui-flex">
-            <div class="weui-flex-item on-select" data="0">所有</div>
-            @forelse ($brands as $key=>$brand)
-                <div class="weui-flex-item" data="{{ $brand->id }}">{{ $brand->short_name }}</div>
-                @if ($key%3 == 1)
-        </div>
-        <div class="weui-flex">
-                @endif
-            @empty
-            @endforelse
-        </div>
-    </div>
-
     <div class="weui-cell">分类</div>
     <div class="weui-cell-flex category-flex">
         <div class="weui-flex">
@@ -208,11 +193,10 @@ function getGoodsData() {
             sortType = 'desc'
         }
         //搜索
-        var brand_id = $('.brand-flex .on-select').attr('data');
         var category_id = $('.category-flex .on-select').attr('data');
         var hasStock = $('.stock-flex .on-select').attr('data');
         //取值
-        $.post('/category/getGoodsList',{sort:sort,sortType:sortType,category_parent_id:{{ request()->category }},brand_id:brand_id,category_id:category_id,hasStock:hasStock,curPage:curPage},function(content){
+        $.post('/category/getGoodsList',{sort:sort,sortType:sortType,category_parent_id:{{ request()->category }},category_id:category_id,hasStock:hasStock,curPage:curPage},function(content){
             if(content.length > 0) {
                 $("#goods_list").append(content);
             }

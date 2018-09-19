@@ -29,40 +29,6 @@ class HomeController extends Controller
         return view('users.person', array('userInfo' => $userInfo));
     }
 
-    //商家信息
-    public function business()
-    {
-        $userInfo = UserService::findById(session('user')->id);
-        if ($userInfo->company_province) {
-            //组合省市区
-            $userInfo['region'] = AreasService::convertAreaIdToName(array($userInfo->company_province, $userInfo->company_city, $userInfo->company_area));
-        }
-        return view('users.business', array('userInfo' => $userInfo));
-    }
-
-    //保存商家信息
-    public function saveBusiness(BusinessRequest $request)
-    {
-        //未修改省市区
-        if (empty($request['company_province']) || empty($request['company_city']) || empty($request['company_area'])) {
-            unset($request['company_province'], $request['company_city'], $request['company_area']);
-        }
-        $request['business_audit_state'] = 1; //申请中
-        $request['business_apply_time']  = date('Y-m-d H:i:s');
-        if (UserService::getById(session('user')->id)->whereIn('business_audit_state', array(0, 3))->update($request->all())) {
-            return response()->json(array(
-                'code'     => 200,
-                'messages' => array('保存成功'),
-                'url'      => '/home',
-            ));
-        } else {
-            return response()->json(array(
-                'code'     => 500,
-                'messages' => array('保存失败'),
-                'url'      => '',
-            ));
-        }
-    }
 
     //修改密码页面
     public function changePwd()

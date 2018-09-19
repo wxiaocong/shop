@@ -64,33 +64,12 @@
             <div class="weui-cell__ft choose-des">
             </div>
         </a>
-        <a class="weui-cell weui-cell_access" href="/home/business">
-            <div class="weui-cell__bd">
-                <p class="choose-text"><i class="iconfont icon-shangjia"></i> @if($userInfo->is_business) 商家信息 @else 申请商家 @endif</p>
-            </div>
-            <div class="weui-cell__ft choose-des">
-            </div>
-        </a>
         <a class="weui-cell weui-cell_access" href="/address">
             <div class="weui-cell__bd">
                 <p class="choose-text"><i class="iconfont icon-ziyuan"></i> 收货地址</p>
             </div>
             <div class="weui-cell__ft choose-des"></div>
         </a>
-        <a class="weui-cell weui-cell_access" href="/home/changePwd">
-            <div class="weui-cell__bd">
-                <p class="choose-text"><i class="iconfont icon-mima"></i> 修改密码</p>
-            </div>
-            <div class="weui-cell__ft choose-des"></div>
-        </a>
-        @if(! isWeixin())
-        <a class="weui-cell weui-cell_access" href="/login/logout">
-            <div class="weui-cell__bd">
-                <p class="choose-text"><i class="iconfont icon-tuichu"></i> 退出登录</p>
-            </div>
-            <div class="weui-cell__ft choose-des"></div>
-        </a>
-        @endif
     </div>
 </section>
 @include('users.inc.footer')

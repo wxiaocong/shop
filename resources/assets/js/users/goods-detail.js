@@ -110,30 +110,7 @@ $(document).ready(function() {
                 var specHtml = '';
                 var slige_imgs = [];
                 var price = (parseInt(jsonObject.sell_price)/100).toFixed(2);
-                if(jsonObject.award_value){ //有活动
-                    var award =  JSON.parse(jsonObject.award_value);
-                    var award_price = (parseInt(award.price)/100).toFixed(2);
-                    if(jsonObject.isGoing) { //活动进行中
-                        $('.cart-notice').show();
-                        if(jsonObject.promotion_number >= number) { //未售罄
-                            specHtml = "<span class='time-limit-special-price'>限时特价</span><b class='money-flag'>￥</b><strong class='special-price'>"+award_price+"</strong>&nbsp;<span class='onceNum'>限购" + award.onceNum +"件</span>&nbsp;<del>￥"+(parseInt(jsonObject.sell_price)/100).toFixed(2)+"</del>";
-                            price = award_price;
-                        } else {
-                            if (jsonObject.promotion_number < 1) {
-                                var explain = '已售罄';
-                            } else {
-                                var explain = '限购'+jsonObject.promotion_number+'件';
-                            }
-                            specHtml = "<strong class='details-prince theme-color pull-left'>￥<span>" + price + "</span></strong>&nbsp;<del class='del-price'>" + explain +"￥" + award_price + "</del>";
-                        }
-                    } else { //不在活动时间内
-                        $('.cart-notice').hide();
-                        specHtml = "<strong class='details-prince theme-color pull-left'>￥<span>" + price + "</span></strong>&nbsp;<del class='del-price'>￥" + award_price + " 未开始(" + jsonObject.startTime + '~' + jsonObject.endTime + ")</del>";
-                    }
-                } else { //无活动
-                    $('.cart-notice').hide();
-                    specHtml = "<strong class='details-prince theme-color pull-left'>￥<span>"+price+"</span></strong>";
-                }
+                specHtml = "<strong class='details-prince theme-color pull-left'>￥<span>"+price+"</span></strong>";
                 $('#spec-price').html(specHtml);
                 MAX = parseInt(jsonObject.number || 0);//最大可售
                 if(MAX < 1) {
@@ -142,7 +119,7 @@ $(document).ready(function() {
                     $('.buy-now').removeAttr('disabled').removeClass('footer-danger').html('立即购买');
                 }
                 
-                $('.spec-head-img img').prop('src',jsonObject.img+'?x-oss-process=image/resize,w_80,h_80');//sku小图
+                $('.spec-head-img img').prop('src',jsonObject.img);//sku小图
                 $('.details-title').html(jsonObject.name);//主名称
                 $('.spec-weight').html(jsonObject.weight);//重量
                 //sku选择页面信息修改
@@ -154,7 +131,7 @@ $(document).ready(function() {
                 slige_imgs = JSON.parse(jsonObject.imgs);
                 if(slige_imgs.length > 0) {
                     for(index in slige_imgs){
-                        slideHtml += "<div class='swiper-slide'><img src='" + slige_imgs[index] + "?x-oss-process=image/resize,h_400' ></div>";
+                        slideHtml += "<div class='swiper-slide'><img src='" + slige_imgs[index] + "' ></div>";
                     }
                     $('.swiper-wrapper').html(slideHtml);
                     swiper = resetSwip();

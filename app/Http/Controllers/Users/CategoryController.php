@@ -30,8 +30,6 @@ class CategoryController extends Controller
     
     //分类商品列表
     public function show($category_id) {
-        //品牌
-        $data['brands'] = CategoryService::getBrandByCategory($category_id);
         //分类
         $data['categorys'] = CategoryService::getCategoryList($category_id);
         $data['pageSize'] = Page::PAGESIZE;
@@ -43,7 +41,6 @@ class CategoryController extends Controller
         $param = array();
         $param['sort'] = intval(request('sort'));
         $param['sortType'] = request('sortType');
-        $param['brand_id'] = intval(request('brand_id'));
         $param['category_parent_id'] = intval(request('category_parent_id'));
         $param['category_id'] = intval(request('category_id'));
         $param['hasStock'] = intval(request('hasStock'));

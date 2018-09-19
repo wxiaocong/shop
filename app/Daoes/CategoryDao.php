@@ -10,18 +10,6 @@ use Illuminate\Support\Facades\Redis;
 class CategoryDao extends BaseDao
 {
     /**
-     * 跟据分类查询品牌
-     */
-    public static function getBrandByCategory($category_id)
-    {
-        return Category::join('goods as g', 'category.id', '=', 'g.category_parent_id')
-            ->join('brand as b', 'g.brand_id', '=', 'b.id')
-            ->where(array('category.id' => $category_id, 'category.state' => 1, 'b.state' => 1))
-            ->select('b.id', 'b.short_name')
-            ->distinct()
-            ->get();
-    }
-    /**
      * 查询一级分类列表
      *
      * @return App\Models\Category

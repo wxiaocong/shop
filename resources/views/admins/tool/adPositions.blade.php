@@ -49,7 +49,7 @@
                         <tr>
                             <td><input name="id[]" type="checkbox" value="{{ $data->id }}" /></td>
                             <td><a href="{{ url('/admin/ad/' . $data->id . '/edit') }}">{{ $data->title }}</a></td>
-                            <td><img src="{{ $data->img . '?x-oss-process=image/resize,w_120,h_60' }}" style="width:120px;height:60px" /></td>
+                            <td><img src="{{ $data->img }}" style="width:120px;height:60px" /></td>
                             <td>{{ $data->url }}</td>
                             <td>
                                 <a href="{{ url('/admin/ad/' . $data->id . '/edit') }}"><i class='operator fa fa-edit'></i></a>

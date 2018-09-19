@@ -27,14 +27,6 @@ class CategoryService
     }
 
     /**
-     * 跟据分类查询品牌
-     */
-    public static function getBrandByCategory($category_id)
-    {
-        return CategoryDao::getBrandByCategory($category_id);
-    }
-
-    /**
      * 判断name-parent_id是否重复
      * @param  int $id
      *

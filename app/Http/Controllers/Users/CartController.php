@@ -83,7 +83,7 @@ class CartController extends Controller
             }
             if ($res) {
                 //更新购物车cookie
-                $cartNum = $_COOKIE['cartNum'] + $num;
+                $cartNum = ($_COOKIE['cartNum'] ?? 0) + $num;
                 setcookie('cartNum', $cartNum, time()+3600*24,'/');
                 return response()->json(
                     array(

@@ -55,12 +55,6 @@ class CreateUsersTable extends Migration
             $table->string('email', 60)->nullable()->comment('Email');
             $table->tinyInteger('state')->unsigned()->default(1)->comment('状态1正常2锁定');
             $table->integer('balance')->unsigned()->default(0)->comment('用户余额');
-            $table->integer('total_login')->unsigned()->default(0)->comment('登录总次数');
-            $table->timestamp('last_time')->nullable()->comment('最后登录时间');
-            $table->string('last_ip', 30)->nullable()->comment('最后登录IP');
-            $table->integer('error_login')->unsigned()->default(0)->comment('登录错误次数');
-            $table->string('error_ip', 30)->nullable()->comment('最近一次登录错误ip');
-            $table->timestamp('error_time')->nullable()->comment('最近一次登录错误时间');
 
             // create index
             $table->index('mobile');
