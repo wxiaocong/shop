@@ -33,14 +33,6 @@ class GoodsSpec extends Model
     protected $dates = array('deleted_at');
 
     /**
-     * Get the relational model of Brand.
-     *
-     * @return array(App\Models\Brand)
-     */
-    public function brand() {
-        return $this->belongsTo('App\Models\Brand');
-    }
-    /**
      * Get the relational model of Category.
      *
      * @return array(App\Models\Category)

@@ -41,15 +41,6 @@ class Goods extends Model {
     }
 
     /**
-     * Get the relational model of Brand.
-     *
-     * @return array(App\Models\Brand)
-     */
-    public function brand() {
-        return $this->belongsTo('App\Models\Brand');
-    }
-
-    /**
      * Get the relational models of GoodsSpec.
      *
      * @return array[App\Models\GoodsSpec]

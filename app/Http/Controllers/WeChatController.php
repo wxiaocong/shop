@@ -92,7 +92,7 @@ class WeChatController extends Controller
                                 $template     = config('templatemessage.orderPaySuccess');
                                 $templateData = array(
                                     'first' =>  '您好，您的订单已支付成功',
-                                    'keyword1'=> '52改',
+                                    'keyword1'=> '植得艾',
                                     'keyword2' => '￥' . $result['cash_fee']/100,
                                     'keyword3' => $pay_time,
                                     'keyword4' => $orderInfo->order_sn,
