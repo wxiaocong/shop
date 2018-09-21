@@ -289,7 +289,7 @@ table.table.form-table td{
 .cate .cate-box ul + ul + ul.select {margin-right: 0;}
 .cate .cate-box ul + ul + ul:before {content: "三级分类"}
 .cate .cate-box ul li {margin-top: 5px;}
-.cate .cate-box ul li label {}
+.cate .cate-box ul li label {width:100%;}
 .cate .cate-box ul li label input {display: none;}
 .cate .cate-box ul li label span {
   display: block;height: 28px;line-height: 28px;text-align: center;border: 1px solid #ddd;

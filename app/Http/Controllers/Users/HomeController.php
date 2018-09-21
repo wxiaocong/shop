@@ -15,7 +15,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('users.home', array('userInfo' => UserService::findById(session('user')->id)));
+        $data['userInfo'] = UserService::findById(session('user')->id);
+        $data['levelArr'] = config('statuses.user.levelState');
+        return view('users.home', $data);
     }
 
     //个人信息

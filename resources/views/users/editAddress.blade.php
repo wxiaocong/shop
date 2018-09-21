@@ -78,8 +78,8 @@ button.weui-btn_warn{
 </section>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
-<script src="{{asset('js/users/city-picker.js')}}"></script>
-<script src="{{asset('js/users/front.js')}}"></script>
+<script src="{{elixir('js/users/city-picker.js')}}"></script>
+<script src="{{elixir('js/users/front.js')}}"></script>
 <script type="text/javascript">
 $(document).ready(function(e) {
 $(this).keydown(function (e){

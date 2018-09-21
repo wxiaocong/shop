@@ -1,13 +1,13 @@
 /********************************** add/edit start********************************/
 $('.goods-category-button').click(function() {
-        art.dialog({
-                title:'选择商品分类',
+	art.dialog({
+		title:'选择商品分类',
         content: $('.category-template').html(),
         height: '400px',
         width: '600px',
         cancelVal: '关闭',
         cancel: true
-        });
+	});
 });
 
 //good是否上架
@@ -154,32 +154,32 @@ function specValueFileuploaded(classObj)
 //初始化上传控件
 function createFileinput(className)
 {
-        className.fileinput({
-                headers:{
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            language: 'zh', //设置语言
-            uploadUrl:'/fileUpload/uploadFile', //上传的地址
-            allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
-            uploadExtraData:{'dataType': 'file'},
-            uploadAsync: true, //默认异步上传
-            showUpload: false, //是否显示上传按钮
-            showRemove: false, //显示移除按钮
-            showPreview: true, //是否显示预览
-            showCaption: false,//是否显示标题
-            browseClass:"btn btn-primary", //按钮样式    
-            dropZoneEnabled: false,//是否显示拖拽区域
-            //minImageWidth: 50, //图片的最小宽度
-            //minImageHeight: 50,//图片的最小高度
-            //maxImageWidth: 1000,//图片的最大宽度
-            //maxImageHeight: 1000,//图片的最大高度
-            //maxFileSize:0,//单位为kb，如果为0表示不限制文件大小
-            //minFileCount: 0,
-            maxFileCount:10, //表示允许同时上传的最大文件个数
-            enctype:'multipart/form-data',
-            validateInitialCount:true,
-            msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
-        });
+	className.fileinput({
+		headers:{
+	        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	    },
+	    language: 'zh', //设置语言
+	    uploadUrl:'/fileUpload/uploadFile', //上传的地址
+	    allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
+	    uploadExtraData:{'dataType': 'file'},
+	    uploadAsync: true, //默认异步上传
+	    showUpload: false, //是否显示上传按钮
+	    showRemove: false, //显示移除按钮
+	    showPreview: true, //是否显示预览
+	    showCaption: false,//是否显示标题
+	    browseClass:"btn btn-primary", //按钮样式    
+	    dropZoneEnabled: false,//是否显示拖拽区域
+	    //minImageWidth: 50, //图片的最小宽度
+	    //minImageHeight: 50,//图片的最小高度
+	    //maxImageWidth: 1000,//图片的最大宽度
+	    //maxImageHeight: 1000,//图片的最大高度
+	    //maxFileSize:0,//单位为kb，如果为0表示不限制文件大小
+	    //minFileCount: 0,
+	    maxFileCount:10, //表示允许同时上传的最大文件个数
+	    enctype:'multipart/form-data',
+	    validateInitialCount:true,
+	    msgFilesTooMany: "选择上传的文件数量({n}) 超过允许的最大数值{m}！",
+	});
 }
 
 //清理模型相关数据
@@ -365,10 +365,10 @@ $('.edit-good-form').validate({
         var action = 'put';
         var url = '';
         if (id == '' || id == null || id == 'undefined' || id == 0) {
-                action = 'post';
-                url = '/admin/good/';
+        	action = 'post';
+        	url = '/admin/good/';
         } else {
-                url = '/admin/good/' + id;
+        	url = '/admin/good/' + id;
 
             $('.good-attribute-current-template').html('');
             $('.good-sku-current-template').html(''); 
@@ -421,29 +421,29 @@ $('.edit-good-form').validate({
 /********************************** list start********************************/
 //上/下架
 $('.good-list-state').change(function() {
-        var id = $(this).parent().parent().find('input[name="id[]"]').val();
+	var id = $(this).parent().parent().find('input[name="id[]"]').val();
     goodUpdate('/admin/good/' + id + '/updateState', 'post', {});
 });
 //排序
 $('.good-list-sort').change(function() {
-        var id = $(this).parent().parent().find('input[name="id[]"]').val();
-        goodUpdate('/admin/good/' + id + '/sort', 'post', {'sort': $(this).val()});
+	var id = $(this).parent().parent().find('input[name="id[]"]').val();
+	goodUpdate('/admin/good/' + id + '/sort', 'post', {'sort': $(this).val()});
 });
 //单个删除
 $('.good-list-del').click(function() {
-        var id = $(this).parent().parent().find('input[name="id[]"]').val();
-        $(this).cnConfirm('确定要删除商品?', function() {
+	var id = $(this).parent().parent().find('input[name="id[]"]').val();
+	$(this).cnConfirm('确定要删除商品?', function() {
         goodUpdate('/admin/good/' + id, 'delete', {});
     });
 });
 //批量删除
 $('.good-list-batch-del').click(function() {
-        if ($("input[name='id[]']:checked").length == 0) {
+	if ($("input[name='id[]']:checked").length == 0) {
         $(this).cnAlert('请选择要批量删除的商品', 5);
         return false;
     }    
-        $(this).cnConfirm('确定要批量删除商品?', function() {
-                var checkedBox = $("input[name='id[]']:checked");
+	$(this).cnConfirm('确定要批量删除商品?', function() {
+		var checkedBox = $("input[name='id[]']:checked");
         var ids = new Array();
         checkedBox.each(function() {
             var id = $(this).val();
@@ -454,23 +454,23 @@ $('.good-list-batch-del').click(function() {
 });
 
 $('.udpate-price').click(function() {
-        var id = $(this).parent().parent().find('input[name="id[]"]').val();
-        $.ajax({
+	var id = $(this).parent().parent().find('input[name="id[]"]').val();
+	$.ajax({
         url:  '/admin/good/' + id + '/editGoodPrice',
         type: 'get',
         dataType: 'json',
         success: function(jsonObject) {
             if (jsonObject.code == 200) {
                 art.dialog({
-                                        title:'更新价格',
-                                content: jsonObject.datas,
-                                ok: function () {
-                                        var formObj = $(this).find('form[name="updateGoodPriceForm"]');
-                                        goodUpdate($(formObj.selector).attr('action'), 'post', $(formObj.selector).serialize());
-                                    },
-                                cancelVal: '关闭',
-                                cancel: true
-                                });
+					title:'更新价格',
+			        content: jsonObject.datas,
+			        ok: function () {
+				    	var formObj = $(this).find('form[name="updateGoodPriceForm"]');
+			        	goodUpdate($(formObj.selector).attr('action'), 'post', $(formObj.selector).serialize());
+				    },
+			        cancelVal: '关闭',
+			        cancel: true
+				});
             } else {
                 showErrorNotice(jsonObject.messages);
             }
@@ -482,23 +482,23 @@ $('.udpate-price').click(function() {
 });
 
 $('.udpate-total-num').click(function() {
-        var id = $(this).parent().parent().find('input[name="id[]"]').val();
-        $.ajax({
+	var id = $(this).parent().parent().find('input[name="id[]"]').val();
+	$.ajax({
         url:  '/admin/good/' + id + '/editGoodNum',
         type: 'get',
         dataType: 'json',
         success: function(jsonObject) {
             if (jsonObject.code == 200) {
                 art.dialog({
-                                        title:'更新库存',
-                                content: jsonObject.datas,
-                                ok: function () {
-                                        var formObj = $(this).find('form[name="updateGoodNumForm"]');
-                                        goodUpdate($(formObj.selector).attr('action'), 'post', $(formObj.selector).serialize());
-                                    },
-                                cancelVal: '关闭',
-                                cancel: true
-                                });
+					title:'更新库存',
+			        content: jsonObject.datas,
+			        ok: function () {
+			        	var formObj = $(this).find('form[name="updateGoodNumForm"]');
+			        	goodUpdate($(formObj.selector).attr('action'), 'post', $(formObj.selector).serialize());
+				    },
+			        cancelVal: '关闭',
+			        cancel: true
+				});
             } else {
                 showErrorNotice(jsonObject.messages);
             }
@@ -511,7 +511,7 @@ $('.udpate-total-num').click(function() {
 
 function goodUpdate(url, type, data)
 {
-        $.ajax({
+	$.ajax({
         url:  url,
         data: data,
         type: type,

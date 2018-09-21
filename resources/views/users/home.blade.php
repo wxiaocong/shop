@@ -1,6 +1,6 @@
 @include('users.inc.header')
 <link href="{{ elixir('css/users/home.css') }}" rel="stylesheet">
-<link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
+<link href="{{ elixir('css/font-awesome.css') }}" rel="stylesheet">
 <header class="zyw-header">
     <div class="zyw-container white-color">
         <div class="head-l">
@@ -20,9 +20,10 @@
                 </div>
                 <div class="my-head-msg">
                     <div class="my-head-user">昵称：{{ $userInfo->nickname }}</div>
-                    @if ($userInfo->vip == 0)
-                    <div><i class="iconfont icon-shenqingchengweiVIP"></i></div>
-                    @endif
+                    <div class="my-head-user">
+                        @if ($userInfo->vip == 1)<i class="iconfont icon-shenqingchengweiVIP"></i>@endif
+                        <span>{{$levelArr[$userInfo->level]}}</span>
+                    </div>
                 </div>
             </div>
         </div>

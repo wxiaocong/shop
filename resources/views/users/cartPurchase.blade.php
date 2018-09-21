@@ -197,7 +197,7 @@
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
 <script src="{{asset('js/users/swiper.min.js')}}"></script>
-<script src="{{asset('js/users/front.js')}}"></script>
-<script src="{{asset('js/users/cart-purchase.js')}}"></script>
+<script src="{{elixir('js/users/front.js')}}"></script>
+<script src="{{elixir('js/users/cart-purchase.js')}}"></script>
 </body>
 </html>

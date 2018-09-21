@@ -47,16 +47,6 @@ return array(
         ),
     ),
     'good'       => array(
-        'virtualType' => array(
-            'entity'  => array(
-                'code' => 1,
-                'text' => '实体商品',
-            ),
-            'virtual' => array(
-                'code' => 0,
-                'text' => '虚拟商品',
-            ),
-        ),
         'state'       => array(
             'putaway' => array(
                 'code' => 0,
@@ -69,72 +59,6 @@ return array(
             'soldOut' => array(
                 'code' => 2,
                 'text' => '下架',
-            ),
-        ),
-    ),
-    'promotion'  => array(
-        'type'      => array(
-            'shoppingCart' => array(
-                'code' => 0,
-                'text' => '购物车促销规则',
-            ),
-            'speed'        => array(
-                'code' => 1,
-                'text' => '商品限时抢购',
-            ),
-            'category'     => array(
-                'code' => 2,
-                'text' => '商品分类特价',
-            ),
-            'sku'          => array(
-                'code' => 3,
-                'text' => '商品单品特价',
-            ),
-            'brand'        => array(
-                'code' => 4,
-                'text' => '商品品牌特价',
-            ),
-            'user'         => array(
-                'code' => 5,
-                'text' => '新用户注册促销规则',
-            ),
-        ),
-        'awardType' => array(
-            'speed'        => array(
-                'code' => 0,
-                'text' => '商品限时抢购',
-            ),
-            'amount'       => array(
-                'code' => 1,
-                'text' => '减金额',
-            ),
-            'discount'     => array(
-                'code' => 2,
-                'text' => '奖励折扣',
-            ),
-            'integral'     => array(
-                'code' => 3,
-                'text' => '赠送积分',
-            ),
-            'voucher'      => array(
-                'code' => 4,
-                'text' => '赠送代金券',
-            ),
-            'gift'         => array(
-                'code' => 5,
-                'text' => '赠送赠品',
-            ),
-            'freight'      => array(
-                'code' => 6,
-                'text' => '免运费',
-            ),
-            'specialOffer' => array(
-                'code' => 7,
-                'text' => '商品特价',
-            ),
-            'suffer'       => array(
-                'code' => 8,
-                'text' => '赠送经验',
             ),
         ),
     ),
@@ -261,23 +185,10 @@ return array(
                 'text' => '锁定',
             ),
         ),
-        'businessAuditState' => array(
-            'noApply' => array(
-                'code' => 0,
-                'text' => '未申请',
-            ),
-            'apply'   => array(
-                'code' => 1,
-                'text' => '待审核',
-            ),
-            'pass'    => array(
-                'code' => 2,
-                'text' => '审核通过',
-            ),
-            'refuse'  => array(
-                'code' => 3,
-                'text' => '拒绝',
-            ),
+        'levelState' => array(
+            '0' =>  '普通用户',
+            '1' =>  '艾达人',
+            '2' =>  '艾天使'
         ),
     ),
     'adminRight' => array(
