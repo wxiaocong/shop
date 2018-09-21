@@ -10,6 +10,19 @@ use App\Utils\Page;
 class UserDao extends BaseDao
 {
     /**
+     * 根据openid查询用户
+     * @param  string $openid
+     *
+     * @return App\Models\Users\User
+     */
+    public static function findByOpenid($openid)
+    {
+        $builder = User::where(array('openid' => $openid, 'state' => 1));
+        
+        return $builder != null ? $builder->first() : null;
+    }
+    
+    /**
      * 根据phone查询用户
      * @param  string $phone
      *
@@ -22,9 +35,9 @@ class UserDao extends BaseDao
         return $builder != null ? $builder->first() : null;
     }
 
-    public static function addUser($data)
+    public static function addUser($userData)
     {
-        return User::insert($data);
+        return User::create($userData);
     }
 
     /**

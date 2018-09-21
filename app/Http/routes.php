@@ -57,10 +57,6 @@ Route::group(array('middleware' => array('web')), function () {
         Route::post('/admin/good/destroyAll', 'Goods\GoodController@destroyAll');
         Route::resource('/admin/good', 'Goods\GoodController');
 
-        //speed
-        Route::get('/admin/speed/findGoods', 'Market\GoodSpeedController@findGoods');
-        Route::resource('/admin/speed', 'Market\GoodSpeedController');
-
         //order
         Route::post('/admin/order/{id}/refundment', 'Order\OrderController@refundment');
         Route::post('/admin/order/{id}/cancel', 'Order\OrderController@cancel');
@@ -102,61 +98,37 @@ Route::group(array('middleware' => array('web')), function () {
         Route::get('/admin/logout', 'LoginController@logout');
     });
 
-    Route::group(array('namespace' => 'Users', 'middleware' => array('routeHistory','autoLogin')), function () {
+    Route::group(array('namespace' => 'Users', 'middleware' => array('userAuth')), function () {
         Route::resource('/', 'IndexController');
 
         Route::post('/category/getCategoryList', 'CategoryController@getCategoryList');
         Route::post('/category/getGoodsList', 'CategoryController@getGoodsList');
         Route::resource('/category', 'CategoryController');
 
-        Route::post('/home/updatePwd', 'HomeController@updatePwd')->middleware('userAuth');
-        Route::get('/home/changePwd', 'HomeController@changePwd')->middleware('userAuth');
-        Route::get('/home/business', 'HomeController@business')->middleware('userAuth');
-        Route::post('/home/saveBusiness', 'HomeController@saveBusiness')->middleware('userAuth');
-        Route::resource('/home', 'HomeController')->middleware('userAuth');
+        Route::resource('/home', 'HomeController');
 
         Route::post('/goods/search', 'GoodsController@search');
-        Route::post('/goods/purchase', 'GoodsController@purchase')->middleware('userAuth');
+        Route::post('/goods/purchase', 'GoodsController@purchase');
         Route::post('/goods/changeSpec', 'GoodsController@changeSpec');
         Route::post('/goods/changeNum', 'GoodsController@changeNum');
         Route::resource('/goods', 'GoodsController');
 
-        Route::get('/order/orderComplate/{ordersn}', 'OrderController@orderComplate')->middleware('userAuth');
-        Route::post('/order/prepay', 'OrderController@prepay')->middleware('userAuth');
-        Route::get('/order/cashPay/{ordersn}', 'OrderController@cashPay')->middleware('userAuth');
-        Route::post('/order/confirmReceipt', 'OrderController@confirmReceipt')->middleware('userAuth');
-        Route::post('/order/cancle', 'OrderController@cancle')->middleware('userAuth');
-        Route::get('/order/detail/{ordersn}', 'OrderController@detail')->middleware('userAuth');
-        Route::post('/order/getData', 'OrderController@getData')->middleware('userAuth');
-        Route::get('/order/searchOrderResult/{ordersn}', 'OrderController@searchOrderResult')->middleware('userAuth');
-        Route::get('/order/searchOrderRefundResult/{ordersn}', 'OrderController@searchOrderRefundResult')->middleware('userAuth');
-        Route::post('/order/cartStore', 'OrderController@cartStore')->middleware('userAuth');
-        Route::resource('/order', 'OrderController')->middleware('userAuth');
+        Route::get('/order/orderComplate/{ordersn}', 'OrderController@orderComplate');
+        Route::post('/order/prepay', 'OrderController@prepay');
+        Route::get('/order/cashPay/{ordersn}', 'OrderController@cashPay');
+        Route::post('/order/confirmReceipt', 'OrderController@confirmReceipt');
+        Route::post('/order/cancle', 'OrderController@cancle');
+        Route::get('/order/detail/{ordersn}', 'OrderController@detail');
+        Route::post('/order/getData', 'OrderController@getData');
+        Route::get('/order/searchOrderResult/{ordersn}', 'OrderController@searchOrderResult');
+        Route::get('/order/searchOrderRefundResult/{ordersn}', 'OrderController@searchOrderRefundResult');
+        Route::post('/order/cartStore', 'OrderController@cartStore');
+        Route::resource('/order', 'OrderController');
 
-        Route::get('/address/getAllAreas', 'ExpressAddressController@getAllAreas')->middleware('userAuth');
-        Route::get('/address/setDefault', 'ExpressAddressController@setDefault')->middleware('userAuth');
-        Route::post('/address/getExpressAddress', 'ExpressAddressController@getExpressAddress')->middleware('userAuth');
-        Route::resource('/address', 'ExpressAddressController')->middleware('userAuth');
-
-        Route::post('/cart/purchase', 'CartController@purchase')->middleware('userAuth');
-        Route::post('/cart/delCart', 'CartController@delCart');
-        Route::resource('/cart', 'CartController');
-
-        Route::resource('/promotions', 'PromotionsController');
-
-        Route::get('/login/findPwd', 'LoginController@findPwd');
-        Route::post('/login/sendSmsCode', 'LoginController@sendSmsCode');
-        Route::post('/login/changePwd', 'LoginController@changePwd');
-        Route::post('/login/doLogin', 'LoginController@doLogin');
-        Route::get('/login/logout', 'LoginController@logout');
-        Route::get('/login/showLog', 'LoginController@showLog');
-        Route::get('/login/clearLog', 'LoginController@clearLog');
-        Route::get('/login/showNotify', 'LoginController@showNotify');
-        Route::resource('/login', 'LoginController');
-
-        Route::resource('/register', 'RegisterController');
-        Route::post('/register/doRegister', 'RegisterController@doRegister');
-        Route::post('/register/sendSmsCode', 'RegisterController@sendSmsCode');
+        Route::get('/address/getAllAreas', 'ExpressAddressController@getAllAreas');
+        Route::get('/address/setDefault', 'ExpressAddressController@setDefault');
+        Route::post('/address/getExpressAddress', 'ExpressAddressController@getExpressAddress');
+        Route::resource('/address', 'ExpressAddressController');
     });
     Route::any('/wechat/oauthCallback', 'WeChatController@oauthCallback');
 });

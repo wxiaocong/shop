@@ -6,7 +6,17 @@ use App\Daoes\Users\UserDao;
 
 class UserService
 {
-
+    /**
+     * 根据openid查询用户
+     * @param  string $openid
+     *
+     * @return App\Models\Users\User
+     */
+    public static function findByOpenid($openid)
+    {
+        return UserDao::findByOpenid($openid);
+    }
+    
     /**
      * 根据phone查询用户
      * @param  string $phone
@@ -21,6 +31,20 @@ class UserService
     public static function addUser($data)
     {
         return UserDao::addUser($data);
+    }
+    
+    /**
+     * 保存更新user
+     * @param array $request
+     * @param number $id
+     */
+    public static function saveOrUpdate($request, $id = 0)
+    {
+        if ($id) {
+            return UserDao::findById($id)->update($request);
+        } else {
+            return UserDao::addUser($request);
+        }
     }
 
     /**

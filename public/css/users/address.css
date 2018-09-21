@@ -1,0 +1,60 @@
+a.weui-btn_warn {
+    bottom: 0;
+    position: fixed;
+    border-radius: 0;
+    width: 100%;
+}
+.weui-media-box__desc{
+    font-size:12px;
+}
+.weui-media-box__top span{
+    font-size:13px;
+    width: 25%;
+    display: inline-block;
+}
+.weui-cell_access{
+    width:100%;
+}
+.weui-cells{
+    width:100%;
+    margin-top: 0.5em;
+}
+.weui-cells .weui-cell{
+    padding:2px 0 0 5px;
+    float:left;
+    border:none;
+}
+
+.weui-cells_checkbox .weui-icon-checked:before{
+    font-size:18px;
+}
+.weui-cells:after{
+    border:none;
+}
+.weui-cell__bd p{
+    margin:0;
+    font-size:12px;
+    font-weight: normal;
+}
+.weui-cell__edit{
+    float:right;
+    line-height: 32px;
+}
+.weui-cell__edit a{
+    font-size:12px;
+    line-height:22px;
+    padding-right:16px;
+    font-weight: lighter;
+}
+.weui-cell__edit img{
+    width:22px;
+}
+.weui-check__label{
+    height:32px;
+}
+.weui-panel:before{
+    border:none;
+}
+.weui-media-box {
+    padding: 5px 15px 0 15px;
+}

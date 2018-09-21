@@ -7,7 +7,7 @@ use App\Services\OrderService;
 use App\Services\PayLogsService;
 use App\Services\PromotionService;
 use App\Services\GoodsSpecService;
-use App\Services\Users\WechatUserService;
+use App\Services\Users\UserService;
 use App\Services\WechatNoticeService;
 use App\Services\WechatNotifyService;
 use Illuminate\Support\Facades\DB;
@@ -24,13 +24,12 @@ class WeChatController extends Controller
         // 获取 OAuth 授权结果用户信息
         $user   = $oauth->user()->toArray();
         $openid = $user['id'];
-        session(array('openid' => $openid));
         //获取用户头像等信息
         $user = $app->user->get($openid);
         if (!empty($user)) {
             //保存微信通知数据
             WechatNotifyService::store($user);
-            $wechatUserInfo = WechatUserService::findByOpenid($openid);
+            $userInfo = UserService::findByOpenid($openid);
             $wechatUserData = array(
                 'openid'         => $openid,
                 'subscribe'      => $user['subscribe'],
@@ -40,11 +39,10 @@ class WeChatController extends Controller
                 'city'           => $user['city'],
                 'province'       => $user['province'],
                 'country'        => $user['country'],
-                'sex'            => $user['sex'],
+                'sex'            => $user['sex']
             );
-            WechatUserService::saveOrUpdate($wechatUserData, $wechatUserInfo->id ?? 0);
-            //统计次数
-            WechatUserService::updateTotalVisit($openid);
+            UserService::saveOrUpdate($wechatUserData, $userInfo->id ?? 0);
+            session(array('user' => UserService::findByOpenid($openid)));
         }
         $targetUrl = empty(session('target_url')) ? config('app.url') : session('target_url');
         session::forget('target_url');

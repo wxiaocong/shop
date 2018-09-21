@@ -3,13 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\RedirectResponse;
-use Session;
+use EasyWeChat;
 
 class UserAuth
 {
-    const ACTION_PREFIX = 'App\\Http\\Controllers\\Users\\';
-
     /**
      * Handle an incoming request.
      *
@@ -19,12 +16,12 @@ class UserAuth
      */
     public function handle($request, Closure $next)
     {
-        //session失效，跳转到登录页
-        $user = session('user');
-        if (!$user) {
-            return new RedirectResponse('/login');
+        if (empty(session('user'))) {
+            $app   = EasyWeChat::officialAccount();
+            $oauth = $app->oauth;
+            session(array('target_url' => url()->full()));
+            return $oauth->redirect();
         }
-
         return $next($request);
     }
 }

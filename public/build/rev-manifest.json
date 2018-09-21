@@ -1,0 +1,18 @@
+{
+  "css/admins/admin.css": "css/admins/admin-22347699a7.css",
+  "css/font-awesome.css": "css/font-awesome-bf4b58c946.css",
+  "js/52gai.js": "js/52gai-82701317ef.js",
+  "js/admins/adPosition.js": "js/admins/adPosition-cd75515dd6.js",
+  "js/admins/adminRight.js": "js/admins/adminRight-e55909cab7.js",
+  "js/admins/adminRole.js": "js/admins/adminRole-a1ba40d75b.js",
+  "js/admins/adminUser.js": "js/admins/adminUser-738f165d60.js",
+  "js/admins/editGood.js": "js/admins/editGood-c5a2192dce.js",
+  "js/admins/good.js": "js/admins/good-c2e5680730.js",
+  "js/admins/goodCategory.js": "js/admins/goodCategory-e829d283fe.js",
+  "js/admins/goodSpeed.js": "js/admins/goodSpeed-a74774b837.js",
+  "js/admins/login.js": "js/admins/login-2a692bd194.js",
+  "js/admins/model.js": "js/admins/model-135d4327df.js",
+  "js/admins/order.js": "js/admins/order-0fddc4bdc8.js",
+  "js/common/datetimePicker.js": "js/common/datetimePicker-ab07cfcb24.js",
+  "js/common/fileUpload.js": "js/common/fileUpload-00f37a0d17.js"
+}

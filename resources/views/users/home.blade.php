@@ -4,7 +4,7 @@
 <header class="zyw-header">
     <div class="zyw-container white-color">
         <div class="head-l">
-            <a href="javascript:{{$_COOKIE['lastRecord'] ?? "self.location='/'"}};" target="_self"><i class="iconfont icon-fanhui1"></i></a>
+            <a href="javascript:history.back(-1);" target="_self"><i class="iconfont icon-fanhui1"></i></a>
         </div>
         <h1>个人中心</h1>
     </div>
@@ -19,12 +19,9 @@
                     </div>
                 </div>
                 <div class="my-head-msg">
-                    <div class="my-head-name"><span>{{ $userInfo->nickname }}</span></div>
-                    <div class="my-head-user">用户名：{{ $userInfo->mobile }}</div>
-                    @if ($userInfo->business_audit_state == config('statuses.user.businessAuditState.pass.code'))
-                        <li><i class="home-icon fa fa-star"></i>商家用户</li>
-                    @else
-                        <li><i class="home-icon fa fa-user"></i>&nbsp;个人用户</li>
+                    <div class="my-head-user">昵称：{{ $userInfo->nickname }}</div>
+                    @if ($userInfo->vip == 0)
+                    <div><i class="iconfont icon-shenqingchengweiVIP"></i></div>
                     @endif
                 </div>
             </div>
