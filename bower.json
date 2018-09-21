@@ -1,0 +1,49 @@
+{
+  "name": "51jiyou",
+  "version": "3.0.0",
+  "description": "The 51jiyou system for auto-shops.",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "51jiyou",
+    "bootstrap",
+    "jquery"
+  ],
+  "authors": [
+    "cao pei"
+  ],
+  "license": "MIT",
+  "homepage": "www.51jiyou.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "admin-lte": "2.4.3",
+    "blueimp-file-upload": "~9.10.5",
+    "bootstrap": "3.3.7",
+    "eonasdan-bootstrap-datetimepicker": "~4.14.30",
+    "jquery": "~2.1.4",
+    "jquery.ui": "1.11.*",
+    "jquery-validation": "~1.13.1",
+    "jquery-cookie": "~1.4.1",
+    "jsencrypt": "~2.1.0",
+    "jquery-mousewheel": "~3.1.*",
+    "uploadify": "3.2.1",
+    "html5shiv": "~3.7.2",
+    "respond": "~1.4.2",
+    "datatables.net-bs": "^2.1.1",
+    "moment": "^2.18.1",
+    "zeroclipboard": "~2.2.0"
+  },
+  "devDependencies": {
+    "qunit": "~1.18.0"
+  },
+  "resolutions": {
+    "jquery": "~2.1.4"
+  }
+}
