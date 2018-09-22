@@ -51,29 +51,7 @@ $(document).ready(function() {
             }
         });
         changeSpec();
-    }
-    //加入购物车
-    $('.footer-cart').click(function(){
-        var tmpAttr = '';
-        var specData = {'goods_id':$('#goods_id').val(), 'spec_id':$('#spec_id').val(), 'num':$('.weui-count__number').val(),'spec':{}};//请求数据
-        $('.spec-info ul').each(function(){
-            tmpAttr = $(this).find('.active').text();
-            specData.spec[$(this).attr('data')] = tmpAttr;
-        });
-        $.ajax({
-            url:  '/cart',
-            data: specData,
-            type: 'post',
-            dataType: 'json',
-            success: function(res) {
-                if(res.code == 200) {
-                    $.toast(res.messages);
-                } else {
-                    $.toast(res.messages, "cancel");
-                }
-            }
-        })
-    });
+    };
     //立即购买
     $('.buy-now').click(function(){
         var number = parseInt($('.weui-count__number').val() || "0");

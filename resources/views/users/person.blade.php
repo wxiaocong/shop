@@ -45,18 +45,28 @@ button.weui-btn_warn{
                 <img class="headimg" src="{{ $userInfo->headimgurl ?? elixir('images/users/mylogo.png') }}">
             </div>
           </div>
-          <div class="weui-cell">
-            <div class="weui-cell__bd">
-              <p>当前账号</p>
-            </div>
-            <div class="weui-cell__ft">{{ $userInfo->mobile }}</div>
-          </div>
           <div class="weui-cell weui-cell_access">
             <div class="weui-cell__bd">
               <p>昵称</p>
             </div>
             <div class="weui-cell__bd">
-            <input type="text" name="nickname"  class="weui-input" value="{{ $userInfo->nickname ?? $userInfo->mobile }}" />
+            <input type="text" name="nickname"  class="weui-input" value="{{ $userInfo->nickname ?? '' }}" />
+            </div>
+          </div>
+          <div class="weui-cell weui-cell_access">
+            <div class="weui-cell__bd">
+              <p>姓名</p>
+            </div>
+            <div class="weui-cell__bd">
+            <input type="text" name="realname"  class="weui-input" value="{{ $userInfo->realname ?? '' }}" />
+            </div>
+          </div>
+          <div class="weui-cell weui-cell_access">
+            <div class="weui-cell__bd">
+              <p>手机</p>
+            </div>
+            <div class="weui-cell__bd">
+            <input type="text" name="mobile"  class="weui-input" value="{{ $userInfo->mobile ?? '' }}" />
             </div>
           </div>
           <div class="weui-cell weui-cell_access">
@@ -65,18 +75,6 @@ button.weui-btn_warn{
             </div>
             <div class="weui-cell__bd">
             <input type="email" name="email" maxlength="60"  class="weui-input" value="{{ $userInfo->email }}" />
-            </div>
-          </div>
-          <div class="weui-cell weui-cell_access">
-            <div class="weui-cell__bd">
-              <p>地区</p>
-            </div>
-            <a class="weui-cell__ft"><input class="weui-input" id="city-picker" type="text" value="{{ $userInfo->region }}"></a>
-          </div>
-          <div class="weui-cell weui-cell_access">
-            <div class="weui-cell__hd"><p>详情地址</p></div>
-            <div class="weui-cell__bd">
-              <input class="weui-input" type="text" name="address" maxlength="200" value="{{ $userInfo->address }}" placeholder="请输入详情地址,不包括地区">
             </div>
           </div>
           <div class="weui-cell weui-cell_access">
@@ -99,7 +97,6 @@ button.weui-btn_warn{
 </section>
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
-<script src="{{asset('js/users/city-picker.js')}}"></script>
 <script type="text/javascript">
 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 $("#picker-sex").picker({
@@ -117,9 +114,6 @@ $("#picker-sex").picker({
      value:"{{$userInfo->birthday}} "
      @endif
 });
-$("#city-picker").cityPicker({
-    title: "请选择地址"
-});
 $(".person-submit").click(function() {
     var buttons = $(this);
     var oldBtnText = buttons.text();
@@ -128,19 +122,9 @@ $(".person-submit").click(function() {
         $.toast('邮箱格式错误', "cancel");
         return false;
     }
-    //省市区
-    province = city = area = 0;
-    var codes = $('#city-picker').attr('data-codes');
-    if(codes) {
-        region = codes.split(',');
-        province = region[0];
-        city = region[1];
-        area = region[2];
-    }
-    
     $.ajax({
        url:  "/home/1",
-       data: $('#edit_person_form').serialize()+'&province='+province+'&city='+city+'&area='+area,
+       data: $('#edit_person_form').serialize(),
        type: 'PATCH',
        dataType: 'json',
        beforeSend: function() {
@@ -165,7 +149,7 @@ $(".person-submit").click(function() {
 });
 
 function isEmail(str){
-    if(str) 
+    if(str)
         return true;
     var reg=new RegExp(/^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/);
     return reg.test(str);

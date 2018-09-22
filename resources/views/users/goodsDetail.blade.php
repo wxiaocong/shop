@@ -206,11 +206,8 @@ del{
 <footer class="zyw-footer">
     <div class="zyw-container white-bgcolor clearfix">
         @if ($goodsInfo->number)
-        <div class="col-sm-6 col-xs-6">
+        <div class="col-sm-12 col-xs-12">
             <a href="javascript:;" class="buy-now footer-btn footer-warning">立即购买</a>
-        </div>
-        <div class="col-sm-6 col-xs-6">
-            <a href="javascript:;" class="footer-btn footer-cart">加入购物车</a>
         </div>
         @else
         <div class="col-sm-6 col-xs-6">
@@ -234,24 +231,24 @@ if (isWeiXin()) {
     wx.ready(function () {
         //分享到朋友圈
         wx.onMenuShareTimeline({
-            title: "{{ $goodsInfo['name'] }}", 
+            title: "{{ $goodsInfo['name'] }}",
             imgUrl: "{{$goodsInfo->img}}",
-            success: function () { 
+            success: function () {
                 $.toast("分享成功", "text");
             },
-            cancel: function () { 
+            cancel: function () {
                 $.toast("取消分享", "text");
             }
         });
         //发送给朋友
         wx.onMenuShareAppMessage({
             title: "{{ $goodsInfo['name'] }}",
-            desc: "我在植得艾发现了一个不错的商品，赶快来看看吧。", 
-            imgUrl:  "{{$goodsInfo->img}}", 
-            success: function () { 
+            desc: "我在植得艾发现了一个不错的商品，赶快来看看吧。",
+            imgUrl:  "{{$goodsInfo->img}}",
+            success: function () {
                 $.toast("分享成功", "text");
             },
-            cancel: function () { 
+            cancel: function () {
                 $.toast("取消分享", "text");
             }
         });

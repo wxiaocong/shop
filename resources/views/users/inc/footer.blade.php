@@ -9,13 +9,6 @@
                 <div class="weui-tabbar__icon"><i class="iconfont icon-leimupinleifenleileibie"></i></div>
                 <p class="weui-tabbar__label">分类</p>
             </a>
-            <a href="/cart" class="cart-tabbar weui-tabbar__item @if(strstr(Request::path(),'cart'))  weui-bar__item--on @endif">
-                @if(isset($_COOKIE['cartNum']) && $_COOKIE['cartNum'] > 0)
-                    <span class="weui-badge" style="position: absolute;top: .2em;right: 1em;">{{ $_COOKIE['cartNum'] }}</span>
-                @endif
-                <div class="weui-tabbar__icon"><i class="iconfont icon-gouwuche"></i></div>
-                <p class="weui-tabbar__label">购物车</p>
-            </a>
             <a href="/home" class="weui-tabbar__item @if(strstr(Request::path(),'home'))  weui-bar__item--on @endif">
                 <div class="weui-tabbar__icon"><i class="iconfont icon-weibiaoti2fuzhi12"></i></div>
                 <p class="weui-tabbar__label">我的</p>

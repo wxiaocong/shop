@@ -9,7 +9,7 @@
     border-radius: 6px;
     font-size: 12px;
     color: #fff;
-    background: -webkit-linear-gradient(left,#b0ef4c,#3287af);
+    background: -webkit-linear-gradient(left,#9ff01e,#39a1d2);
     background: linear-gradient(90deg,#b0ef4c,#3287af)
     box-shadow: 0 2px 5px rgba(255,98,98,.4);
 }
@@ -111,18 +111,18 @@ section .iconfont{
 .icon-shenqingchengweiVIP{
     font-size:18px;
 }
-.icon-gerenziliao1{
+.icon-zijinzouxiang{
     color: #e93b3d;
 }
-.icon-shangjia{
+.icon-tuandui{
     color:#6dc36d;
 }
 .icon-ziyuan{
     color: #0b2fe8;
 }
-.icon-mima{
+.icon-fenxiao{
     color:#656565;
 }
-.icon-tuichu{
+.icon-erweima{
     color: #e93b3d;
 }

@@ -15,7 +15,7 @@
             <div class="head-main">
                 <div class="my-head">
                     <div class="my-head-img">
-                        <a href="/home/{{ session('user')->id }}"><img src="{{ $userInfo->headimgurl ?? elixir('images/users/mylogo.png') }}"></a>
+                        <a href="/home/1"><img src="{{ $userInfo->headimgurl ?? elixir('images/users/mylogo.png') }}"></a>
                     </div>
                 </div>
                 <div class="my-head-msg">
@@ -55,9 +55,23 @@
         </a>
     </div>
     <div class="home-cont weui-cells" style="margin-bottom:56px;">
-        <a class="weui-cell weui-cell_access" href="/home/1">
+        <a class="weui-cell weui-cell_access" href="#">
             <div class="weui-cell__bd">
-                <p class="choose-text"><i class="iconfont icon-gerenziliao1"></i> 我的资料</p>
+                <p class="choose-text"><i class="iconfont icon-zijinzouxiang"></i> 资金管理</p>
+            </div>
+            <div class="weui-cell__ft choose-des">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="#">
+            <div class="weui-cell__bd">
+                <p class="choose-text"><i class="iconfont icon-tuandui"></i> 我的团队</p>
+            </div>
+            <div class="weui-cell__ft choose-des">
+            </div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="#">
+            <div class="weui-cell__bd">
+                <p class="choose-text"><i class="iconfont icon-fenxiao"></i> 分销中心</p>
             </div>
             <div class="weui-cell__ft choose-des">
             </div>
@@ -65,6 +79,12 @@
         <a class="weui-cell weui-cell_access" href="/address">
             <div class="weui-cell__bd">
                 <p class="choose-text"><i class="iconfont icon-ziyuan"></i> 收货地址</p>
+            </div>
+            <div class="weui-cell__ft choose-des"></div>
+        </a>
+        <a class="weui-cell weui-cell_access" href="#">
+            <div class="weui-cell__bd">
+                <p class="choose-text"><i class="iconfont icon-erweima"></i> 我的二维码</p>
             </div>
             <div class="weui-cell__ft choose-des"></div>
         </a>
