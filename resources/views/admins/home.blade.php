@@ -24,18 +24,6 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <th>微信访问用户数</th>
-                                    <td>
-                                        {{ $weChatAccessUserCount }}<small>个</small>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>绑定微信用户数</th>
-                                    <td>
-                                        {{ $bindWeChatUserCount }}<small>个</small>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <th>昨日新增用户数</th>
                                     <td>
                                         {{ $yesterdayNewUserCount }}<small>个</small>

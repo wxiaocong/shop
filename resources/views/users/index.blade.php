@@ -5,7 +5,7 @@
     <div class="swiper-container">
         <div class="swiper-wrapper ad-swiper">
             @foreach ($adPositions as $ad)
-            <a href="{{$ad->url}}" class="swiper-slide"><img src="{{$ad->img}}?x-oss-process=image/resize,w_640,h_180" alt="{{$ad->title}}"></a>
+            <a href="{{$ad->url}}" class="swiper-slide"><img src="{{$ad->img}}" alt="{{$ad->title}}"></a>
             @endforeach
         </div>
         <!-- 如果需要分页器 -->
@@ -20,7 +20,7 @@
                 <li class="col-sm-6 col-xs-6 ware-box">
                     <a href="\goods\{{$recommend->id}}">
                         <div class="ware-img">
-                            @if(!empty($recommend->img))<img src="{{$recommend->img}}?x-oss-process=image/resize,w_160,h_160">@endif
+                            @if(!empty($recommend->img))<img src="{{$recommend->img}}">@endif
                             <span class="ware-vip">热卖</span>
                         </div>
                         <h3 class="ware-title">{{$recommend->name}}</h3>

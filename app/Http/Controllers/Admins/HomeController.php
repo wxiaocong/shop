@@ -67,8 +67,6 @@ class HomeController extends Controller {
 			->with('skuCount', StatisticalService::findSkuCount())
 			->with('validSkuCount', StatisticalService::findSkuCount(true))
 			->with('registerUserCount', StatisticalService::findRegisterCount())
-			->with('weChatAccessUserCount', StatisticalService::findWeChatAccessCount())
-			->with('bindWeChatUserCount', StatisticalService::findBindWeChatCount())
 			->with('todayNewUserCount', StatisticalService::findNewUserCount($today, $today))
 			->with('yesterdayNewUserCount', StatisticalService::findNewUserCount($yesterday, $yesterday))
 			->with('currentMonthNewUserCount', StatisticalService::findNewUserCount($currentFirstDay, $today))

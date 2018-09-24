@@ -6,7 +6,6 @@ use App\Daoes\GoodsSpecDao;
 use App\Daoes\OrderDao;
 use App\Daoes\PayLogsDao;
 use App\Daoes\Users\UserDao;
-use App\Daoes\Users\WechatUserDao;
 
 class StatisticalService {
 	/**
@@ -31,24 +30,6 @@ class StatisticalService {
 	public static function findRegisterCount() {
 		$users = UserDao::findByParams(array());
 		return isset($users) ? count($users) : 0;
-	}
-
-	/**
-	 * 微信访问用户总数
-	 * @return int
-	 */
-	public static function findWeChatAccessCount() {
-		$weChatUsers = WechatUserDao::findByParams(array());
-		return isset($weChatUsers) ? count($weChatUsers) : 0;
-	}
-
-	/**
-	 * 绑定微信用户总数
-	 * @return int
-	 */
-	public static function findBindWeChatCount() {
-		$weChatUsers = WechatUserDao::findByParams(array('isBind' => true));
-		return isset($weChatUsers) ? count($weChatUsers) : 0;
 	}
 
 	/**

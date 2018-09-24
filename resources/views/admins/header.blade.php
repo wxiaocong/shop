@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>后台管理</title>
+    <title>植得艾后台管理</title>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -31,8 +31,8 @@
     <div class="wrapper" style="height: auto; min-height: 100%;">
         <header class="main-header">
             <a href="/admin/home" class="logo hidden-xs">
-                <span class="logo-mini"><i class="home-icon fa fa-home fa-lg"></i>&nbsp;<b>shop</b></span>
-                <span class="logo-lg"><i class="home-icon fa fa-home fa-lg"></i>&nbsp;<b>shop</b>后台管理</span>
+                <span class="logo-mini"><i class="home-icon fa fa-home fa-lg"></i>&nbsp;<b>植得艾</b></span>
+                <span class="logo-lg"><i class="home-icon fa fa-home fa-lg"></i>&nbsp;<b>植得艾</b>后台管理</span>
             </a>
             <nav class="navbar navbar-static-top">
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">

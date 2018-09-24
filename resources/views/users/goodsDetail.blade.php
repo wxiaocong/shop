@@ -71,6 +71,10 @@ del{
 .buy-now{
     text-align:center;
 }
+.zyw-footer .col-xs-12{
+    padding-left:0;
+    padding-right:0;
+}
 </style>
 <header class="zyw-header">
     <div class="zyw-container white-color">
@@ -178,10 +182,6 @@ del{
                         @empty
                         @endforelse
                         <tr>
-                            <th>品牌</th>
-                            <td>{{$goodsInfo->brand->short_name??''}}</td>
-                        </tr>
-                        <tr>
                             <th>分类</th>
                             <td>{{$goodsInfo->category->name??''}}</td>
                         </tr>
@@ -232,7 +232,7 @@ if (isWeiXin()) {
         //分享到朋友圈
         wx.onMenuShareTimeline({
             title: "{{ $goodsInfo['name'] }}",
-            imgUrl: "{{$goodsInfo->img}}",
+            imgUrl: "{{env('APP_URL') . $goodsInfo->img}}",
             success: function () {
                 $.toast("分享成功", "text");
             },
@@ -244,7 +244,7 @@ if (isWeiXin()) {
         wx.onMenuShareAppMessage({
             title: "{{ $goodsInfo['name'] }}",
             desc: "我在植得艾发现了一个不错的商品，赶快来看看吧。",
-            imgUrl:  "{{$goodsInfo->img}}",
+            imgUrl:  "{{env('APP_URL') . $goodsInfo->img}}",
             success: function () {
                 $.toast("分享成功", "text");
             },

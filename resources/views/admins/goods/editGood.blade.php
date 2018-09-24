@@ -48,12 +48,12 @@
                             <p class="help-block">只有上架的商品才会在前台显示出来，客户是无法看到下架商品</p>
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <th>商品推荐：</th>
                         <td>
                             <label class="checkbox-inline"><input name="recommend" type="checkbox" value="1" @if($good->recommend == 1) checked @endif>推荐 </label>
                         </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <th>排序：</th>
                         <td>
@@ -198,7 +198,7 @@
                                                                 @if(isset($spec['imgs']) && count(json_decode($spec['imgs'])) > 0)
                                                                     @foreach (json_decode($spec['imgs']) as $img)
                                                                         <div class="pic pull-left">
-                                                                            <img class="img-thumbnail" style="margin-top:12px;margin-right:14px;width:160px;height:160px" src="{{ $img . '?x-oss-process=image/resize,w_160,h_160' }}" alt="{{ $img . '?x-oss-process=image/resize,w_160,h_160' }}">
+                                                                            <img class="img-thumbnail" style="margin-top:12px;margin-right:14px;width:160px;height:160px" src="{{ $img }}">
                                                                             <p class="text-center">
                                                                                 <a href="javascript:void(0);" class="del-good-spec-old-img">
                                                                                     <i class="operator fa fa-close" title="删除"></i>

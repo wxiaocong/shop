@@ -2,7 +2,6 @@ $(document).ready(function() {
     var loading = false;
     var maxSpec = parseInt($('#max_spec').val());
     var specId = parseInt($('#spec_id').val());
-    var promotionId = parseInt($('#promotion_id').val());
     var number = parseInt($('.num').val());
     var price = Number($('.sku_price span').text());
     $.post('/address/getExpressAddress',function(content){
@@ -64,37 +63,6 @@ $(document).ready(function() {
     changeSpec();
     //数量变更，如果有活动，符合条件更改价格
     function changeSpec(){
-        if(promotionId > 0) {
-            $.showLoading();
-            var specData = {'spec_id':$('#spec_id').val(), 'num':number};//请求数据
-            $.ajax({
-                url:  '/goods/changeNum',
-                data: specData,
-                type: 'post',
-                async: false,
-                dataType: 'json',
-                success: function(jsonObject) {
-                    $.hideLoading();
-                    if(jsonObject.award_value && jsonObject.promotion_number >= number){ //有活动
-                        var award =  JSON.parse(jsonObject.award_value);
-                        price = (parseInt(award.price)/100).toFixed(2);
-                        $('.sku_price del').html('');
-                    } else {
-                        if (jsonObject.award_value && jsonObject.promotion_number < number) {
-                            $('.sku_price del').html('活动价限购'+jsonObject.promotion_number+'件');
-                        }
-                        price = (parseInt(jsonObject.sell_price)/100).toFixed(2);
-                    }
-                    $('.sku_price span').html(price);
-                    maxSpec = parseInt(jsonObject.number || 0);//最大可售
-                    changeMoney();
-                },
-                error: function(xhr, type) {
-                    $.hideLoading();
-                    $.toast("数据异常,请重试", "cancel");
-                }
-             });
-        }
         changeMoney();
     }
     //金额变更

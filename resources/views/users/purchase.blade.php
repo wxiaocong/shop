@@ -36,7 +36,7 @@
             <h4 class="weui-media-box__title">{{ $goodsInfo->name }}</h4>
             <div class="weui-media-box__desc">
                 <div class="sku_price">
-                    ¥<span>{{ sprintf("%.2f",(empty($promotion) ? $goodsInfo->sell_price : $promotion->price)/100) }}</span>
+                    ¥<span>{{ sprintf("%.2f",($goodsInfo->sell_price)/100) }}</span>
                     <del></del>
                 </div>
                 <div class="sku">{{ floor($goodsInfo->weight) }}g</div>
@@ -52,10 +52,10 @@
                 <input class="num" type="tel" onkeypress="return event.keyCode>=48&&event.keyCode<=57" value="{{min($num,$goodsInfo->number)}}">
                 <span class="plus @if($num>=$goodsInfo->number) disabled @endif" ></span>
           </div>
-        </div>    
+        </div>
       </div>
     </div>
-    
+
     <div class="weui-form-preview">
       <div class="weui-form-preview__bd">
         <div class="weui-form-preview__item">
@@ -68,7 +68,7 @@
         </div>
       </div>
     </div>
-    
+
     <div id="operation">
         <a href="javascript:;" class="weui-btn weui-btn_default close-popup">实付款: ￥<span class="realPay"></span></a>
         @if ($maxSpec < 1)
@@ -101,7 +101,6 @@
   </div>
 </div>
 <input type="hidden" id="spec_id" value="{{$goodsInfo->id}}" />
-<input type="hidden" id="promotion_id" value="{{$goodsInfo->promotion_id ?? 0}}" />
 <input type="hidden" id="max_spec" value="{{$maxSpec}}" />
 <script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>

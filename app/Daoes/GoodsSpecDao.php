@@ -16,7 +16,6 @@ class GoodsSpecDao extends BaseDao {
 		//不显示积分商品 500
 		return GoodsSpec::join('category as c', 'goods_spec.category_parent_id', '=', 'c.id')
 			->where('goods_spec.state', 0)
-			->where('c.parent_id', '!=', 500)
 			->orderByRaw(DB::raw("IF(goods_spec.number>0,1,0) desc"))
 			->orderBy('sale_num', 'desc')
 			->orderBy('click', 'desc')

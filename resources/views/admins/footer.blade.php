@@ -11,7 +11,7 @@
         </aside>
         <!--顶部弹出菜单 结束-->
     </div>
-<script src="{{ elixir('js/52gai.js') }}"></script>
+<script src="{{ elixir('js/zda.js') }}"></script>
 <script src="{{ elixir('js/admins/nav.js') }}"></script>
 </body>
 </html>

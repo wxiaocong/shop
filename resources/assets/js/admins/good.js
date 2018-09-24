@@ -159,7 +159,7 @@ function createFileinput(className)
 	        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 	    },
 	    language: 'zh', //设置语言
-	    uploadUrl:'/fileUpload/uploadFile', //上传的地址
+	    uploadUrl:'/fileUpload/uploadLocalFile', //上传的地址
 	    allowedFileExtensions: ['jpg', 'gif', 'png'],//接收的文件后缀
 	    uploadExtraData:{'dataType': 'file'},
 	    uploadAsync: true, //默认异步上传

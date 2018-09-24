@@ -3,7 +3,7 @@
     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
     <div class="weui-search-bar__box">
       <i class="weui-icon-search"></i>
-      <input type="search" name="searchKey" value="{{$searchKey ?? ''}}" class="weui-search-bar__input" id="searchInput" placeholder="输入商品名称或料号" required="">
+      <input type="search" name="searchKey" value="{{$searchKey ?? ''}}" class="weui-search-bar__input" id="searchInput" placeholder="输入商品名称" required="">
       <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
     </div>
     <label class="weui-search-bar__label" id="searchText">

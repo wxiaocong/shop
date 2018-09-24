@@ -6,7 +6,7 @@
 	$.fn.cnFileUpload = function(options) {
 		var options = $.extend({
 			"fileTypes": imgCompressSuffix, // 文件类型，默认上传图片
-			"maxSize": 5120, // KB (5MB)，文件大小
+			"maxSize": 512, // KB (0.5MB)，文件大小
 			"url": "/fileUpload/uploadLocalFile", // 文件上传到服务器路径
 			// 这是压缩图片的参数，只要上传的是超额的图片，就一定会压缩
 			"imgMaxWidth": 1920, // 图片最大的宽度，如果上传的是图片的话，会因超过"maxSize"而进行压缩的宽度

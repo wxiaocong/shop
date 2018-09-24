@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\Users\UserService;
 use Closure;
 use EasyWeChat;
-use App\Services\Users\UserService;
 
 class UserAuth {
 	/**
@@ -15,7 +15,9 @@ class UserAuth {
 	 * @return mixed
 	 */
 	public function handle($request, Closure $next) {
-		session(array('user' => UserService::findByOpenid(1)));
+		if (!isWeixin()) {
+			session(array('user' => UserService::findByOpenid(1))); //测试
+		}
 		if (empty(session('user'))) {
 			$app = EasyWeChat::officialAccount();
 			$oauth = $app->oauth;

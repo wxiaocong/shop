@@ -24,6 +24,7 @@
                         @if ($userInfo->vip == 1)<i class="iconfont icon-shenqingchengweiVIP"></i>@endif
                         <span>{{$levelArr[$userInfo->level]}}</span>
                     </div>
+                    <div class="my-head-user">余额：{{ $userInfo->balance }}</div>
                 </div>
             </div>
         </div>
