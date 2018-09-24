@@ -83,10 +83,8 @@ class WeChatController extends Controller {
 								$template = config('templatemessage.orderPaySuccess');
 								$templateData = array(
 									'first' => '您好，您的订单已支付成功',
-									'keyword1' => '植得艾',
-									'keyword2' => '￥' . $result['cash_fee'] / 100,
-									'keyword3' => $pay_time,
-									'keyword4' => $orderInfo->order_sn,
+									'keyword1' => '￥' . $result['cash_fee'] / 100,
+									'keyword2' => $orderInfo->order_sn,
 									'remark' => '如有问题请联系客服,欢迎再次光临！',
 								);
 								WechatNoticeService::sendTemplateMessage($orderInfo->user_id, $orderInfo->openid, $orderSn, $template['template_id'], $templateData);
