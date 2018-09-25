@@ -134,7 +134,7 @@ if (!function_exists('isWeixin')) {
      */
     function isWeixin()
     {
-        if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
+        if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
             return true;
         }
         return false;
