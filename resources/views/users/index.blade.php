@@ -17,7 +17,7 @@
         <div class="wares-cont">
             <ul class="clearfix">
                 @forelse($recommends as $recommend)
-                <li class="col-sm-6 col-xs-6 ware-box">
+                <li class="ware-box">
                     <a href="\goods\{{$recommend->id}}">
                         <div class="ware-img">
                             @if(!empty($recommend->img))<img src="{{$recommend->img}}">@endif

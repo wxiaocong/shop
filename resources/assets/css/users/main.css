@@ -720,23 +720,25 @@ ul, ol, li{list-style-type: none;}
     background: #fff;
 }
 .index-wares .wares-cont .ware-box{
-    width: 49.6%;
+    width: 44%;
     float: left;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #f4f4f4;
+    margin-bottom: 16px;
+    border: 1px solid #d6cfcf;
+    margin-left: 4%;
+    padding-bottom: 6px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 .index-wares .wares-cont .ware-box:nth-child(2n+1){
     border-right: 1px solid #f4f4f4;
 }
 .index-wares .wares-cont .ware-box .ware-img{
     position: relative;
-    padding: 6px;
-    height:172px;
+    height:180px;
     text-align: center;
 }
 .index-wares .wares-cont .ware-box .ware-img img{
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
 }
 .index-wares .wares-cont .ware-box .ware-img .ware-vip{
     position: absolute;
@@ -748,9 +750,8 @@ ul, ol, li{list-style-type: none;}
     left: 0;
 }
 .index-wares .wares-cont .ware-box .ware-title{
-    font-size: 1.2rem;
+    font-size: 14px;
     line-height: 20px;
-    height: 20px;
     margin: 0;
     word-break: break-all;
     overflow: hidden;
@@ -758,6 +759,7 @@ ul, ol, li{list-style-type: none;}
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
+    padding: 5px;
 }
 .index-wares .wares-cont .ware-box .ware-des{
     margin: 0;
@@ -770,7 +772,8 @@ ul, ol, li{list-style-type: none;}
     text-overflow: ellipsis;
 }
 .index-wares .wares-cont .ware-box .ware-prince{
-    font-size: 1.1rem;
+    font-size: 13px;
+    padding-left: 5px;
 }
 /**theme-color**/
 .weui-tabbar__item.weui-bar__item--on .weui-tabbar__label,.weui-tabbar__item.weui-bar__item--on .weui-tabbar__icon>i {color: #e93b3d;}

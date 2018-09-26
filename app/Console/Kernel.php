@@ -6,24 +6,24 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel {
-	/**
-	 * The Artisan commands provided by your application.
-	 * * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
-	 * @var array
-	 */
-	protected $commands = [
-		'App\Console\Commands\AutoCancelOrder',
-		'App\Console\Commands\UserAutoUpgrade',
-	];
+    /**
+     * The Artisan commands provided by your application.
+     * * * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
+     * @var array
+     */
+    protected $commands = [
+        // 'App\Console\Commands\AutoCancelOrder',
+        // 'App\Console\Commands\UserAutoUpgrade',
+    ];
 
-	/**
-	 * Define the application's command schedule.
-	 *
-	 * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-	 * @return void
-	 */
-	protected function schedule(Schedule $schedule) {
-		$schedule->command('autoCancelOrder')->everyFiveMinutes();
-		$schedule->command('userAutoUpgrate')->daily();
-	}
+    /**
+     * Define the application's command schedule.
+     *
+     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @return void
+     */
+    protected function schedule(Schedule $schedule) {
+        // $schedule->command('autoCancelOrder')->everyFiveMinutes();
+        // $schedule->command('userAutoUpgrate')->daily();
+    }
 }

@@ -67,6 +67,7 @@
     font-size: 1rem;
 }
 .index-wares .wares-cont{
+    margin-top:12px;
     background-color:#f6f6f6;
 }
 #goods_list .ware-box{

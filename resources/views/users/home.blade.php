@@ -83,7 +83,7 @@
             </div>
             <div class="weui-cell__ft choose-des"></div>
         </a>
-        <a class="weui-cell weui-cell_access" href="#">
+        <a class="weui-cell weui-cell_access" href="/home/shareQrCode">
             <div class="weui-cell__bd">
                 <p class="choose-text"><i class="iconfont icon-erweima"></i> 我的二维码</p>
             </div>

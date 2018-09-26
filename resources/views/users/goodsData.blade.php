@@ -1,5 +1,5 @@
 @forelse ($goodsList as $val)
-<li class="col-sm-6 col-xs-6 ware-box">
+<li class="ware-box">
     <a href="/goods/{{ $val->id }}">
         <div class="ware-img">
             @if(!empty($val->img))<img src="{{$val->img}}" >@endif

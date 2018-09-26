@@ -102,6 +102,7 @@ Route::group(array('middleware' => array('web')), function () {
 		Route::post('/category/getGoodsList', 'CategoryController@getGoodsList');
 		Route::resource('/category', 'CategoryController');
 
+		Route::get('/home/shareQrCode', 'HomeController@shareQrCode');
 		Route::resource('/home', 'HomeController');
 
 		Route::post('/goods/search', 'GoodsController@search');
