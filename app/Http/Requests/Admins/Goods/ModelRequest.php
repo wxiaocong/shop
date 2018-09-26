@@ -10,7 +10,6 @@ use Illuminate\Contracts\Validation\Validator;
  *
  * This Request validate store/update model
  *
- * @author caopei@carnetmotor.com
  *
  */
 class ModelRequest extends Request

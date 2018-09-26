@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create pay_logs table
  *--------------------------------------------------------------------------
  *
- * @author wangcong(wangcong@carnetmotors.com)
  *
  */
 class CreatePayLogsTable extends Migration

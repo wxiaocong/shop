@@ -6,6 +6,30 @@ use App\Daoes\Users\UserDao;
 
 class UserService {
 	/**
+	 * 付款用户及上级级别变更
+	 */
+	public static function upgradeUserLevel($user_id) {
+	    $userInfo = UserDao::findById($id);
+	    if (!empty($userInfo)) {
+	        //游客下单付款升级艾达人
+	        if ($userInfo->level == 0) {
+	           UserDao::getById($user_id)->update(['level'=>1]);
+	        }
+	        //上级艾达人如果有5个下级艾达人，升级艾天使
+	        if ($userInfo->referee_id > 0) {
+	            $refereeInfo = UserDao::findById($userInfo->referee_id);
+	            if (!empty($refereeInfo) && $refereeInfo->level == 1) {
+	                //统计下级艾达人数量
+	                $lowerNum = UserDao::countLower($userInfo->referee_id);
+	                if ($lowerNum >= 5) {
+	                    //上级升级艾天使
+	                    UserDao::getById($userInfo->referee_id)->update(['level'=>2]);
+	                }
+	            }
+	        }
+	    }
+	}
+	/**
 	 * 根据openid查询用户
 	 * @param  string $openid
 	 *

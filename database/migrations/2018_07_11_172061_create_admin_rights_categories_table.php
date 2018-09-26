@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create admin_rights_categories table
  *--------------------------------------------------------------------------
  *
- * @author caopei(caopei@carnetmotor.com)
  *
  */
 class CreateAdminRightsCategoriesTable extends Migration

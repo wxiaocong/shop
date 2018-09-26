@@ -10,7 +10,6 @@ use Illuminate\Contracts\Validation\Validator;
  *
  * This Request validate store/update areas
  *
- * @author caopei@carnetmotor.com
  *
  */
 class AdminRightRequest extends Request

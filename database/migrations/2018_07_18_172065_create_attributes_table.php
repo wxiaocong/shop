@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create attributes table
  *--------------------------------------------------------------------------
  *
- * @author caopei(caopei@carnetmotors.com)
  *
  */
 class CreateAttributesTable extends Migration

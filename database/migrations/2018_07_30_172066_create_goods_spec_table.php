@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create goods_spec table
  *--------------------------------------------------------------------------
  *
- * @author caopei(caopei@carnetmotors.com)
  *
  */
 class CreateGoodsSpecTable extends Migration

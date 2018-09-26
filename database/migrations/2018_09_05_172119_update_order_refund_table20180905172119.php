@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * update users table
  *--------------------------------------------------------------------------
  *
- * @author wangcong(wangcong@carnetmotor.com)
  *
  */
 class UpdateOrderRefundTable20180905172119 extends Migration

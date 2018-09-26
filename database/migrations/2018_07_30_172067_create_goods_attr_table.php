@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create goods_attr table
  *--------------------------------------------------------------------------
  *
- * @author caopei(caopei@carnetmotors.com)
  *
  */
 class CreateGoodsAttrTable extends Migration

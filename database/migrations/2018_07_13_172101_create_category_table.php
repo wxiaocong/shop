@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create category table
  *--------------------------------------------------------------------------
  *
- * @author wangcong(wangcong@carnetmotors.com)
  *
  */
 class CreateCategoryTable extends Migration

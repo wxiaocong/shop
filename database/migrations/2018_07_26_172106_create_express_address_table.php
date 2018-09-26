@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create express_address table
  *--------------------------------------------------------------------------
  *
- * @author wangcong(wangcong@carnetmotors.com)
  *
  */
 class CreateExpressAddressTable extends Migration

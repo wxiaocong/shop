@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create order_refund table
  *--------------------------------------------------------------------------
  *
- * @author wangcong(wangcong@carnetmotors.com)
  *
  */
 class CreateOrderRefundTable extends Migration

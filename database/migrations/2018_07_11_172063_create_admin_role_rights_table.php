@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create admin_role_rights table
  *--------------------------------------------------------------------------
  *
- * @author caopei(caopei@carnetmotor.com)
  *
  */
 class CreateAdminRoleRightsTable extends Migration

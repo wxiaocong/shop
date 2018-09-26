@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create goods table
  *--------------------------------------------------------------------------
  *
- * @author wangcong(wangcong@carnetmotors.com)
  *
  */
 class CreateGoodsTable extends Migration

@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create models table
  *--------------------------------------------------------------------------
  *
- * @author caopei(caopei@carnetmotors.com)
  *
  */
 class CreateModelsTable extends Migration

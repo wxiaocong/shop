@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create areas table
  *--------------------------------------------------------------------------
  *
- * @author wangcong(wangcong@carnetmotors.com)
  *
  */
 class CreateAreasTable extends Migration

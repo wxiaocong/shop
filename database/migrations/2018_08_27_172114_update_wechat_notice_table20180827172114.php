@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * update wechat_notice table
  *--------------------------------------------------------------------------
  *
- * @author wangcong(wangcong@carnetmotor.com)
  *
  */
 class UpdateWechatNoticeTable20180827172114 extends Migration

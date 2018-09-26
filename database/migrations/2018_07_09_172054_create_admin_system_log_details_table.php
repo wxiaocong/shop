@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create admin_system_log_details table
  *--------------------------------------------------------------------------
  *
- * @author caopei(caopei@carnetmotor.com)
  *
  */
 class CreateAdminSystemLogDetailsTable extends Migration

@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create users table
  *--------------------------------------------------------------------------
  *
- * @author caopei(caopei@carnetmotor.com)
  *
  */
 class CreateUsersTable extends Migration

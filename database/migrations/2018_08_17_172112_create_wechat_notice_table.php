@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create wechat_notice table
  *--------------------------------------------------------------------------
  *
- * @author wangcong(wangcong@carnetmotors.com)
  *
  */
 class CreateWechatNoticeTable extends Migration

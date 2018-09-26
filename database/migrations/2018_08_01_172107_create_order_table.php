@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create order table
  *--------------------------------------------------------------------------
  *
- * @author wangcong(wangcong@carnetmotors.com)
  *
  */
 class CreateOrderTable extends Migration

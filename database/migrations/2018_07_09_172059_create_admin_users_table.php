@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create admin_users table
  *--------------------------------------------------------------------------
  *
- * @author caopei(caopei@carnetmotor.com)
  *
  */
 class CreateAdminUsersTable extends Migration

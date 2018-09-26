@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create promotions table
  *--------------------------------------------------------------------------
  *
- * @author caopei(caopei@carnetmotors.com)
  *
  */
 class CreatePromotionsTable extends Migration

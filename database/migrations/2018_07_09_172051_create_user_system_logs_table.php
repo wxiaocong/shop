@@ -8,7 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  * create user_system_logs table
  *--------------------------------------------------------------------------
  *
- * @author caopei(caopei@carnetmotor.com)
  *
  */
 class CreateUserSystemLogsTable extends Migration
