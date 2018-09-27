@@ -6,7 +6,38 @@
     </div>
 </header>
 <section class="zyw-container">
-    <img src="{{$imgSrc}}" sytle="position:fixed;width:100%;height:100%;">
+    <img src="{{$imgSrc}}" style="position:fixed;width:100%;height:100%;">
 </section>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript">
+if (isWeiXin()) {
+    wx.config({!!$shareConfig!!});
+    wx.ready(function () {
+        //分享到朋友圈
+        wx.onMenuShareTimeline({
+            title: "植得艾",
+            imgUrl: "{{env('APP_URL') . $imgSrc}}",
+            success: function () {
+                $.toast("分享成功", "text");
+            },
+            cancel: function () {
+                $.toast("取消分享", "text");
+            }
+        });
+        //发送给朋友
+        wx.onMenuShareAppMessage({
+            title: "植得艾",
+            desc: "我在植得艾发现了一个不错的商品，赶快来看看吧。",
+            imgUrl:  "{{env('APP_URL') . $imgSrc}}",
+            success: function () {
+                $.toast("分享成功", "text");
+            },
+            cancel: function () {
+                $.toast("取消分享", "text");
+            }
+        });
+    });
+}
+</script>
 </body>
 </html>

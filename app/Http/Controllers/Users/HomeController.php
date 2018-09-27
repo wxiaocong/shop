@@ -57,6 +57,12 @@ class HomeController extends Controller {
     //我的二维码
     public function shareQrCode() {
         $data['imgSrc'] = $this->getNewPic();
+        //生成分享配置
+        $data['shareConfig'] = '';
+        if (isWeixin()) {
+            $app = EasyWeChat::officialAccount();
+            $data['shareConfig'] = $app->jssdk->buildConfig(array('onMenuShareTimeline', 'onMenuShareAppMessage'), false);
+        }
         return view('users.shareQrCode', $data);
     }
 
@@ -88,22 +94,22 @@ class HomeController extends Controller {
         list($bigImgWidth, $bigImgHight, $bigImgType) = getimagesize($bigImgPath);
         list($qCodeWidth, $qCodeHight, $qCodeType) = getimagesize($ewmPath);
 
-        imagecopymerge($bigImg2, $qCodeImg, $bigImgWidth - $qCodeWidth - 44, $bigImgHight - $qCodeHight - 218, 0, 0, $qCodeWidth, $qCodeHight, 100);
+        imagecopymerge($bigImg2, $qCodeImg, ($bigImgWidth - $qCodeWidth)/2, $bigImgHight - $qCodeHight - 218, 0, 0, $qCodeWidth, $qCodeHight, 100);
 
         //合成文字
         $textFile = './shareImg/textImg/' . time() . '-' . $userId . '.png';
         $text = session('user')->nickname;
-        $block = imagecreatetruecolor(300, 200);
+        $block = imagecreatetruecolor(120, 100);
         $bg = imagecolorallocatealpha($block, 0, 0, 0, 127); //拾取一个完全透明的颜色
         $color = imagecolorallocate($block, 51, 51, 51); //字体拾色
         imagealphablending($block, false); //关闭混合模式
         imagefill($block, 0, 0, $bg); //填充
-        imagefttext($block, 24, 0, 10, 20, $color, './PingFang.ttc', $text);
+        imagefttext($block, 30, 0, 10, 36, $color, realpath('./PingFang.ttc'), $text);
         imagesavealpha($block, true); //设置保存PNG时保留透明通道信息
         imagepng($block, $textFile);
 
         $textFileImg = imagecreatefromstring(file_get_contents($textFile));
-        $this->imagecopymerge_alpha($bigImg2, $textFileImg, 160, $bigImgHight - 400, 0, 0, 300, 200, 100);
+        $this->imagecopymerge_alpha($bigImg2, $textFileImg, 210, $bigImgHight - 820, 0, 0, 120, 100, 100);
         switch ($bigImgType) {
         case 1: //gif
             imagegif($bigImg2, $file);

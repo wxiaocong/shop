@@ -15,7 +15,8 @@ use Session;
 
 class WeChatController extends Controller {
     //网页授权
-    public function oauthCallback() {
+    public function oauthCallback()
+    {
         $app = EasyWeChat::officialAccount();
         $oauth = $app->oauth;
         // 获取 OAuth 授权结果用户信息
@@ -46,7 +47,8 @@ class WeChatController extends Controller {
     }
 
     //微信支付通知
-    public function payNotice() {
+    public function payNotice()
+    {
         $app = EasyWeChat::payment();
         $response = $app->handlePaidNotify(function ($message, $fail) {
             //保存微信通知数据
@@ -125,7 +127,8 @@ class WeChatController extends Controller {
     /**
      * 模板消息通知
      */
-    public function templateMessageNotice() {
+    public function templateMessageNotice()
+    {
         $noticeId = intval(request('noticeId', 0));
         if ($noticeId) {
             return WechatNoticeService::findById($noticeId)->update(array('is_received' => 1));
@@ -136,7 +139,8 @@ class WeChatController extends Controller {
      * 退款通知
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function refundNotice() {
+    public function refundNotice()
+    {
         $app = EasyWeChat::payment();
         $response = $app->handleRefundedNotify(function ($message, $reqInfo, $fail) {
             //保存微信通知数据
@@ -155,4 +159,132 @@ class WeChatController extends Controller {
         return $response;
     }
 
+    /**
+     * 消息回复
+     * @return [type] [description]
+     */
+    public function response()
+    {
+        $app = EasyWeChat::officialAccount();
+        $app->server->push(function ($message) {
+            switch ($message['MsgType']) {
+                case 'event':
+                    if ($message['Event'] == 'subscribe') {
+                        //扫码事件, 创建用户建立上下级
+                        if (isset($message['EventKey'])) {
+                            $parentId = $message['EventKey'];
+                            $openid = $message['FromUserName'];
+                            //查询用户是否存在
+                            $userInfo = UserService::findByOpenid($openid);
+                            if(empty($userInfo)){
+                                UserService::saveOrUpdate($openid, ['referee_id'=>$parentId]);
+                            }
+                        }
+                        return '欢迎来到植得艾'
+                    }
+                    return '';
+                    break;
+                case 'text':
+                    return '';
+                    break;
+                case 'image':
+                    return '';
+                    break;
+                case 'voice':
+                    return '';
+                    break;
+                case 'video':
+                    return '';
+                    break;
+                case 'location':
+                    return '';
+                    break;
+                case 'link':
+                    return '';
+                    break;
+                case 'file':
+                    return '';
+                default:
+                    return '';
+                    break;
+            }
+        });
+        return $app->server->serve();
+    }
+
+
+    /**
+     * 获取永久素材列表
+     * @return [type] [description]
+     */
+    public function getMaterialList()
+    {
+        $app = EasyWeChat::officialAccount();
+        $res = $app->material->list('news', 0, 10);
+        dd($res);
+    }
+
+    /**
+     * 创建菜单
+     * @return [type] [description]
+     */
+    public function createMenu()
+    {
+        $app = EasyWeChat::officialAccount();
+        $buttons = [
+            [
+                "type" => "view",
+                "name" => "植·商城",
+                "url"  => "http://zda.youwangtong.com"
+            ],
+            [
+                "type" => "view",
+                "name" => "得·官网",
+                "url"  => "http://zda.youwangtong.com"
+            ],
+            [
+                "name"       => "艾·中心",
+                "sub_button" => [
+                    [
+                        "type" => "view",
+                        "name" => "植得艾·简介",
+                        "url"  => "http://mp.weixin.qq.com/s?__biz=MzI4MjY2MTEzMw==&mid=100000007&idx=1&sn=c6208da57c3c6f30a0e3013958355306&chksm=6b97d9655ce0507354acb673d069da9db54956da41342f1f439f58bb3741fd3dd52e0c629023&scene=18#wechat_redirect"
+                    ],
+                    [
+                        "type" => "view",
+                        "name" => "公司介绍",
+                        "url"  => "http://mp.weixin.qq.com/s?__biz=MzI4MjY2MTEzMw==&mid=100000019&idx=1&sn=95bfbd084f7be588b6be798b521d0092&chksm=6b97d9715ce050672a5eb3eeb9d312e4ea78016bb9d66ce350f61e8c6fdd401529e52474ded5&scene=18#wechat_redirect"
+                    ],
+                    [
+                        "type" => "view",
+                        "name" => "模式解析",
+                        "url" => "http://mp.weixin.qq.com/s?__biz=MzI4MjY2MTEzMw==&mid=100000021&idx=1&sn=8fdbc2bb2d346fd189c4d436eeb6bb70&chksm=6b97d9775ce050613f967e97b021f8115bb201ba3a490b099c8cbcf111acf691c70fecaaa24d&scene=18#wechat_redirect"
+                    ],
+                    [
+                        "type" => "media_id",
+                        "name" => "市场前景",
+                        "media_id" => "8OX3D9Djktvimem6-BdSjpiLGjMb1gXfotAbg5QTBSA"
+                    ],
+                    [
+                        "type" => "view",
+                        "name" => "产品分析",
+                        "url" => "http://mp.weixin.qq.com/s?__biz=MzI4MjY2MTEzMw==&mid=100000007&idx=1&sn=c6208da57c3c6f30a0e3013958355306&chksm=6b97d9655ce0507354acb673d069da9db54956da41342f1f439f58bb3741fd3dd52e0c629023&scene=18#wechat_redirect"
+                    ],
+                ],
+            ],
+        ];
+        $app->menu->create($buttons);
+    }
+
+
+    public function shareQrCode()
+    {
+        $userId = intval(request('id', 0));
+        $userInfo = UserService::findById($userId);
+        if (!empty($userInfo)) {
+            $data['imgSrc'] = env('APP_URL').'/shareImg/' . $userId . '.jpg';
+            return view('users.shareQrCode', $data);
+        }
+        abort(500, '不存在在分享链接');
+    }
 }
