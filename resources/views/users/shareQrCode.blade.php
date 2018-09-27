@@ -5,8 +5,8 @@
         <h1>我的推广二维码</h1>
     </div>
 </header>
-<section class="zyw-container">
-    <img src="{{$imgSrc}}" style="position:fixed;width:100%;height:100%;">
+<section class="zyw-container" style="padding-bottom:0;">
+    <img src="{{$imgSrc}}" style="width:100%;">
 </section>
 <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
