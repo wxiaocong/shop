@@ -44,6 +44,16 @@ class SystemDao extends BaseDao
     {
         return System::where('name', $name)->select('val')->first();
     }
+    
+    public static function getAll()
+    {
+        $res = System::get();
+        $result = array();
+        foreach ($res as $v) {
+            $result[$v->name] = $v->val;
+        }
+        return $result;
+    }
 
     /**
      * 判断某个字段是否已经存在某个值

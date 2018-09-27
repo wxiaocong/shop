@@ -20,21 +20,25 @@ class UserService {
             }
             //上级艾达人如果有5个下级艾达人，升级艾天使
             if ($userInfo->referee_id > 0) {
+                //系统参数
+                $system_param = SystemDao::getAll();
+                //上级信息
                 $refereeInfo = UserDao::findById($userInfo->referee_id);
                 if (!empty($refereeInfo)) {
                     if($refereeInfo->level == 1) {
                         //统计下级艾达人数量
                         $lowerNum = UserDao::countLower($userInfo->referee_id);
-                        if ($lowerNum >= 5) {
+                        $upgrade_need_num = $system_param['upgrade_need_num'];
+                        if ($lowerNum >= $upgrade_need_num) {
                             //上级升级艾天使
                             UserDao::getById($userInfo->referee_id)->update(['level'=>2]);
                         }
                     }
                     //提成金额
-                    $subordinate_sales_commission = SystemDao::findByName('subordinate_sales_commission');
+                    $subordinate_sales_commission = $system_param['subordinate_sales_commission'];
                     $vip_extra_bonus = 0;
                     if ($refereeInfo->vip) {
-                        $vip_extra_bonus = SystemDao::findByName('vip_extra_bonus');
+                        $vip_extra_bonus = $system_param['vip_extra_bonus'];
                     }
                     //上级奖励提成
                     if(UserDao::getById($refereeInfo->id)->increment('balance', ($subordinate_sales_commission+$vip_extra_bonus) * 100)) {
@@ -66,7 +70,7 @@ class UserService {
                     if ($refereeInfo->referee_id > 0) {
                         $firstInfo = UserDao::findById($refereeInfo->referee_id);
                         //提成金额
-                        $lowest_sales_commission = SystemDao::findByName('lowest_sales_commission');
+                        $lowest_sales_commission = $system_param['lowest_sales_commission'];
                         if(UserDao::getById($firstInfo->id)->increment('balance', $lowest_sales_commission * 100)) {
                             //写入支付记录
                             $payLogData = array(
