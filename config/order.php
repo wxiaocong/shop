@@ -22,7 +22,5 @@ return array(
     //已付款订单状态
     'paid_order' => array(
        2,3,4,8
-    ),
-    //活动限制提交订单库存倍数
-    'multipleLimit' =>  2
+    )
 );

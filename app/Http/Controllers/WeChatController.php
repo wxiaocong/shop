@@ -78,7 +78,7 @@ class WeChatController extends Controller {
                         if (OrderService::noticeUpdateOrder($orderInfo->id, $updateData)) {
                             //更新库存
                             GoodsSpecService::updateGoodsSpecNum($orderInfo->id);
-                            //用户级别变更
+                            //用户级别变更及销售奖励分配
                             UserService::upgradeUserLevel($orderInfo->user_id);
                             //微信通知
                             if ($orderInfo->openid) {

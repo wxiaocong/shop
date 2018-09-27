@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admins\System;
 
 use App\Http\Controllers\Controller;
+use App\Services\Admins\SystemService;
+use App\Http\Requests\Admins\System\SystemRequest;
 use App\Utils\Page;
 
 class SystemController extends Controller {
@@ -12,7 +14,7 @@ class SystemController extends Controller {
         $pageSize = trimSpace(request('pageSize', Page::PAGESIZE));
         $params['search'] = trimSpace(request('search', ''));
 
-        $page = AdminUserService::findByPageAndParams($curPage, $pageSize, $params);
+        $page = SystemService::findByPageAndParams($curPage, $pageSize, $params);
 
         return view('admins.system.systemList')
             ->with('search', $params['search'])
@@ -23,85 +25,33 @@ class SystemController extends Controller {
         return view('admins.system.editSystem');
     }
 
-    public function store(AdminUserRequest $request) {
-        $results = AdminUserService::saveOrUpdate();
-        $results['url'] = '/admin/adminUser';
+    public function store(SystemRequest $request) {
+        $results = SystemService::saveOrUpdate();
+        $results['url'] = '/admin/system';
         return response()->json($results);
     }
 
     public function edit($id) {
-        $adminUser = AdminUserService::findById($id);
-        if (!$adminUser) {
-            abort(400, '管理员不存在');
+        $param = SystemService::findById($id);
+        if (!$param) {
+            abort(400, '参数不存在');
         }
 
-        return view('admins.system.editAdminUser')
-            ->with('existRoleIds', $adminUser->roles->pluck('id')->all())
-            ->with('roles', AdminRoleService::findByParams())
-            ->with('user', $adminUser);
+        return view('admins.system.editSystem')->with('param', $param);
     }
 
-    public function update(AdminUserRequest $request, $id) {
-        $results = AdminUserService::saveOrUpdate();
-        $results['url'] = '/admin/adminUser';
+    public function update(SystemRequest $request, $id) {
+        $results = SystemService::saveOrUpdate();
+        $results['url'] = '/admin/system';
         return response()->json($results);
     }
 
     public function destroy($id) {
-        AdminUserService::destroy(array($id));
+        SystemService::destroy(array($id));
         return response()->json(array(
             'code' => 200,
             'messages' => array('删除成功'),
-            'url' => '/admin/adminUser',
-        ));
-    }
-
-    public function destroyAll() {
-        $ids = request('ids', array());
-        if (count($ids) == 0) {
-            return response()->json(array(
-                'code' => 500,
-                'messages' => array('参数错误'),
-                'url' => '',
-            ));
-        }
-
-        AdminUserService::destroy($ids);
-        return response()->json(array(
-            'code' => 200,
-            'messages' => array('删除成功'),
-            'url' => '/admin/adminUser',
-        ));
-    }
-
-    public function editPassword() {
-        return view('admins.system.adminUserEditPwd');
-    }
-
-    public function updatePassword() {
-        $oldPassword = trimSpace(clean(request('oldPassword', '')));
-        $password = trimSpace(clean(request('password', '')));
-        $oldPassword = RSA::decrypt($oldPassword);
-        $password = RSA::decrypt($password);
-
-        $adminUser = session('adminUser');
-        if (!Hash::check(env('ADMIN_PASSWORD_SALT') . $oldPassword, $adminUser->password)) {
-            return response()->json(
-                array(
-                    'code' => 500,
-                    'messages' => array('原密码不正确'),
-                    'url' => '',
-                )
-            );
-        }
-
-        $adminUser->password = Hash::make(env('ADMIN_PASSWORD_SALT') . $password);
-        AdminUserService::update($adminUser);
-
-        return response()->json(array(
-            'code' => 200,
-            'messages' => array('修改密码成功'),
-            'url' => '/admin/logout',
+            'url' => '/admin/system',
         ));
     }
 }

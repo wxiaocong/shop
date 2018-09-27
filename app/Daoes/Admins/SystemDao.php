@@ -8,6 +8,11 @@ use App\Utils\Page;
 
 class SystemDao extends BaseDao
 {
+    public static function findById($id)
+    {
+        return System::find($id);
+    }
+    
     /**
      * 分页查询
      * @param  int $curPage
@@ -35,15 +40,9 @@ class SystemDao extends BaseDao
      *
      * @return array
      */
-    public static function findByParams($params)
+    public static function findByName($name)
     {
-        $builder = System::select();
-
-        if (array_key_exists('ids', $params) && count($params['ids']) > 0) {
-            $builder->whereIn('id', $params['ids']);
-        }
-
-        return $builder->get();
+        return System::where('name', $name)->select('val')->first();
     }
 
     /**
@@ -67,5 +66,10 @@ class SystemDao extends BaseDao
         }
 
         return false;
+    }
+    
+    public static function destroy($id)
+    {
+        System::destroy($id);
     }
 }

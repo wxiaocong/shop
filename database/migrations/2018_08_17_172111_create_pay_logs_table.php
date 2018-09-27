@@ -27,7 +27,7 @@ class CreatePayLogsTable extends Migration
 
             $table->integer('user_id')->comment('用户id');
             $table->string('openid', 50)->default('')->comment('微信openid');
-            $table->tinyInteger('pay_type')->default(1)->comment('1订单付款,2用户充值,3后台充值,4退款');
+            $table->tinyInteger('pay_type')->default(1)->comment('1订单付款,2用户充值,3后台充值,4退款,5下级销售提成,6下下级销售提成,7VIP奖励');
             $table->integer('gain')->default(0)->comment('收入(分)');
             $table->integer('expense')->default(0)->comment('支出');
             $table->integer('balance')->default(0)->comment('余额');

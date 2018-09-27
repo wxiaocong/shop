@@ -27,9 +27,9 @@ class SystemService
      *
      * @return array
      */
-    public static function findByParams($params = array())
+    public static function findByName($name)
     {
-        return SystemDao::findByParams($params);
+        return SystemDao::findByName($name);
     }
 
     /**
@@ -56,6 +56,7 @@ class SystemService
         $id       = trimSpace(request('id', 0));
         $name     = trimSpace(clean(request('name', '')));
         $val     = trimSpace(clean(request('val', '')));
+        $desc     = trimSpace(clean(request('desc', '')));
         if (SystemDao::existColumn('name', $name, $id)) {
             return array(
                 'code'     => 500,
@@ -74,11 +75,13 @@ class SystemService
                     'url'      => '',
                 );
             }
-            $user->updated_at = date('Y-m-d H:i:s');
+            $param->updated_at = date('Y-m-d H:i:s');
         }
         $param->name = $name;
-        $param->val      = trimSpace(clean(request('val', '')));
-        if (!$param) {
+        $param->val = $val;
+        $param->desc = $desc;
+        $system = SystemDao::save($param, session('adminUser')->id);
+        if (!$system) {
             return array(
                 'code'     => 500,
                 'messages' => array('系统参数保存失败'),
@@ -90,5 +93,15 @@ class SystemService
             'messages' => array('系统参数保存成功'),
             'url'      => '',
         );
+    }
+    
+    /**
+     * @param  array $ids
+     *
+     * @return boolean
+     */
+    public static function destroy($id)
+    {
+        return SystemDao::destroy($id);
     }
 }

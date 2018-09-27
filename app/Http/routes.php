@@ -32,6 +32,7 @@ Route::group(array('middleware' => array('web')), function () {
 	Route::post('/admin/login', 'Admins\LoginController@login');
 	Route::group(array('namespace' => 'Admins', 'middleware' => array('adminLoginAuth', 'adminRightAuth', 'adminMenuSelect')), function () {
 		Route::resource('/admin/home', 'HomeController');
+		Route::resource('/admin/system','System\SystemController');
 
 		//category
 		Route::get('/admin/goods/category/{id}/findByParentId', 'Goods\CategoryController@findByParentId');
