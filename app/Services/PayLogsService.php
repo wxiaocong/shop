@@ -33,4 +33,15 @@ class PayLogsService
     {
         return PayLogsDao::findByParams($params);
     }
+    
+    /**
+     * 分页查询
+     * @param  array $params
+     *
+     * @return array
+     */
+    public static function findByPage($curPage, $pageSize, $params)
+    {
+        return PayLogsDao::findByPage($curPage, $pageSize, $params);
+    }
 }

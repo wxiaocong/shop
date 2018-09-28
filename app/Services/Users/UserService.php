@@ -192,4 +192,13 @@ class UserService {
             'url' => '',
         );
     }
+    
+    /**
+     * 获取团队数据
+     * @param unknown $type
+     */
+    public static function getTeam($type)
+    {
+        return UserDao::getTeam($type);
+    }
 }

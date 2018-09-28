@@ -157,4 +157,17 @@ class UserDao extends BaseDao {
 
         return new Page($builder->paginate($pageSize, array('*'), 'page', $curPage));
     }
+    
+    /**
+     * 获取团队数据
+     * @param unknown $type
+     */
+    public static function getTeam($type)
+    {
+        $build =  User::where('referee_id', session('user')->id);
+        if ($type > 0) {
+            $build->where('level', $type-1);
+        }
+        return $build->get();
+    }
 }

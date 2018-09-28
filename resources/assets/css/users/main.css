@@ -722,11 +722,11 @@ ul, ol, li{list-style-type: none;}
 .index-wares .wares-cont .ware-box{
     width: 44%;
     float: left;
-    margin-bottom: 16px;
+    margin-top: 12px;
     border: 1px solid #d6cfcf;
     margin-left: 4%;
     padding-bottom: 6px;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    box-shadow: 0 4px 8px 0 rgba(111, 107, 107, 0.2), 0 6px 20px 0 rgba(251, 247, 247, 0.19);
 }
 .index-wares .wares-cont .ware-box:nth-child(2n+1){
     border-right: 1px solid #f4f4f4;
@@ -760,6 +760,7 @@ ul, ol, li{list-style-type: none;}
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     padding: 5px;
+    height: 29px;
 }
 .index-wares .wares-cont .ware-box .ware-des{
     margin: 0;

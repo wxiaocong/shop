@@ -103,7 +103,10 @@ Route::group(array('middleware' => array('web')), function () {
         Route::post('/category/getGoodsList', 'CategoryController@getGoodsList');
         Route::resource('/category', 'CategoryController');
 
+        Route::get('/home/myTeam/{type}', 'HomeController@myTeam');
         Route::get('/home/shareQrCode', 'HomeController@shareQrCode');
+        Route::get('/home/fund/{payType}', 'HomeController@fund');
+        Route::post('/home/getData', 'HomeController@getData');
         Route::resource('/home', 'HomeController');
 
         Route::post('/goods/search', 'GoodsController@search');

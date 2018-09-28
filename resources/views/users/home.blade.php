@@ -56,14 +56,14 @@
         </a>
     </div>
     <div class="home-cont weui-cells" style="margin-bottom:56px;">
-        <a class="weui-cell weui-cell_access" href="#">
+        <a class="weui-cell weui-cell_access" href="/home/fund/0">
             <div class="weui-cell__bd">
                 <p class="choose-text"><i class="iconfont icon-zijinzouxiang"></i> 资金管理</p>
             </div>
             <div class="weui-cell__ft choose-des">
             </div>
         </a>
-        <a class="weui-cell weui-cell_access" href="#">
+        <a class="weui-cell weui-cell_access" href="/home/myTeam/0">
             <div class="weui-cell__bd">
                 <p class="choose-text"><i class="iconfont icon-tuandui"></i> 我的团队</p>
             </div>

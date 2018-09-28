@@ -180,7 +180,7 @@ class WeChatController extends Controller {
                                 UserService::saveOrUpdate($openid, ['referee_id'=>$parentId]);
                             }
                         }
-                        return '欢迎来到植得艾'
+                        return '欢迎来到植得艾';
                     }
                     return '';
                     break;

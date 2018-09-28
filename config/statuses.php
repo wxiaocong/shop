@@ -186,6 +186,9 @@ return array(
                 'text' => 'vip额外奖励'
             )
         ),
+        'pageType' => array(
+             'fund' => array(5,6,7)
+        )
     ),
     'user' => array(
         'state' => array(
@@ -203,6 +206,12 @@ return array(
             '1' => '艾达人',
             '2' => '艾天使',
         ),
+        'levelType' => array(
+            '0' => '全部',
+            '1' => '游客',
+            '2' => '艾达人',
+            '3' => '艾天使'
+        )
     ),
     'adminRight' => array(
         'showMenu' => array(

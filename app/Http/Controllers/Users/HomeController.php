@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Users;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\UsersRequest;
 use App\Services\Users\UserService;
+use App\Services\PayLogsService;
 use EasyWeChat;
 use Session;
+use App\Utils\Page;
 
 class HomeController extends Controller {
     public function index() {
@@ -53,9 +55,47 @@ class HomeController extends Controller {
             ));
         }
     }
+    
+    //资金记录
+    public function fund()
+    {
+        $data['pageSize'] = Page::PAGESIZE;
+        $data['payType']= intval(request('payType', 0));
+        return view('users.fund', $data);
+    }
+    
+    //获取资金记录列表数据
+    public function getData() {
+        $param['userId'] = session('user')->id;
+        $param['payType'] = intval(request('payType', 0));
+        $param['orderBy'] = array('id' => 'desc');
+        $param['pageType'] = config('statuses.payLog.pageType.fund');
+        
+        $curPage = trimSpace(request('curPage', 1));
+        $pageSize = trimSpace(request('pageSize', Page::PAGESIZE));
+        
+        $data['fundList'] = PayLogsService::findByPage($curPage, $pageSize, $param);
+        $data['payTypeArr'] = array_column(config('statuses.payLog.payType'),'text','code');
+        return view('users.fundData', $data);
+    }
+    
+    //我的团队
+    public function myTeam() {
+        $data['teamType'] = $type = intval(request('type'));
+        $levelType = config('statuses.user.levelType');
+        if (in_array($type, array_keys($levelType))) {
+            $data['team'] = UserService::getTeam($type);
+        }
+        $data['levelState'] = config('statuses.user.levelState');
+        return view('users.team', $data);
+    }
 
     //我的二维码
     public function shareQrCode() {
+        $userInfo = UserService::findById(session('user')->id);
+        if ($userInfo->level < 1) {
+            abort('500', '您是游客，没有推荐权限，请先购买商品升级艾达人');
+        }
         $data['imgSrc'] = $this->getNewPic();
         //生成分享配置
         $data['shareConfig'] = '';

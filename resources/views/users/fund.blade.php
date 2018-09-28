@@ -16,23 +16,45 @@
 .media-object{
     display:inline;
 }
+.table{
+    background: #fff;
+    text-align: center;
+}
+.table>thead>tr>th {
+    font-weight: normal;
+    text-align: center;
+    border-bottom:none;
+}
 </style>
 <header class="zyw-header">
     <div class="zyw-container white-color">
         <div class="head-l"><a href="javascript:{{$_COOKIE['lastRecord'] ?? "self.location='/'"}};" target="_self"><i class="iconfont icon-fanhui1"></i></a></div>
-        <h1>订单列表</h1>
+        <h1>收入明细</h1>
     </div>
 </header>
 <section class="zyw-container">
     <div class="weui-tab">
         <div class="weui-navbar">
-            <a href="/order?order_type={{$k}}" class="weui-navbar__item @if($orderType == $k) weui-bar__item--on @endif">销售提成</a>
-            <a href="/order?order_type={{$k}}" class="weui-navbar__item @if($orderType == $k) weui-bar__item--on @endif">下级奖励</a>
-            <a href="/order?order_type={{$k}}" class="weui-navbar__item @if($orderType == $k) weui-bar__item--on @endif">邀请奖励</a>
+            <a href="/home/fund/0" class="weui-navbar__item @if($payType == 0) weui-bar__item--on @endif">全部</a>
+            <a href="/home/fund/5" class="weui-navbar__item @if($payType == 5) weui-bar__item--on @endif">销售提成</a>
+            <a href="/home/fund/6" class="weui-navbar__item @if($payType == 6) weui-bar__item--on @endif">下级奖励</a>
+            <a href="javascript:;" class="weui-navbar__item">邀请奖励</a>
         </div>
         <div class="weui-tab__bd">
             <div class="order-group">
-            
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>下单者</th>
+                      <th>赚取</th>
+                      <th>收入方式</th>
+                      <th>时间</th>
+                    </tr>
+                  </thead>
+                  <tbody id="fundData">
+                  
+                  </tbody>
+                </table>
             </div>
         </div>
         <div class="weui-loadmore">
@@ -49,7 +71,7 @@ var curPage = 1;
 var loading = false;
 var loadMore = true;
 
-changeData({{$orderType}});//初始数据
+changeData({{$payType}});//初始数据
 
 //加载更多
 $(document.body).infinite().on("infinite", function() {
@@ -58,76 +80,18 @@ $(document.body).infinite().on("infinite", function() {
   changeData($('.weui-bar__item--on').attr('data'));
 });
 
-// 取消订单
-function cancelOrder(){
-    $('.order-group').on('click','.cancel_order',function(){
-        var orderSn = $(this).attr('data');
-        $.confirm({
-            title: '订单取消提示',
-            text: '确定取消订单吗?',
-            onOK: function () {
-                $.ajax({
-                    url:  '/order/cancle',
-                    data: {order_sn:orderSn},
-                    type: 'post',
-                    dataType: 'json',
-                    success: function(jsonObject) {
-                        if (jsonObject.code == 200) {
-                            $.toast(jsonObject.messages);
-                            setTimeout(function(){
-                                window.location.reload();
-                            },1000);
-                         } else {
-                             $.toast(jsonObject.messages, "forbidden");
-                         }
-                    }
-                })
-            }
-        });
-    })
-}
-//确认收货
-function confirmReceipt(){
-    $('.order-group').on('click','.confirm_recipt',function(){
-        var orderSn = $(this).attr('data');
-        $.confirm({
-            title: '订单确认收货提示',
-            text: '确认收到货了吗?',
-            onOK: function () {
-                $.ajax({
-                    url:  '/order/confirmReceipt',
-                    data: {order_sn:orderSn},
-                    type: 'post',
-                    dataType: 'json',
-                    success: function(jsonObject) {
-                        if (jsonObject.code == 200) {
-                            $.toast(jsonObject.messages);
-                            setTimeout(function(){
-                                window.location.reload();
-                            },1000);
-                         } else {
-                             $.toast(jsonObject.messages, "forbidden");
-                         }
-                    }
-                })
-            }
-        });
-    });
-}
 //切换
-function changeData(order_type){
+function changeData(payType){
     if(loadMore) {
         $('.weui-loadmore__tips').html('正在加载');
         $.ajax({
-            url: '/order/getData',
+            url: '/home/getData',
             type: 'POST',
-            data:{order_type:order_type,curPage:curPage},
+            data:{payType:payType,curPage:curPage},
             success: function(content) {
                 if(content.length > 0) {
-                    $('.order-group').append(content);
-                    cancelOrder();
-                    confirmReceipt();
-                } 
+                    $('#fundData').append(content);
+                }
                 if($('.order-group .order-group-item').length < {{$pageSize}}*curPage) {
                     loadMore = false;
                     $('.weui-loading').hide();
@@ -135,16 +99,6 @@ function changeData(order_type){
                 }
                 curPage += 1;
                 loading = false;
-
-                var swiper = new Swiper('.swiper-container', {
-                    slidesPerView: 4,
-                    spaceBetween: 20,
-                    freeMode: true,
-                    pagination: {
-                      el: '.swiper-pagination',
-                      clickable: true,
-                    },
-                });
             }
         });
     }
