@@ -30,16 +30,6 @@
 		<caption>
 			<form action="{{ url('/admin/user') }}" method="get" class="pull-right form-inline page-form" style="margin:0">
 				<input type="hidden" value="1" class="curPage" name="curPage">
-				是否商家用户<select class="form-control" name="isBusiness">
-					<option value="0">选择</option>
-					<option value="1" @if($isBusiness == 1) selected @endif>商家用户</option>
-					<option value="2" @if($isBusiness == 2) selected @endif>个人用户</option>
-				</select>&nbsp;&nbsp;
-				是否绑定微信<select class="form-control" name="isBind">
-					<option value="0">选择</option>
-					<option value="1" @if($isBind == 1) selected @endif>是</option>
-					<option value="2" @if($isBind == 2) selected @endif>否</option>
-				</select>
 				&nbsp;&nbsp;<input class="form-control" name="search" type="text" value="@if(isset($search) && $search != '') {{ $search }} @endif" placeholder="昵称/手机号码" >
 				<button class="btn btn-default" type="submit">
 				    <i class="fa fa-search"></i>搜 索
@@ -53,10 +43,6 @@
 				<th>性别</th>
 				<th>联系地址</th>
 				<th>余额</th>
-				<th>是否商家用户</th>
-				<th>最后登录时间</th>
-				<th>最后登录IP</th>
-				<th>是否绑定微信</th>
 				<th>状态</th>
 				<th>操作</th>
 			</tr>
@@ -81,10 +67,6 @@
 						{{ $data->address }}
 					</td>
 					<td>{{ round($data->balance/100,2) }}</td>
-					<td>@if ($data->is_business == 1) 商家用户 @else 个人用户 @endif</td>
-					<td>{{ $data->last_time }}</td>
-					<td>{{ $data->last_ip }}</td>
-					<td>@if (isset($data->wechatUser)) 是 @else 否 @endif</td>
 					<td>
 						<input type="hidden" value="{{ $data->id }}" />
 						<select class="input-sm user-list-state">

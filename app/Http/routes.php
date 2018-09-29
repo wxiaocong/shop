@@ -132,13 +132,21 @@ Route::group(array('middleware' => array('web')), function () {
         Route::get('/address/setDefault', 'ExpressAddressController@setDefault');
         Route::post('/address/getExpressAddress', 'ExpressAddressController@getExpressAddress');
         Route::resource('/address', 'ExpressAddressController');
+
+        Route::get('/login/logout', 'LoginController@logout');
+        Route::get('/login/showLog', 'LoginController@showLog');
+        Route::get('/login/clearLog', 'LoginController@clearLog');
+        Route::get('/login/showNotify', 'LoginController@showNotify');
+        Route::resource('/login', 'LoginController');
     });
+
     //分享二维码
     Route::any('/wechat/shareQrCode/{id}', 'WeChatController@shareQrCode');
     Route::any('/wechat/oauthCallback', 'WeChatController@oauthCallback');
 });
 
 Route::group(array('middleware' => array('api')), function () {
+	Route::any('/wechat/refundOrder', 'WeChatController@refundOrder');
     Route::any('/wechat/payNotice', 'WeChatController@payNotice');
     Route::any('/wechat/refundNotice', 'WeChatController@refundNotice');
     // Route::any('/wechat/templateMessageNotice/{noticeId}');

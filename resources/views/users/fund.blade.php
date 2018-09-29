@@ -25,7 +25,7 @@
         <div class="weui-tab__bd">
             <div class="order-group">
                 <div class="order-group-item clearfix">
-                    <div class="team-item">余额：{{$userInfo->balance}}</div>
+                    <div class="team-item">余额：{{sprintf("%.2f", $userInfo->balance/100)}}</div>
                     <div class="pay-button">
                         <button type="button" class="btn btn-success">充值</button>
                         <button type="button" class="btn btn-warning">提现</button>

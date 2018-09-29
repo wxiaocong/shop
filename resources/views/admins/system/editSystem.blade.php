@@ -81,13 +81,13 @@ $('.edit-admin-user-form').validate({
     rules: {
         name: {
             required: true,
-            maxlength: 20
+            maxlength: 60
         }
     },
     messages: {
         name: {
             required: '参数名不能为空',
-            maxlength: '参数名最多20个字符'
+            maxlength: '参数名最多60个字符'
         }
     }
 });

@@ -16,15 +16,11 @@ class UserController extends Controller
         $curPage              = trimSpace(request('curPage', 1));
         $pageSize             = trimSpace(request('pageSize', Page::PAGESIZE));
         $params['search']     = trimSpace(request('search', ''));
-        $params['isBind']     = trimSpace(request('isBind', 0));
-        $params['isBusiness'] = trimSpace(request('isBusiness', 0));
 
         $page = UserService::findByPageAndParams($curPage, $pageSize, $params);
         return view('admins.member.users')
             ->with('page', $page)
-            ->with('search', $params['search'])
-            ->with('isBind', $params['isBind'])
-            ->with('isBusiness', $params['isBusiness']);
+            ->with('search', $params['search']);
     }
 
     public function wechatUserIndex()

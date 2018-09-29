@@ -39,6 +39,7 @@ class WeChatController extends Controller {
                 'sex' => $user['sex'],
             );
             UserService::saveOrUpdate($openid, $wechatUserData);
+            session::forget('user');
             session(array('user' => UserService::findByOpenid($openid)));
         }
         $targetUrl = empty(session('target_url')) ? config('app.url') : session('target_url');
@@ -82,17 +83,6 @@ class WeChatController extends Controller {
                             GoodsSpecService::updateGoodsSpecNum($orderInfo->id);
                             //用户级别变更及销售奖励分配
                             UserService::upgradeUserLevel($orderInfo->user_id);
-                            //微信通知
-                            if ($orderInfo->openid) {
-                                $template = config('templatemessage.orderPaySuccess');
-                                $templateData = array(
-                                    'first' => '您好，您的订单已支付成功',
-                                    'keyword1' => '￥' . $result['cash_fee'] / 100,
-                                    'keyword2' => $orderInfo->order_sn,
-                                    'remark' => '如有问题请联系客服,欢迎再次光临！',
-                                );
-                                WechatNoticeService::sendTemplateMessage($orderInfo->user_id, $orderInfo->openid, $orderSn, $template['template_id'], $templateData);
-                            }
                             //写入支付记录
                             $payLogData = array(
                                 'user_id' => $orderInfo->user_id,
@@ -106,6 +96,17 @@ class WeChatController extends Controller {
                             PayLogsService::store($payLogData);
 
                             DB::commit();
+                            //微信通知
+                            if ($orderInfo->openid) {
+                                $template = config('templatemessage.orderPaySuccess');
+                                $templateData = array(
+                                    'first' => '您好，您的订单已支付成功',
+                                    'keyword1' => '￥' . $result['cash_fee'] / 100,
+                                    'keyword2' => $orderInfo->order_sn,
+                                    'remark' => '如有问题请联系客服,欢迎再次光临！',
+                                );
+                                WechatNoticeService::sendTemplateMessage($orderInfo->user_id, $orderInfo->openid, $orderSn, $template['template_id'], $templateData);
+                            }
                             return true;
                         } else {
                             DB::rollback();
@@ -193,7 +194,6 @@ class WeChatController extends Controller {
                                     'sex' => $user['sex'],
                                 );
                                 UserService::saveOrUpdate($openid, $wechatUserData);
-                                session(array('user' => UserService::findByOpenid($openid)));
                             }
                         }
                         return '欢迎来到植得艾';
@@ -292,6 +292,10 @@ class WeChatController extends Controller {
         $app->menu->create($buttons);
     }
 
+    public function refundOrder() {
+        OrderRefundService::wechatRefundByTransactionId('4200000179201809290617034935', '20180929202117100100102920230320' . time(), 19800, 19800);
+    }
+
     //我的二维码
     public function shareQrCode() {
         $userId = intval(request('id', 0));
@@ -320,7 +324,7 @@ class WeChatController extends Controller {
             return view('users.shareQrCode', $data);
         }
     }
-    
+
     //图片合成
     public function getNewPic() {
         $bigImgPath = './images/users/bg.jpg';
@@ -349,22 +353,22 @@ class WeChatController extends Controller {
         list($bigImgWidth, $bigImgHight, $bigImgType) = getimagesize($bigImgPath);
         list($qCodeWidth, $qCodeHight, $qCodeType) = getimagesize($ewmPath);
         
-        imagecopymerge($bigImg2, $qCodeImg, ($bigImgWidth - $qCodeWidth)/2, $bigImgHight - $qCodeHight - 218, 0, 0, $qCodeWidth, $qCodeHight, 100);
+        imagecopymerge($bigImg2, $qCodeImg, ($bigImgWidth - $qCodeWidth)/2, ($bigImgHight - $qCodeHight)/2, 0, 0, $qCodeWidth, $qCodeHight, 100);
         
         //合成文字
         $textFile = './shareImg/textImg/' . time() . '-' . $userId . '.png';
-        $text = session('user')->nickname;
-        $block = imagecreatetruecolor(120, 100);
+        $text = mb_substr(session('user')->nickname, 0, 10);
+        $block = imagecreatetruecolor(600, 100);
         $bg = imagecolorallocatealpha($block, 0, 0, 0, 127); //拾取一个完全透明的颜色
         $color = imagecolorallocate($block, 51, 51, 51); //字体拾色
         imagealphablending($block, false); //关闭混合模式
         imagefill($block, 0, 0, $bg); //填充
-        imagefttext($block, 30, 0, 10, 36, $color, realpath('./PingFang.ttc'), $text);
+        imagefttext($block, 40, 0, (600-mb_strlen($text)*45)/2, 50, $color, realpath('./PingFang.ttc'), $text);
         imagesavealpha($block, true); //设置保存PNG时保留透明通道信息
         imagepng($block, $textFile);
         
         $textFileImg = imagecreatefromstring(file_get_contents($textFile));
-        $this->imagecopymerge_alpha($bigImg2, $textFileImg, 210, $bigImgHight - 820, 0, 0, 120, 100, 100);
+        $this->imagecopymerge_alpha($bigImg2, $textFileImg, ($bigImgWidth - 600)/2, 860, 0, 0, 600, 100, 100);
         switch ($bigImgType) {
             case 1: //gif
                 imagegif($bigImg2, $file);

@@ -91,6 +91,12 @@
             </div>
             <div class="weui-cell__ft choose-des"></div>
         </a>
+        <a class="weui-cell weui-cell_access" href="/login/logout">
+            <div class="weui-cell__bd">
+                <p class="choose-text"><i class="iconfont icon-tuichu"></i> 退出登录</p>
+            </div>
+            <div class="weui-cell__ft choose-des"></div>
+        </a>
     </div>
 </section>
 @include('users.inc.footer')

@@ -82,6 +82,7 @@ class UserService {
                                 'balance' => $firstInfo->balance + $lowest_sales_commission*100,
                                 'order_id' => $refereeInfo->id,
                             );
+                            PayLogsService::store($payLogData);
                         }
                     }
                 }

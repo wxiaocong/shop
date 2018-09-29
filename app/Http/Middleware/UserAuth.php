@@ -17,12 +17,16 @@ class UserAuth {
 	public function handle($request, Closure $next) {
 		if (!isWeixin()) {
 			session(array('user' => UserService::findByOpenid(1))); //测试
-		}
-		if (empty(session('user'))) {
-			$app = EasyWeChat::officialAccount();
-			$oauth = $app->oauth;
-			session(array('target_url' => url()->full()));
-			return $oauth->redirect();
+		} else {
+			if (!empty(session('user'))) {
+				$userInfo = UserService::findById(session('user')->id);
+			}
+			if (empty(session('user')) || empty($userInfo)) {
+				$app = EasyWeChat::officialAccount();
+				$oauth = $app->oauth;
+				session(array('target_url' => url()->full()));
+				return $oauth->redirect();
+			}
 		}
 		return $next($request);
 	}
