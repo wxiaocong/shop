@@ -28,7 +28,7 @@ class User extends Model {
 	 *  The attributes that are mass assignable
 	 * @var array
 	 */
-	protected $fillable = ['mobile', 'openid', 'headimgurl', 'nickname', 'subscribe', 'subscribe_time', 'city', 'province', 'country', 'sex'];
+	protected $fillable = ['referee_id', 'mobile', 'openid', 'headimgurl', 'nickname', 'subscribe', 'subscribe_time', 'city', 'province', 'country', 'balance','sex','level','vip'];
 	/**
 	 * The column used by SoftDeletes.
 	 *
@@ -43,41 +43,5 @@ class User extends Model {
 	 */
 	public function expressAddress() {
 		return $this->hasMany('App\Models\Users\ExpressAddress');
-	}
-
-	/**
-	 * Get the relational models of Areas.
-	 *
-	 * @return App\Models\Areas
-	 */
-	public function provinceObj() {
-		return $this->belongsTo('App\Models\Areas', 'province', 'id');
-	}
-
-	/**
-	 * Get the relational models of Areas.
-	 *
-	 * @return App\Models\Areas
-	 */
-	public function cityObj() {
-		return $this->belongsTo('App\Models\Areas', 'city', 'id');
-	}
-
-	/**
-	 * Get the relational models of Areas.
-	 *
-	 * @return App\Models\Areas
-	 */
-	public function areaObj() {
-		return $this->belongsTo('App\Models\Areas', 'area', 'id');
-	}
-
-	/**
-	 * Get the relational models of Areas.
-	 *
-	 * @return App\Models\Areas
-	 */
-	public function companyProvinceObj() {
-		return $this->belongsTo('App\Models\Areas', 'company_province', 'id');
 	}
 }

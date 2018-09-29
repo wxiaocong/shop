@@ -16,7 +16,7 @@ if (isWeiXin()) {
         //分享到朋友圈
         wx.onMenuShareTimeline({
             title: "植得艾",
-            imgUrl: "{{env('APP_URL') . $imgSrc}}",
+            imgUrl: "{{$imgSrc}}",
             success: function () {
                 $.toast("分享成功", "text");
             },
@@ -27,8 +27,8 @@ if (isWeiXin()) {
         //发送给朋友
         wx.onMenuShareAppMessage({
             title: "植得艾",
-            desc: "我在植得艾发现了一个不错的商品，赶快来看看吧。",
-            imgUrl:  "{{env('APP_URL') . $imgSrc}}",
+            desc: "我在植得艾发现了一个不错的商品，赶快来看看吧",
+            imgUrl:  "{{$imgSrc}}",
             success: function () {
                 $.toast("分享成功", "text");
             },
@@ -37,6 +37,16 @@ if (isWeiXin()) {
             }
         });
     });
+}
+function isWeiXin() {
+    // window.navigator.userAgent属性包含了浏览器类型、版本、操作系统类型、浏览器引擎类型等信息，这个属性可以用来判断浏览器类型
+    var ua = window.navigator.userAgent.toLowerCase();
+    // 通过正则表达式匹配ua中是否含有MicroMessenger字符串
+    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+        return true;
+    } else {
+        return false;
+    }
 }
 </script>
 </body>

@@ -29,7 +29,7 @@ button.weui-btn_warn{
 </style>
 <header class="zyw-header">
     <div class="zyw-container white-color">
-        <div class="head-l"><a href="javascript:{{$_COOKIE['lastRecord'] ?? "self.location='/'"}};" target="_self"><i class="iconfont icon-fanhui1"></i></a></div>
+        <div class="head-l"><a href="javascript:history.back(-1);" target="_self"><i class="iconfont icon-fanhui1"></i></a></div>
         <h1>@if (request()->address) 编辑@else 新增@endif收货地址</h1>
         <div class="head-r"><i class="iconfont icon-gengduo"></i></div>
     </div>

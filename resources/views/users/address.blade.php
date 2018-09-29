@@ -4,7 +4,7 @@
 <header class="zyw-header">
     <div class="zyw-container white-color">
         <div class="head-l">
-            <a href="javascript:{{$_COOKIE['lastRecord'] ?? "self.location='/'"}};" target="_self">
+            <a href="javascript:history.back(-1);" target="_self">
                 <i class="iconfont icon-fanhui1"></i>
             </a>
         </div>

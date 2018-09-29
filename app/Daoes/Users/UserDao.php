@@ -9,12 +9,6 @@ use App\Utils\Page;
 
 class UserDao extends BaseDao {
     /**
-     * 付款用户及上级级别变更
-     */
-    public static function upgradeUserLevel($order_id) {
-        return UserDao::upgradeUserLevel($order_id);
-    }
-    /**
      * 根据openid查询用户
      * @param  string $openid
      *

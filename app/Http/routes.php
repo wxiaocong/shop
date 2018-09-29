@@ -22,7 +22,7 @@
  */
 Route::group(array('middleware' => array('web')), function () {
     Route::get('/getCaptcha', 'CaptchaController@getCaptcha');
-
+    
     Route::any('/fileUpload/uploadFile', 'FileUploadController@uploadFile');
     Route::any('/fileUpload/uploadLocalFile', 'FileUploadController@uploadLocalFile');
     //fileUpload
@@ -105,8 +105,9 @@ Route::group(array('middleware' => array('web')), function () {
 
         Route::get('/home/myTeam/{type}', 'HomeController@myTeam');
         Route::get('/home/shareQrCode', 'HomeController@shareQrCode');
-        Route::get('/home/fund/{payType}', 'HomeController@fund');
+        Route::get('/home/fund', 'HomeController@fund');
         Route::post('/home/getData', 'HomeController@getData');
+        Route::get('/home/income/{payType}', 'HomeController@income');
         Route::resource('/home', 'HomeController');
 
         Route::post('/goods/search', 'GoodsController@search');
@@ -132,6 +133,8 @@ Route::group(array('middleware' => array('web')), function () {
         Route::post('/address/getExpressAddress', 'ExpressAddressController@getExpressAddress');
         Route::resource('/address', 'ExpressAddressController');
     });
+        //分享二维码
+    Route::any('/wechat/shareQrCode/{id}', 'WeChatController@shareQrCode');
     Route::any('/wechat/oauthCallback', 'WeChatController@oauthCallback');
 });
 
@@ -143,7 +146,4 @@ Route::group(array('middleware' => array('api')), function () {
     Route::get('/wechat/getMaterialList', 'WeChatController@getMaterialList');
     Route::get('/wechat/createMenu', 'WeChatController@createMenu');
     Route::any('/wechat/response', 'WeChatController@response');
-
-    //分享二维码
-    Route::get('/wechat/shareQrCode/{id}', 'WeChatController@shareQrCode');
 });

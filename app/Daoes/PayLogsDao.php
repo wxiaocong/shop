@@ -50,7 +50,7 @@ class PayLogsDao extends BaseDao
      * @return array
      */
     public static function findByPage($curPage, $pageSize, $params) {
-        $builder = PayLogs::join('users as u','pay_logs.user_id','=','u.id')
+        $builder = PayLogs::join('users as u','pay_logs.order_id','=','u.id')
             ->offset($pageSize * ($curPage - 1))->limit($pageSize)
             ->select('pay_logs.*', 'u.nickname');
         if (array_key_exists('userId', $params) && $params['userId'] > 0) {

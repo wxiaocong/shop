@@ -1,21 +1,6 @@
 @include('users.inc.header')
 <link href="{{ elixir('css/users/order.css') }}" rel="stylesheet">
 <style type="text/css">
-.swiper-container{
-    background:#f6f6f6;
-}
-.swiper-slide, .swiper-wrapper{
-    width:auto;
-    height:auto;
-}
-.swiper-slide img{
-    width:auto;
-    margin-top:8px;
-    margin-bottom:8px;
-}
-.media-object{
-    display:inline;
-}
 .team-item{
     font-size: 13px;
     color: #777;
@@ -24,7 +9,7 @@
 </style>
 <header class="zyw-header">
     <div class="zyw-container white-color">
-        <div class="head-l"><a href="javascript:{{$_COOKIE['lastRecord'] ?? "self.location='/'"}};" target="_self"><i class="iconfont icon-fanhui1"></i></a></div>
+        <div class="head-l"><a href="javascript:history.back(-1);" target="_self"><i class="iconfont icon-fanhui1"></i></a></div>
         <h1>我的团队</h1>
     </div>
 </header>
@@ -46,7 +31,7 @@
                     <div class="order-item-box">
                         <div class="media">
                             <a href="javascript:;" class="pull-left">
-                                <img src="{{$val->headimgurl}}" alt="" class="media-object order-item-img">
+                                <img src="{{empty($val->headimgurl) ? elixir('images/users/mylogo.png') : $val->headimgurl}}" alt="" class="media-object order-item-img">
                             </a>
                             <div class="media-body">
                                 <div class="order-item-info">

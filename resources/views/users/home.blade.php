@@ -56,7 +56,7 @@
         </a>
     </div>
     <div class="home-cont weui-cells" style="margin-bottom:56px;">
-        <a class="weui-cell weui-cell_access" href="/home/fund/0">
+        <a class="weui-cell weui-cell_access" href="/home/fund">
             <div class="weui-cell__bd">
                 <p class="choose-text"><i class="iconfont icon-zijinzouxiang"></i> 资金管理</p>
             </div>
@@ -70,6 +70,7 @@
             <div class="weui-cell__ft choose-des">
             </div>
         </a>
+        @if($userInfo->level == 2)
         <a class="weui-cell weui-cell_access" href="#">
             <div class="weui-cell__bd">
                 <p class="choose-text"><i class="iconfont icon-fenxiao"></i> 分销中心</p>
@@ -77,13 +78,14 @@
             <div class="weui-cell__ft choose-des">
             </div>
         </a>
+        @endif
         <a class="weui-cell weui-cell_access" href="/address">
             <div class="weui-cell__bd">
                 <p class="choose-text"><i class="iconfont icon-ziyuan"></i> 收货地址</p>
             </div>
             <div class="weui-cell__ft choose-des"></div>
         </a>
-        <a class="weui-cell weui-cell_access" href="/home/shareQrCode">
+        <a class="weui-cell weui-cell_access" href="/wechat/shareQrCode/0">
             <div class="weui-cell__bd">
                 <p class="choose-text"><i class="iconfont icon-erweima"></i> 我的二维码</p>
             </div>
