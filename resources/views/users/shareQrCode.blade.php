@@ -8,6 +8,8 @@
 <section class="zyw-container" style="padding-bottom:0;">
     <img src="{{$imgSrc}}" style="width:100%;">
 </section>
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
 <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
 if (isWeiXin()) {

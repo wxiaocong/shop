@@ -133,7 +133,7 @@ Route::group(array('middleware' => array('web')), function () {
         Route::post('/address/getExpressAddress', 'ExpressAddressController@getExpressAddress');
         Route::resource('/address', 'ExpressAddressController');
     });
-        //分享二维码
+    //分享二维码
     Route::any('/wechat/shareQrCode/{id}', 'WeChatController@shareQrCode');
     Route::any('/wechat/oauthCallback', 'WeChatController@oauthCallback');
 });
