@@ -105,7 +105,8 @@ class WeChatController extends Controller {
                                     'keyword2' => $orderInfo->order_sn,
                                     'remark' => '如有问题请联系客服,欢迎再次光临！',
                                 );
-                                WechatNoticeService::sendTemplateMessage($orderInfo->user_id, $orderInfo->openid, $orderSn, $template['template_id'], $templateData);
+                                $url = config('app.url').'/order/detail/'.$orderSn;
+                                WechatNoticeService::sendTemplateMessage($orderInfo->user_id, $orderInfo->openid, $url, $template['template_id'], $templateData);
                             }
                             return true;
                         } else {

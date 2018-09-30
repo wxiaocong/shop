@@ -53,6 +53,16 @@ class UserService {
                             'order_id' => $user_id,
                         );
                         PayLogsService::store($payLogData);
+                        //消息提示
+                        $template = config('templatemessage.getCommission');
+                        $templateData = array(
+                            'first' => '您好，您获得了一笔新的佣金。',
+                            'keyword1' => sprintf("%.2f", $subordinate_sales_commission) .'元',
+                            'keyword2' => date('Y-m-d H:i:s'),
+                            'remark' => '请进入系统查看详情！',
+                        );
+                        $url = config('app.url').'home/income/0';
+                        WechatNoticeService::sendTemplateMessage($refereeInfo->id, $refereeInfo->openid, $url, $template['template_id'], $templateData);
                         if ($refereeInfo->vip) {
                             $payLogData = array(
                                 'user_id' => $refereeInfo->id,
@@ -64,6 +74,14 @@ class UserService {
                                 'order_id' => $user_id,
                             );
                             PayLogsService::store($payLogData);
+                            //消息提示
+                            $templateData = array(
+                                'first' => '您好，您获得了一笔VIP佣金。',
+                                'keyword1' => sprintf("%.2f", $vip_extra_bonus) .'元',
+                                'keyword2' => date('Y-m-d H:i:s'),
+                                'remark' => '请进入系统查看详情！',
+                            );
+                            WechatNoticeService::sendTemplateMessage($refereeInfo->id, $refereeInfo->openid, $url, $template['template_id'], $templateData);
                         }
                     }
                     //上上级奖励提成
@@ -83,6 +101,14 @@ class UserService {
                                 'order_id' => $refereeInfo->id,
                             );
                             PayLogsService::store($payLogData);
+                            //消息提示
+                            $templateData = array(
+                                'first' => '您好，您获得了一笔新的佣金。',
+                                'keyword1' => sprintf("%.2f", $lowest_sales_commission) .'元',
+                                'keyword2' => date('Y-m-d H:i:s'),
+                                'remark' => '请进入系统查看详情！',
+                            );
+                            WechatNoticeService::sendTemplateMessage($firstInfo->id, $firstInfo->openid, $url, $template['template_id'], $templateData);
                         }
                     }
                 }

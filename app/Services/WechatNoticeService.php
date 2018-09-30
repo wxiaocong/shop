@@ -16,7 +16,7 @@ class WechatNoticeService
      * @param array $data
      * @return \Psr\Http\Message\ResponseInterface|\EasyWeChat\Kernel\Support\Collection|array|object|string
      */
-    public static function sendTemplateMessage($user_id, $openid, $orderSn, $template_id, $data = array())
+    public static function sendTemplateMessage($user_id, $openid, $url, $template_id, $data = array())
     {
         $wechatNotice = new WechatNotice;
         
@@ -33,7 +33,7 @@ class WechatNoticeService
         return $app->template_message->send([
             'touser' => $openid,
             'template_id' => $template_id,
-            'url' => config('app.url').'/order/detail/'.$orderSn,
+            'url' => $url,
             'data' => $data,
         ]);
     }
