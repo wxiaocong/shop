@@ -109,8 +109,9 @@ section .iconfont{
 .icon-dingdan,.icon-weibiaoti2fuzhi04,.icon-daifahuo,.icon-icon3,.icon-yiwancheng{
     color: #e93b3d;
 }
-.icon-shenqingchengweiVIP{
+.icon-VIP{
     font-size:18px;
+    color:#ea8d32;
 }
 .icon-zijinzouxiang{
     color: #e93b3d;

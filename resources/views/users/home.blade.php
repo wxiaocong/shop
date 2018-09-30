@@ -21,7 +21,7 @@
                 <div class="my-head-msg">
                     <div class="my-head-user">昵称：{{ $userInfo->nickname }}</div>
                     <div class="my-head-user">
-                        @if ($userInfo->vip == 1)<i class="iconfont icon-shenqingchengweiVIP"></i>@endif
+                        @if ($userInfo->vip == 1)<i class="iconfont icon-VIP"></i>@endif
                         <span>{{$levelArr[$userInfo->level]}}</span>
                     </div>
                     <div class="my-head-user">余额：{{sprintf("%.2f", $userInfo->balance/100)}}</div>

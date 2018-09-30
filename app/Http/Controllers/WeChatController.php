@@ -44,7 +44,7 @@ class WeChatController extends Controller {
                 $wechatUserData['vip'] = 1;
             }
             UserService::saveOrUpdate($openid, $wechatUserData);
-            session::forget('user');
+            Session::forget('user');
             session(array('user' => UserService::findByOpenid($openid)));
         }
         $targetUrl = empty(session('target_url')) ? config('app.url') : session('target_url');

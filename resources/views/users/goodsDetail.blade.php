@@ -135,7 +135,7 @@ del{
                         </div>
                         @endforeach
                     </div>
-                    <form method="post" action="/goods/purchase" id="purchase-form">
+                    <form method="get" action="/goods/purchase" id="purchase-form">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                     <input type="hidden" name="spec_id" id="spec_id" value="{{ $goodsInfo->id }}">
                     <input type="hidden" name="goods_id" id="goods_id" value="{{ $goodsInfo->goods_id }}">

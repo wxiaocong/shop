@@ -36,8 +36,6 @@ class AdminLoginAuth
      */
     public function handle($request, Closure $next)
     {
-        $this->saveOssSession();
-
         //session失效
         $adminUser = session('adminUser');
         if (!$adminUser) {
@@ -55,18 +53,5 @@ class AdminLoginAuth
         }
 
         return $next($request);
-    }
-
-    private function saveOssSession()
-    {
-        $ossSession = array();
-
-        $ossSession['accessId']      = env('OSS_ACCESS_ID');
-        $ossSession['accessKey']     = env('OSS_ACCESS_KEY');
-        $ossSession['endpoint']      = env('OSS_ENDPOINT');
-        $ossSession['articleBucket'] = env('OSS_FILE_BUCKET');
-
-        session_start();
-        $_SESSION['oss'] = $ossSession;
     }
 }

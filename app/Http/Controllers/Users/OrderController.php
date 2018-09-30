@@ -23,6 +23,9 @@ class OrderController extends Controller {
     public function detail() {
         $orderSn = request('ordersn');
         $data['orderInfo'] = OrderService::findByOrderSn($orderSn);
+        if (empty($data['orderInfo'])) {
+            abort(404, '未找到改订单');
+        }
         $data['orderState'] = config('order.order_state');
         $data['orderGoodsInfo'] = OrderGoodsService::findByOrderId($data['orderInfo']->id);
 

@@ -111,7 +111,7 @@ Route::group(array('middleware' => array('web')), function () {
         Route::resource('/home', 'HomeController');
 
         Route::post('/goods/search', 'GoodsController@search');
-        Route::post('/goods/purchase', 'GoodsController@purchase');
+        Route::any('/goods/purchase', 'GoodsController@purchase');
         Route::post('/goods/changeSpec', 'GoodsController@changeSpec');
         Route::post('/goods/changeNum', 'GoodsController@changeNum');
         Route::resource('/goods', 'GoodsController');
