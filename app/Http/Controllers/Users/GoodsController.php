@@ -9,6 +9,7 @@ use App\Services\GoodsSpecService;
 use App\Services\Users\ExpressAddressService;
 use App\Utils\Page;
 use EasyWeChat;
+use Session;
 
 class GoodsController extends Controller {
     public function show() {
@@ -47,9 +48,7 @@ class GoodsController extends Controller {
         $goodsId = intval(request('goods_id', 0));
         $data['num'] = intval(request('num', 1));
         $spec = request('spec');
-        if (isset(session('expressReferer'))) {
-            session::forget('expressReferer');
-        }
+        Session::forget('expressReferer');
         
         if ($goodsId < 1 || (empty($spec) && $specId < 1)) {
             abort(404, '缺少参数');
