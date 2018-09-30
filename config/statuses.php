@@ -175,11 +175,11 @@ return array(
             ),
             'subordinate' => array(
                 'code' => 5,
-                'text' => '下级销售提成'
+                'text' => '销售提成'
             ),
             'lowest' => array(
                 'code' => 6,
-                'text' => '下下级销售提成'
+                'text' => '协助收益'
             ),
             'vip' => array(
                 'code' => 7,

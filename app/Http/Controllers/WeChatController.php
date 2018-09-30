@@ -9,6 +9,7 @@ use App\Services\PayLogsService;
 use App\Services\Users\UserService;
 use App\Services\WechatNoticeService;
 use App\Services\WechatNotifyService;
+use App\Services\Admins\StatisticalService;
 use EasyWeChat;
 use Illuminate\Support\Facades\DB;
 use Session;
@@ -38,6 +39,10 @@ class WeChatController extends Controller {
                 'country' => $user['country'],
                 'sex' => $user['sex'],
             );
+             //前1W名VIP
+            if ((empty($userInfo) || $userInfo->level == 0) && StatisticalService::findRegisterCount() < 10000) {
+                $wechatUserData['vip'] = 1;
+            }
             UserService::saveOrUpdate($openid, $wechatUserData);
             session::forget('user');
             session(array('user' => UserService::findByOpenid($openid)));
@@ -194,6 +199,10 @@ class WeChatController extends Controller {
                                     'country' => $user['country'],
                                     'sex' => $user['sex'],
                                 );
+                                //前1W名VIP
+                                if (StatisticalService::findRegisterCount() < 10000) {
+                                    $wechatUserData['vip'] = 1;
+                                }
                                 UserService::saveOrUpdate($openid, $wechatUserData);
                             }
                         }
@@ -278,14 +287,14 @@ class WeChatController extends Controller {
                         "url" => "http://mp.weixin.qq.com/s?__biz=MzI4MjY2MTEzMw==&mid=100000021&idx=1&sn=8fdbc2bb2d346fd189c4d436eeb6bb70&chksm=6b97d9775ce050613f967e97b021f8115bb201ba3a490b099c8cbcf111acf691c70fecaaa24d&scene=18#wechat_redirect"
                     ],
                     [
-                        "type" => "media_id",
+                        "type" => "view",
                         "name" => "市场前景",
-                        "media_id" => "8OX3D9Djktvimem6-BdSjpiLGjMb1gXfotAbg5QTBSA"
+                        "url" => "https://mp.weixin.qq.com/s?__biz=MzI4MjY2MTEzMw==&tempkey=OTc2XzRROUovc3daQzhmT2k2cjVGS2JOOWxCT2pNQXFGVlBFMVdpbUtxODMzTEJHVm9SN2gya1pSSlpTT1FJZFdvMzlzaUdlU3RvNEF0MWdUckVyOXptZWtQUG83LXA0SHRfSXl6ZkVBc1ZOZDZqM2MxR3hDQjQtY29aVVlFOFJNVGVmWFA5MklOZTNsc0VSUFg0bURpeE1XU3hOeE1vbDZXY0YwWUxDbmd%2Bfg%3D%3D&chksm=6b97d9415ce0505715fdc29e5d02edfff6906b627aa26e06593c54b586aefa7def94ef6f738e#rd"
                     ],
                     [
                         "type" => "view",
                         "name" => "产品分析",
-                        "url" => "http://mp.weixin.qq.com/s?__biz=MzI4MjY2MTEzMw==&mid=100000007&idx=1&sn=c6208da57c3c6f30a0e3013958355306&chksm=6b97d9655ce0507354acb673d069da9db54956da41342f1f439f58bb3741fd3dd52e0c629023&scene=18#wechat_redirect"
+                        "url" => "https://mp.weixin.qq.com/s?__biz=MzI4MjY2MTEzMw==&tempkey=OTc2X2w0Z3E0U0JHK3lXOVVnWkJGS2JOOWxCT2pNQXFGVlBFMVdpbUtxODMzTEJHVm9SN2gya1pSSlpTT1FJdkVsNG9aM29iMEtHNk9EdmkwTTdueG1JLS1VQUdBckp4aVJYcDBlRUZjTENpTzFYWi1GLTNlZnc4czhEdW5jaU1GcDdDX3E1aGxnVUhqR2NsX3oyZFRPODVNUlpZdWRhZ1ZIMEowaHN5aEF%2Bfg%3D%3D&chksm=6b97d97a5ce0506c1ee17855615aa1493ea3c55bb1a289514827b6b0a4955733d951f4110cd0#rd"
                     ],
                 ],
             ],

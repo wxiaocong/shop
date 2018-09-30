@@ -5,6 +5,7 @@ namespace App\Services\Users;
 use App\Daoes\Users\UserDao;
 use App\Daoes\Admins\SystemDao;
 use App\Services\PayLogsService;
+use App\Services\WechatNoticeService;
 
 class UserService {
     /**
@@ -61,7 +62,7 @@ class UserService {
                             'keyword2' => date('Y-m-d H:i:s'),
                             'remark' => '请进入系统查看详情！',
                         );
-                        $url = config('app.url').'home/income/0';
+                        $url = config('app.url').'/home/income/0';
                         WechatNoticeService::sendTemplateMessage($refereeInfo->id, $refereeInfo->openid, $url, $template['template_id'], $templateData);
                         if ($refereeInfo->vip) {
                             $payLogData = array(
