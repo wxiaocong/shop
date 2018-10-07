@@ -62,7 +62,14 @@ class HomeController extends Controller {
         $userInfo = UserService::findById(session('user')->id);
         return view('users.fund', array('userInfo' => $userInfo));
     }
+
+
+    public function balance()
+    {
+        return view('users.income', $data);
+    }
     
+    //佣金收入
     public function income()
     {
         $data['pageSize'] = Page::PAGESIZE;
@@ -94,6 +101,12 @@ class HomeController extends Controller {
         }
         $data['levelState'] = config('statuses.user.levelState');
         return view('users.team', $data);
+    }
+
+    //提现
+    public function withdraw() {
+        $data['userInfo'] = UserService::findById(session('user')->id);
+        return view('users.withdraw', $data);
     }
 
 }

@@ -9,7 +9,7 @@
 </style>
 <header class="zyw-header">
     <div class="zyw-container white-color">
-        <div class="head-l"><a href="javascript:history.back(-1);" target="_self"><i class="iconfont icon-fanhui1"></i></a></div>
+        <div class="head-l"><a href="javascript:window.location.href='/home';" target="_self"><i class="iconfont icon-fanhui1"></i></a></div>
         <h1>我的团队</h1>
     </div>
 </header>

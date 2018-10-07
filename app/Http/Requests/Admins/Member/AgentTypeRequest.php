@@ -1,19 +1,18 @@
-<?php namespace App\Http\Requests\Users;
+<?php namespace App\Http\Requests\Admins\Member;
 
 use App\Http\Requests\Request;
 use Illuminate\Contracts\Validation\Validator;
 
 /**
  *--------------------------------------------------------------------------
- * OrderRequest Request
+ * AgentTypeRequest Request
  *--------------------------------------------------------------------------
  *
- * This Request validate store/update users
+ * This Request validate store/update agent_type
  *
- * @author wangcong@carnetmotor.com
  *
  */
-class OrderRequest extends Request
+class AgentTypeRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,11 +32,10 @@ class OrderRequest extends Request
     public function rules()
     {
         return array(
-            'num'           =>  'required|integer|min:1',
-            'activity_id'   =>  'integer',
-            'spec_id'       =>  'integer',
-            'express_id'    =>  'required|integer',
-            'remark'        =>  'max:200'
+            'type_name'     => 'required|max:100',
+            'price'         => 'required|numeric',
+            'goodsNum'      => 'required|integer',
+            'returnMoney'   =>  'numeric'
         );
     }
 
@@ -49,14 +47,13 @@ class OrderRequest extends Request
     public function messages()
     {
         return array(
-            'num.required'  => '请选择商品数量',
-            'num.integer'  => '商品数量格式错误',
-            'num.min'  => '商品数量错误',
-            'activity_id.integer'  => '活动id格式错误',
-            'spec_id.integer'   => '规格错误',
-            'express_id.required' => '请填写收货地址',
-            'express_id.integer'=> '收货地址格式错误',
-            'remark.max'  => '备注最多200字符'
+            'name.required'   => '合伙类型名称不能为空',
+            'name.max'        => '合伙类型名称最多100个字符',
+            'price.required'   => '价格不能为空',
+            'price.numeric'    => '价格类型错误',
+            'goodsNum.required'   => '配货数量不能为空',
+            'goodsNum.integer'    => '配货数量类型错误',
+            'returnMoney.numeric'    => '返利金额类型错误',
         );
     }
 

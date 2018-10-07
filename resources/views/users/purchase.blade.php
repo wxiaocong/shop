@@ -62,9 +62,13 @@
           <label class="weui-form-preview__label">商品金额</label>
           <span class="weui-form-preview__value">￥<span class="goodsMoney"></span></span>
         </div>
-        <div class="weui-form-preview__item">
-          <label class="weui-form-preview__label">运费</label>
-          <span class="weui-form-preview__value">+ ￥<span class="freight">0.00</span></span>
+        <div class="weui-cells__title" style="text-align: left;padding-left:0;">备注</div>
+        <div class="weui-cells">
+          <div class="weui-cell">
+            <div class="weui-cell__bd">
+              <input class="weui-input" type="text" id="remark" placeholder="请输入备注信息">
+            </div>
+          </div>
         </div>
       </div>
     </div>

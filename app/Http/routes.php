@@ -32,6 +32,10 @@ Route::group(array('middleware' => array('web')), function () {
     Route::post('/admin/login', 'Admins\LoginController@login');
     Route::group(array('namespace' => 'Admins', 'middleware' => array('adminLoginAuth', 'adminRightAuth', 'adminMenuSelect')), function () {
         Route::resource('/admin/home', 'HomeController');
+
+        //system
+        Route::get('/admin/system/areas/getArea', 'System\AreasController@getArea');
+        Route::resource('/admin/system/areas', 'System\AreasController');
         Route::resource('/admin/system','System\SystemController');
 
         //category
@@ -65,20 +69,20 @@ Route::group(array('middleware' => array('web')), function () {
         Route::post('/admin/ad/destroyAll', 'Tool\AdPositionController@destroyAll');
         Route::resource('/admin/ad', 'Tool\AdPositionController');
 
-        //system
-        Route::get('/admin/system/areas/getArea', 'System\AreasController@getArea');
-        Route::resource('/admin/system/areas', 'System\AreasController');
-
         //adminUser
         Route::get('/admin/adminUser/editPwd', 'System\AdminUserController@editPassword');
         Route::post('/admin/adminUser/updatePwd', 'System\AdminUserController@updatePassword');
         Route::post('/admin/adminUser/destroyAll', 'System\AdminUserController@destroyAll');
         Route::resource('/admin/adminUser', 'System\AdminUserController');
 
+        //agentType
+        Route::resource('/admin/agentType', 'Member\AgentTypeController');
+
+        //agent
+        Route::post('/admin/agent/{id}/audit', 'Member\UserController@audit');
+        Route::resource('/admin/agent', 'Member\AgentController');
+
         //user
-        Route::get('/admin/user/merchantApply', 'Member\UserController@merchantApplyIndex');
-        Route::post('/admin/user/{id}/merchantAudit', 'Member\UserController@merchantAudit');
-        Route::get('/admin/user/wechatUsers', 'Member\UserController@wechatUserIndex');
         Route::post('/admin/user/{id}/updateState', 'Member\UserController@updateState');
         Route::resource('/admin/user', 'Member\UserController');
 
@@ -103,12 +107,18 @@ Route::group(array('middleware' => array('web')), function () {
         Route::post('/category/getGoodsList', 'CategoryController@getGoodsList');
         Route::resource('/category', 'CategoryController');
 
+        Route::get('/home/withdraw', 'HomeController@withdraw');
         Route::get('/home/myTeam/{type}', 'HomeController@myTeam');
         Route::get('/home/shareQrCode', 'HomeController@shareQrCode');
         Route::get('/home/fund', 'HomeController@fund');
         Route::post('/home/getData', 'HomeController@getData');
         Route::get('/home/income/{payType}', 'HomeController@income');
         Route::resource('/home', 'HomeController');
+
+		Route::get('/agent/orderComplate/{ordersn}', 'AgentController@orderComplate');
+        Route::post('/agent/prepay', 'AgentController@prepay');
+        Route::get('/agent/cashPay/{ordersn}', 'AgentController@cashPay');
+        Route::resource('/agent', 'AgentController');
 
         Route::post('/goods/search', 'GoodsController@search');
         Route::any('/goods/purchase', 'GoodsController@purchase');
@@ -117,6 +127,7 @@ Route::group(array('middleware' => array('web')), function () {
         Route::resource('/goods', 'GoodsController');
 
         Route::get('/order/orderComplate/{ordersn}', 'OrderController@orderComplate');
+        Route::post('/order/withdraw', 'OrderController@withdraw');
         Route::post('/order/prepay', 'OrderController@prepay');
         Route::get('/order/cashPay/{ordersn}', 'OrderController@cashPay');
         Route::post('/order/confirmReceipt', 'OrderController@confirmReceipt');

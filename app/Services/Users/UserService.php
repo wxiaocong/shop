@@ -4,6 +4,7 @@ namespace App\Services\Users;
 
 use App\Daoes\Users\UserDao;
 use App\Daoes\Admins\SystemDao;
+use App\Services\AgentService;
 use App\Services\PayLogsService;
 use App\Services\WechatNoticeService;
 
@@ -109,6 +110,7 @@ class UserService {
                                 'keyword2' => date('Y-m-d H:i:s'),
                                 'remark' => '请进入系统查看详情！',
                             );
+                            $url = config('app.url').'/home/income/0';
                             WechatNoticeService::sendTemplateMessage($firstInfo->id, $firstInfo->openid, $url, $template['template_id'], $templateData);
                         }
                     }
@@ -116,8 +118,75 @@ class UserService {
             }
         }
     }
+
+    /**
+     * 推荐店铺奖励
+     * @param  [type] $orderInfo [description]
+     * @return [type]            [description]
+     */
+    public static function agentRefereeMoney($orderInfo) {
+        //查找提货店(区域)
+        $areaAgent = AgentService::findAgentByAddress($orderInfo->province, $orderInfo->city, $orderInfo->area);
+        $agent_referee_id =  $areaAgent->referee_id ?? 0;
+        $agent_openId = $areaAgent->openid ?? 0;
+        $referee_type = 'area';
+        if ($agent_referee_id == 0) {
+            //没有区域店，查找旗舰店
+            $cityAgent = AgentService::findAgentByAddress($orderInfo->province, $orderInfo->city);
+            $agent_referee_id =  $cityAgent->referee_id ?? 0;
+            $agent_openId = $cityAgent->openid ?? 0;
+            $referee_type = 'city';
+        }
+        if ($agent_referee_id > 0) {
+            //系统参数
+            $system_param = SystemDao::getAll();
+            if ($referee_type == 'area') {
+                $rewardMoney = $system_param['recommended_area_shop_sales_commission'];
+            } else {
+                $rewardMoney = $system_param['recommended_flagship_shop_sales_commission'];
+            }
+            $refereeInfo = UserDao::findById($agent_referee_id);
+            if(UserDao::getById($agent_referee_id)->increment('balance', $rewardMoney * 100)) {
+                //写入支付记录
+                $payLogData = array(
+                    'user_id' => $agent_referee_id,
+                    'openid' => $agent_openId,
+                    'pay_type' => config('statuses.payLog.payType.shopReward.code'),
+                    'gain' => $rewardMoney*100,
+                    'expense' => 0,
+                    'balance' => $refereeInfo->balance + $rewardMoney*100,
+                    'order_id' => $orderInfo->id,
+                );
+                PayLogsService::store($payLogData);
+                //消息提示
+                $templateData = array(
+                    'first' => '您好，您获得了一笔新的佣金。',
+                    'keyword1' => sprintf("%.2f", $rewardMoney) .'元',
+                    'keyword2' => date('Y-m-d H:i:s'),
+                    'remark' => '请进入系统查看详情！',
+                );
+                WechatNoticeService::sendTemplateMessage($refereeInfo->id, $refereeInfo->openid, $url, $template['template_id'], $templateData);
+            }
+        }
+    }
     
-    
+    public static function balancePay($payment, $user_id) {
+        return UserDao::getById($user_id)->decrement('balance', $payment);
+    }
+
+    //锁定余额
+    public static function lockBalance($amount, $user_id) {
+        return UserDao::lockBalance($amount, $user_id);
+    }
+    /**
+     * 查询推荐人级别
+     * @param  [type] $user_id [description]
+     * @return [type]          [description]
+     */
+    public static function findRefereeLevel($user_id) {
+        return UserDao::findRefereeLevel($user_id);
+    }
+
     /**
      * 根据openid查询用户
      * @param  string $openid

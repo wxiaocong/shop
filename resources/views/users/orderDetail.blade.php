@@ -139,8 +139,8 @@
                   <span class="weui-form-preview__value">{{sprintf("%.2f",$orderInfo->payment/100)}}</span>
                 </div>
                 <div class="weui-form-preview__item">
-                  <label class="weui-form-preview__label">运费</label>
-                  <span class="weui-form-preview__value">{{sprintf("%.2f",$orderInfo->express_fee/100)}}</span>
+                  <label class="weui-form-preview__label">备注</label>
+                  <span class="weui-form-preview__value">{{$orderInfo->remark}}</span>
                 </div>
               </div>
               <div class="real-pay">实付款：<span>￥{{sprintf("%.2f",($orderInfo->payment-$orderInfo->express_fee)/100)}}</span></div>

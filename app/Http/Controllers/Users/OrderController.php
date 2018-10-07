@@ -8,6 +8,8 @@ use App\Services\OrderGoodsService;
 use App\Services\OrderRefundService;
 use App\Services\OrderService;
 use App\Services\OrderShippingService;
+use App\Services\WithdrawService;
+use App\Services\Users\UserService;
 use App\Utils\Page;
 use EasyWeChat;
 
@@ -48,7 +50,7 @@ class OrderController extends Controller {
         return view('users.orderDetail', $data);
     }
 
-    //抢购创建订单:单商品
+    //创建订单:单商品
     public function store(OrderRequest $request) {
         $res = OrderService::store($request);
         return response()->json($res);
@@ -66,13 +68,19 @@ class OrderController extends Controller {
         if ($check['code'] == 500) {
             abort(500, $check['messages']);
         }
-
+        $data['userInfo'] = UserService::findById(session('user')->id);
         return view('users.cashPay', $data);
     }
 
     //已创建订单，未支付
     public function prepay() {
         $orderSn = request('ordersn');
+        $payType = intval(request('payType'));
+        if (! in_array($payType, config('system.payType'))) {
+            $res['code'] = 500;
+            $res['messages'] = '未开通的支付类型';
+            return response()->json($res);
+        }
         $res['data'] = OrderService::findByOrderSn($orderSn);
         if (!empty($res['data']) && $res['data']->state != 1) {
             $res['code'] = 500;
@@ -86,14 +94,20 @@ class OrderController extends Controller {
             $res['messages'] = '订单超时已取消,请重新下单';
             return response()->json($res);
         }
-        //检查商品、活动、库存
+        //检查商品、库存
         $check = OrderGoodsService::checkOrderPromotion($res['data']->id);
         if ($check['code'] == 500) {
             return response()->json($check);
         }
         $res['url'] = config('app.url') . '/order/orderComplate/' . $orderSn;
-
-        return response()->json(self::wechatUnity($res));
+        if ($payType == 3) {
+            //余额支付
+            $res = OrderService::balancePay($res['data']);
+            return response()->json($res);
+        } else {
+            //微信支付
+            return response()->json(self::wechatUnity($res));
+        }
     }
 
     //微信统一下单
@@ -128,6 +142,57 @@ class OrderController extends Controller {
             $res['messages'] = $result['err_code_des'] ?? '统一下单支付失败';
         }
         return $res;
+    }
+
+    //企业付款到零钱
+    public function withdraw() {
+        $amount = intval(request('amount')) * 100;//提现金额
+        if ($amount < 1) {
+            return response()->json(
+                array(
+                    'code' => 500,
+                    'messages' => '提现金额错误',
+                )
+            );
+        }
+        //用户信息
+        $userInfo = UserService::findById(session('user')->id);
+        if ( ($userInfo->balance - $userInfo->lockBalance) < $amount ) {
+            return response()->json(
+                array(
+                    'code' => 500,
+                    'messages' => '余额不足',
+                )
+            );
+        }
+        $orderSn = createOrderSn();
+        $withdrawData = array(
+            'amount'    =>  $amount,
+            'order_sn'  =>  $orderSn;
+        );
+
+        if(WithdrawService::store(withdrawData)) {
+            //用户余额锁定
+            UserService::getById(session('user')->id)->increment('lockBalance', $amount);
+            $app = EasyWeChat::payment();
+            $result  = $app->transfer->toBalance([
+                'partner_trade_no' => $orderSn
+                'openid' => session('user')->openid,
+                'check_name' => 'FORCE_CHECK', // NO_CHECK：不校验真实姓名, FORCE_CHECK：强校验真实姓名
+                're_user_name' => session('user')->realname, // 如果 check_name 设置为FORCE_CHECK，则必填用户真实姓名
+                'amount' => $amount, // 企业付款金额，单位为分
+                'desc' => '余额提现', // 企业付款操作说明信息。必填
+            ]);
+            \Log::error(json_encode($result));
+            return json_encode($result);
+        } else {
+            return response()->json(
+                array(
+                    'code' => 500,
+                    'messages' => '生成提现单出错',
+                )
+            );
+        }
     }
 
     //完成支付

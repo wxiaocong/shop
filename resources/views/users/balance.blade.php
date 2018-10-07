@@ -29,16 +29,15 @@
 <header class="zyw-header">
     <div class="zyw-container white-color">
         <div class="head-l"><a href="javascript:self.location='/home/fund'" target="_self"><i class="iconfont icon-fanhui1"></i></a></div>
-        <h1>收入明细</h1>
+        <h1>余额明细</h1>
     </div>
 </header>
 <section class="zyw-container">
     <div class="weui-tab">
         <div class="weui-navbar">
             <a href="/home/income/0" class="weui-navbar__item @if($payType == 0) weui-bar__item--on @endif">全部</a>
-            <a href="/home/income/5" class="weui-navbar__item @if($payType == 5) weui-bar__item--on @endif">销售提成</a>
-            <a href="/home/income/6" class="weui-navbar__item @if($payType == 6) weui-bar__item--on @endif">下级奖励</a>
-            <a href="/home/income/8" class="weui-navbar__item @if($payType == 8) weui-bar__item--on @endif">邀请奖励</a>
+            <a href="/home/income/5" class="weui-navbar__item @if($payType == 5) weui-bar__item--on @endif">赚取</a>
+            <a href="/home/income/6" class="weui-navbar__item @if($payType == 6) weui-bar__item--on @endif">消费</a>
         </div>
         <div class="weui-tab__bd">
             <div class="order-group">

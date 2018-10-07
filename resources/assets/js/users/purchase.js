@@ -93,7 +93,7 @@ $(document).ready(function() {
         $.ajax({
             url: '/order',
             type: 'POST',
-            data:{express_id:express_id,num:num,spec_id:specId},
+            data:{express_id:express_id,num:num,spec_id:specId,remark:$('#remark').val()},
             dataType: 'json',
             beforeSend: function() {
                 buttons.attr('disabled', 'true');

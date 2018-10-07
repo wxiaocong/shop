@@ -50,7 +50,7 @@
 <header class="zyw-header">
     <div class="zyw-container white-color">
         <div class="head-l">
-            <a href="javascript:self.location='/order/detail/{{$orderInfo->order_sn}}'" target="_self"><i class="iconfont icon-fanhui1"></i></a>
+            <a href="javascript:self.location='/home'" target="_self"><i class="iconfont icon-fanhui1"></i></a>
         </div>
         <h1>收银台</h1>
     </div>
@@ -63,7 +63,7 @@
     </div>
     <div class="weui-panel weui-panel_access">
         <div class="weui-cells weui-cells_radio">
-            <label class="weui-cell weui-check__label" for="x11">
+        <label class="weui-cell weui-check__label" for="x11">
               <div class="weui-cell__bd">
                 <div>
                     <i class="iconfont icon-weixinzhifu"></i>
@@ -75,7 +75,7 @@
                 <span class="weui-icon-checked"></span>
               </div>
             </label>
-            <label class="weui-cell weui-check__label" for="x12">
+        <label class="weui-cell weui-check__label" for="x12">
               <div class="weui-cell__bd">
                 <div>
                     <i class="iconfont icon-zijinzouxiang"></i>
@@ -99,6 +99,11 @@
 <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script src="{{elixir('js/users/front.js')}}"></script>
 <script>
+$('.weui-check__label').each(function(){
+    if($(this).find('.weui-check').attr('checked') == 'checked') {
+        $('.pay-now').html($(this).find('.pay-type').html()+$('.payment').html());
+    }
+});
 $('.weui-cells_radio').on('click', '.weui-check__label',function(){
     $('.pay-now').html($(this).find('.pay-type').html()+$('.payment').html());
 });
@@ -109,7 +114,7 @@ $('.pay-now').click(function(){
     var payType = $("input[name='payType']:checked").val();
     $.showLoading();
     $.ajax({
-        url: '/order/prepay',
+        url: '/agent/prepay',
         type: 'POST',
         data:{ordersn:ordersn,payType:payType},
         dataType: 'json',
@@ -120,7 +125,7 @@ $('.pay-now').click(function(){
             $.hideLoading();
             if (jsonObject.code == 200) {
                 if(payType == 3) {
-                    window.location.replace('/order/orderComplate/'+ ordersn);
+                    window.location.replace('/agent/orderComplate/'+ ordersn);
                 } else {
                     if (isWeiXin()) {
                         var config = jsonObject.data.config;
@@ -142,7 +147,7 @@ $('.pay-now').click(function(){
                                 success: function (res) {
                                     // 支付成功后的回调函数
                                     if (res.errMsg == "chooseWXPay:ok") {
-                                        window.location.replace('/order/orderComplate/'+jsonObject.data.order_sn);
+                                        window.location.replace('/agent/orderComplate/'+jsonObject.data.order_sn);
                                     } else {
                                         $.toast(res.errMsg, "text");
                                     }

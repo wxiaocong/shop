@@ -27,8 +27,7 @@
                 <div class="order-group-item clearfix">
                     <div class="team-item">余额：{{sprintf("%.2f", $userInfo->balance/100)}}</div>
                     <div class="pay-button">
-                        <button type="button" class="btn btn-success">充值</button>
-                        <button type="button" class="btn btn-warning">提现</button>
+                        <a href="/home/withdraw" class="btn btn-warning">提现</a>
                     </div>
                 </div>
                 <div class="home-cont weui-cells" style="margin-bottom:56px;">
@@ -42,13 +41,6 @@
                     <a class="weui-cell weui-cell_access" href="/home/income/0">
                         <div class="weui-cell__bd">
                             <p class="choose-text">佣金收入</p>
-                        </div>
-                        <div class="weui-cell__ft choose-des">
-                        </div>
-                    </a>
-                    <a class="weui-cell weui-cell_access" href="#">
-                        <div class="weui-cell__bd">
-                            <p class="choose-text">充值记录</p>
                         </div>
                         <div class="weui-cell__ft choose-des">
                         </div>

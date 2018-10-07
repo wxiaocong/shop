@@ -7,7 +7,7 @@
         var options = $.extend({
             "fileTypes": imgCompressSuffix, // 文件类型，默认上传图片
             "maxSize": 2048, // KB (2MB)，文件大小
-            "url": "/fileUpload/uploadFile", // 文件上传到服务器路径
+            "url": "/fileUpload/uploadLocalFile", // 文件上传到服务器路径
             // 这是压缩图片的参数，只要上传的是超额的图片，就一定会压缩
             "imgMaxWidth": 1920, // 图片最大的宽度，如果上传的是图片的话，会因超过"maxSize"而进行压缩的宽度
             "imgQuality": 0.9 // 压缩图片的质量，从1.0 ~ 0.1

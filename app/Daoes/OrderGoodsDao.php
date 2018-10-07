@@ -25,7 +25,7 @@ class OrderGoodsDao extends BaseDao {
 	}
 
 	/**
-	 * 查询订单商品关联活动
+	 * 查询订单商品
 	 * @param int $order_id
 	 * @return object
 	 */

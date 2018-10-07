@@ -106,25 +106,13 @@ section .iconfont{
     bottom: -3px;
     position: relative;
 }
-.icon-dingdan,.icon-weibiaoti2fuzhi04,.icon-daifahuo,.icon-icon3,.icon-yiwancheng{
+.icon-dingdan,.icon-weibiaoti2fuzhi04,.icon-daifahuo,.icon-icon3,.icon-yiwancheng,.icon-erweima,.icon-zijinzouxiang,.icon-dailishang,.icon-tuandui,.icon-ziyuan{
     color: #e93b3d;
 }
 .icon-VIP{
     font-size:18px;
     color:#ea8d32;
 }
-.icon-zijinzouxiang{
-    color: #e93b3d;
-}
-.icon-tuandui{
-    color:#6dc36d;
-}
-.icon-ziyuan{
-    color: #0b2fe8;
-}
 .icon-fenxiao{
     color:#656565;
-}
-.icon-erweima{
-    color: #e93b3d;
 }

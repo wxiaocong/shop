@@ -184,6 +184,14 @@ return array(
             'vip' => array(
                 'code' => 7,
                 'text' => 'vip额外奖励'
+            ),
+            'shopReward' => array(
+                'code' => 8,
+                'text' => '推荐店铺销售奖励'
+            ),
+            'agentPay' => array(
+                'code' => 11,
+                'text' => '申请代理商'
             )
         ),
         'pageType' => array(
@@ -225,4 +233,11 @@ return array(
             ),
         ),
     ),
+    'agentState' => array(
+        '1' =>  '待付款',
+        '2' =>  '已付款',
+        '3' =>  '审核通过',
+        '4' =>  '拒绝',
+        '5' =>  '取消'
+    )
 );

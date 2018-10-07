@@ -12,8 +12,7 @@ class Kernel extends ConsoleKernel {
      * @var array
      */
     protected $commands = [
-        // 'App\Console\Commands\AutoCancelOrder',
-        // 'App\Console\Commands\UserAutoUpgrade',
+        'App\Console\Commands\AutoCancelOrder',
     ];
 
     /**
@@ -23,7 +22,6 @@ class Kernel extends ConsoleKernel {
      * @return void
      */
     protected function schedule(Schedule $schedule) {
-        // $schedule->command('autoCancelOrder')->everyFiveMinutes();
-        // $schedule->command('userAutoUpgrate')->daily();
+        $schedule->command('autoCancelOrder')->everyFiveMinutes();
     }
 }

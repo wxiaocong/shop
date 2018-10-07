@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\GoodsSpecService;
 use App\Services\OrderRefundService;
 use App\Services\OrderService;
+use App\Services\AgentService;
 use App\Services\PayLogsService;
 use App\Services\Users\UserService;
 use App\Services\WechatNoticeService;
@@ -88,6 +89,8 @@ class WeChatController extends Controller {
                             GoodsSpecService::updateGoodsSpecNum($orderInfo->id);
                             //用户级别变更及销售奖励分配
                             UserService::upgradeUserLevel($orderInfo->user_id);
+                            //推荐店铺奖励
+                            UserService::agentRefereeMoney($orderInfo);
                             //写入支付记录
                             $payLogData = array(
                                 'user_id' => $orderInfo->user_id,
@@ -111,6 +114,85 @@ class WeChatController extends Controller {
                                     'remark' => '如有问题请联系客服,欢迎再次光临！',
                                 );
                                 $url = config('app.url').'/order/detail/'.$orderSn;
+                                WechatNoticeService::sendTemplateMessage($orderInfo->user_id, $orderInfo->openid, $url, $template['template_id'], $templateData);
+                            }
+                            return true;
+                        } else {
+                            DB::rollback();
+                            return $fail('更新失败');
+                        }
+                    } catch (\Exception $e) {
+                        DB::rollback();
+                        return $fail('更新失败');
+                    }
+                }
+            } else {
+                return $fail('通信失败，请稍后再通知我');
+            }
+            return true;
+        });
+        return $response;
+    }
+
+    //申请代理商支付通知
+    public function agentNotice()
+    {
+        $app = EasyWeChat::payment();
+        $response = $app->handlePaidNotify(function ($message, $fail) {
+            //保存微信通知数据
+            WechatNotifyService::store($message);
+            //微信查询订单状态
+            $searchApp = EasyWeChat::payment();
+            $result = $searchApp->order->queryByOutTradeNumber($message['out_trade_no']);
+            if ($result['return_code'] === 'SUCCESS') {
+                if ($result['trade_state'] === 'SUCCESS') {
+                    //查询订单
+                    $orderSn = $message['out_trade_no'];
+                    $orderInfo = AgentService::findOrderSnBalance($orderSn);
+                    //未找到订单或订单不是未付款状态，退款
+                    if (empty($orderInfo) || $orderInfo->state != 1) {
+                        return true;
+                    }
+                    $pay_time = date('Y-m-d H:i:s', strtotime($result['time_end']));
+                    $updateData = array(
+                        'real_pay' => $result['cash_fee'], //实付款
+                        'pay_time' => $pay_time, //付款时间
+                        'transaction_id' => $result['transaction_id'], //微信支付订单号
+                        'state' => 2, //已付款
+                    );
+                    //推荐人是否为艾天使
+                    $refereeLevel = UserService::findRefereeLevel($orderInfo->user_id);
+                    if (count($refereeLevel) > 0 && $refereeLevel->level == 2) {
+                        $updateData['referee_id'] = $refereeLevel->referee_id;
+                    }
+                    //开始事务
+                    DB::beginTransaction();
+                    try {
+                        //更新订单状态
+                        if (AgentService::noticeUpdateAgent($orderInfo->id, $updateData)) {
+                            //写入支付记录
+                            $payLogData = array(
+                                'user_id' => $orderInfo->user_id,
+                                'openid' => $orderInfo->openid,
+                                'pay_type' => 11,
+                                'gain' => $result['cash_fee'],
+                                'expense' => $result['cash_fee'],
+                                'balance' => $orderInfo->balance,
+                                'order_id' => $orderInfo->id,
+                            );
+                            PayLogsService::store($payLogData);
+
+                            DB::commit();
+                            //微信通知
+                            if ($orderInfo->openid) {
+                                $template = config('templatemessage.orderPaySuccess');
+                                $templateData = array(
+                                    'first' => '您好，您的订单已支付成功',
+                                    'keyword1' => '￥' . $result['cash_fee'] / 100,
+                                    'keyword2' => $orderInfo->order_sn,
+                                    'remark' => '如有问题请联系客服,欢迎再次光临！',
+                                );
+                                $url = config('app.url').'/agent/detail/'.$orderSn;
                                 WechatNoticeService::sendTemplateMessage($orderInfo->user_id, $orderInfo->openid, $url, $template['template_id'], $templateData);
                             }
                             return true;

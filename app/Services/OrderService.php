@@ -10,6 +10,10 @@ use App\Models\OrderGoods;
 use App\Models\OrderGoodsRefund;
 use App\Models\OrderRefund;
 use App\Models\OrderShipping;
+use App\Services\Users\UserService;
+use App\Services\GoodsSpecService;
+use App\Services\PayLogsService;
+use App\Services\WechatNoticeService;
 use App\Services\Users\ExpressAddressService;
 use EasyWeChat;
 use Illuminate\Support\Facades\DB;
@@ -53,10 +57,14 @@ class OrderService {
 			$order->order_sn = createOrderSn();
 			$order->payment = $goodsInfo->sell_price * $request['num'];
 			$order->express_id = $expressInfo->id;
+			$order->province = $expressInfo->province;
+			$order->city = $expressInfo->city;
+			$order->area = $expressInfo->area;
 			$order->receiver_name = $expressInfo->to_user_name;
 			$order->receiver_mobile = $expressInfo->mobile;
 			$order->receiver_area = $expressInfo->region;
 			$order->receiver_address = $expressInfo->address;
+			$order->remark = $request['remark'];
 			$order->state = 1;
 			$order->save();
 
@@ -97,6 +105,71 @@ class OrderService {
 				'url' => '',
 			);
 		}
+	}
+
+	public static function balancePay($order) {
+		$userInfo = UserService::findById(session('user')->id);
+        if ($userInfo->balance < $order->payment) {
+            $res['code'] = 500;
+            $res['messages'] = '余额不足，请选择其他支付方式';
+            return $res;
+        }
+		$pay_time = date('Y-m-d H:i:s');
+		$updateData = array(
+			'real_pay' => $order->payment, //实付款
+			'pay_time' => $pay_time, //付款时间
+			'pay_type' => 3,
+			'state' => 2, //已付款
+		);
+		//开始事务
+		DB::beginTransaction();
+		try {
+			//更新订单状态
+			if (OrderDao::noticeUpdateOrder($order->id, $updateData)) {
+				//更新余额
+				UserService::balancePay($order->payment, $userInfo->id);
+				//更新库存
+				GoodsSpecService::updateGoodsSpecNum($order->id);
+				//用户级别变更及销售奖励分配
+				UserService::upgradeUserLevel($order->user_id);
+				//写入支付记录
+				$payLogData = array(
+					'user_id' => $order->user_id,
+					'openid' => $order->openid,
+					'pay_type' => 3,
+					'gain' => 0,
+					'expense' => $order->payment,
+					'balance' => $userInfo->balance-$order->payment,
+					'order_id' => $order->id,
+				);
+				PayLogsService::store($payLogData);
+
+				DB::commit();
+				//微信通知
+				if ($order->openid) {
+					$template = config('templatemessage.orderPaySuccess');
+					$templateData = array(
+						'first' => '您好，您的订单已支付成功',
+						'keyword1' => '￥' . $order->payment / 100,
+						'keyword2' => $order->order_sn,
+						'remark' => '如有问题请联系客服,欢迎再次光临！',
+					);
+					$url = config('app.url').'/order/detail/'.$orderSn;
+					WechatNoticeService::sendTemplateMessage($order->user_id, $order->openid, $url, $template['template_id'], $templateData);
+				}
+				$res['code'] = 200;
+				$res['messages'] = '支付成功';
+			} else {
+				DB::rollback();
+				$res['code'] = 500;
+				$res['messages'] = '更新失败';
+			}
+		} catch (\Exception $e) {
+			DB::rollback();
+			$res['code'] = 500;
+			$res['messages'] = '更新失败';
+		}
+		return $res;
 	}
 
 	/**

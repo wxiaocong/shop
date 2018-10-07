@@ -6,8 +6,13 @@ use App\Daoes\BaseDao;
 use App\Models\Users\User;
 use App\Utils\DateUtils;
 use App\Utils\Page;
+use Illuminate\Support\Facades\DB;
 
 class UserDao extends BaseDao {
+    //锁定余额
+    public static function lockBalance($amount, $user_id) {
+        return DB::update("UPDATE `users` SET bal");
+    }
     /**
      * 根据openid查询用户
      * @param  string $openid
@@ -65,6 +70,17 @@ class UserDao extends BaseDao {
      */
     public static function getById($id) {
         return User::where('id', $id);
+    }
+
+    /**
+     * 查询推荐人级别
+     * @param  [type] $user_id [description]
+     * @return [type]          [description]
+     */
+    public static function findRefereeLevel($user_id) {
+        return User::leftJoin('users as s', 'users.referee_id', '=', 's.id')
+            ->where('users.id', $user_id)
+            ->select('users.id', 'users.referee_id','s.level')->first();
     }
 
     /**
