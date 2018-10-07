@@ -165,6 +165,7 @@ class UserService {
                     'keyword2' => date('Y-m-d H:i:s'),
                     'remark' => '请进入系统查看详情！',
                 );
+                $url = config('app.url').'/home/income/0';
                 WechatNoticeService::sendTemplateMessage($refereeInfo->id, $refereeInfo->openid, $url, $template['template_id'], $templateData);
             }
         }

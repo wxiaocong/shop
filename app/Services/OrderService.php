@@ -156,7 +156,7 @@ class OrderService {
 						'keyword2' => $order->order_sn,
 						'remark' => '如有问题请联系客服,欢迎再次光临！',
 					);
-					$url = config('app.url').'/order/detail/'.$orderSn;
+					$url = config('app.url').'/order/detail/'.$order->order_sn;
 					WechatNoticeService::sendTemplateMessage($order->user_id, $order->openid, $url, $template['template_id'], $templateData);
 				}
 				$res['code'] = 200;

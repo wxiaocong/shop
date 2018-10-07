@@ -83,7 +83,7 @@ class AgentDao extends BaseDao {
 	 */
 	public static function findByPageAndParams($curPage, $pageSize, $params) {
 		$builder = Agent::leftJoin('users as u', 'agent.user_id', '=', 'u.id')
-			->leftJoin('users as r', 'u.referee_id', '=', 'r.id')->select('agent.*', 'u.nickname', 'r.nickname as referee_name');
+			->leftJoin('users as r', 'agent.referee_id', '=', 'r.id')->select('agent.*', 'u.nickname', 'r.nickname as referee_name');
 
 		if (array_key_exists('search', $params) && $params['search'] != '') {
 			$builder->where(function ($query) use ($params) {
