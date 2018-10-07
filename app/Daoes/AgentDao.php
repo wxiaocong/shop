@@ -16,7 +16,7 @@ class AgentDao extends BaseDao {
      * @param  [type] $city     [description]
      * @return [type]           [description]
      */
-    public state function findAgentByAddress($province, $city, $area = 0) {
+    public static function findAgentByAddress($province, $city, $area = 0) {
     	if ($area) {
     		//区域店
     		return Agent::where(['province'=>$province, 'city'=>$city, 'area'=>$area, 'level' => 2, 'state'=>3])->orderBy('id', 'desc')->first();

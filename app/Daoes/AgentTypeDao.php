@@ -29,6 +29,14 @@ class AgentTypeDao extends BaseDao
     }
 
     /**
+     * 根据ID查询
+     */
+    public static function findById($id)
+    {
+        return AgentType::find($id);
+    }
+
+    /**
      * 查询
      * @param  array $params
      *

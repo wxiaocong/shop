@@ -163,7 +163,7 @@ class AgentService {
      * @param  [type] $city     [description]
      * @return [type]           [description]
      */
-    public state function findAgentByAddress($province, $city, $area = 0) {
+    public static function findAgentByAddress($province, $city, $area = 0) {
     	return AgentDao::findAgentByAddress($province, $city, $area);
     }
 

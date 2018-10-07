@@ -26,7 +26,7 @@ class AgentController extends Controller {
         $orderSn = request('ordersn');
         $data['orderInfo'] = AgentService::findByOrderSn($orderSn);
         if (empty($data['orderInfo'])) {
-            abort(404, '未找到改订单');
+            abort(404, '未找到该订单');
         }
         $data['userInfo'] = UserService::findById(session('user')->id);
         return view('users.agentPay', $data);

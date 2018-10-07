@@ -109,7 +109,7 @@ class OrderService {
 
 	public static function balancePay($order) {
 		$userInfo = UserService::findById(session('user')->id);
-        if ($userInfo->balance < $order->payment) {
+        if (($userInfo->balance-$userInfo->lockBalance) < $order->payment) {
             $res['code'] = 500;
             $res['messages'] = '余额不足，请选择其他支付方式';
             return $res;
@@ -132,6 +132,8 @@ class OrderService {
 				GoodsSpecService::updateGoodsSpecNum($order->id);
 				//用户级别变更及销售奖励分配
 				UserService::upgradeUserLevel($order->user_id);
+				//推荐店铺奖励
+				UserService::agentRefereeMoney($order);
 				//写入支付记录
 				$payLogData = array(
 					'user_id' => $order->user_id,

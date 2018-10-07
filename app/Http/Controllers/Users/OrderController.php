@@ -61,7 +61,7 @@ class OrderController extends Controller {
         $orderSn = request('ordersn');
         $data['orderInfo'] = OrderService::findByOrderSn($orderSn);
         if (empty($data['orderInfo'])) {
-            abort(404, '未找到改订单');
+            abort(404, '未找到该订单');
         }
         //检查商品、活动、库存
         $check = OrderGoodsService::checkOrderPromotion($data['orderInfo']->id);
@@ -168,7 +168,7 @@ class OrderController extends Controller {
         $orderSn = createOrderSn();
         $withdrawData = array(
             'amount'    =>  $amount,
-            'order_sn'  =>  $orderSn;
+            'order_sn'  =>  $orderSn
         );
 
         if(WithdrawService::store(withdrawData)) {
@@ -176,7 +176,7 @@ class OrderController extends Controller {
             UserService::getById(session('user')->id)->increment('lockBalance', $amount);
             $app = EasyWeChat::payment();
             $result  = $app->transfer->toBalance([
-                'partner_trade_no' => $orderSn
+                'partner_trade_no' => $orderSn,
                 'openid' => session('user')->openid,
                 'check_name' => 'FORCE_CHECK', // NO_CHECK：不校验真实姓名, FORCE_CHECK：强校验真实姓名
                 're_user_name' => session('user')->realname, // 如果 check_name 设置为FORCE_CHECK，则必填用户真实姓名

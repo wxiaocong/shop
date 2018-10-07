@@ -16,7 +16,7 @@ class UserAuth {
      */
     public function handle($request, Closure $next) {
         if (!isWeixin()) {
-            session(array('user' => UserService::findByOpenid(1))); //测试
+            session(array('user' => UserService::findByOpenid(6))); //测试
         } else {
             if (!empty(session('user'))) {
                 $userInfo = UserService::findById(session('user')->id);

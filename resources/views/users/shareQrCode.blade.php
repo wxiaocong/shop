@@ -19,6 +19,7 @@ if (isWeiXin()) {
         wx.onMenuShareTimeline({
             title: "植得艾",
             imgUrl: "{{$imgSrc}}",
+            link: "{{$shareLink}}",
             success: function () {
                 $.toast("分享成功", "text");
             },
@@ -31,6 +32,7 @@ if (isWeiXin()) {
             title: "植得艾",
             desc: "我在植得艾发现了一个不错的商品，赶快来看看吧",
             imgUrl:  "{{$imgSrc}}",
+            link: "{{$shareLink}}",
             success: function () {
                 $.toast("分享成功", "text");
             },

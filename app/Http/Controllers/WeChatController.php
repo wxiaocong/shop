@@ -391,11 +391,16 @@ class WeChatController extends Controller {
     //我的二维码
     public function shareQrCode() {
         $userId = intval(request('id', 0));
+        $app = EasyWeChat::officialAccount();
+        $data['shareConfig'] = $app->jssdk->buildConfig(array('onMenuShareTimeline', 'onMenuShareAppMessage'), false);
         if ($userId) {
             $userInfo = UserService::findById($userId);
             if (!empty($userInfo)) {
                 $data['imgSrc'] = env('APP_URL').'/shareImg/' . $userId . '.jpg';
-                return view('users.shareQrCode', $data);
+                $data['shareLink'] = url()->full();
+                if ($userInfo->level > 0 && file_exists('./shareImg/' . $userId . '.jpg')) {
+                    return view('users.shareQrCode', $data);
+                }
             }
             abort(500, '不存在在分享链接');
         } else {
@@ -407,12 +412,9 @@ class WeChatController extends Controller {
                 abort('500', '您是游客，没有推荐权限，请先购买商品升级艾达人');
             }
             $data['imgSrc'] = $this->getNewPic();
+            $data['shareLink'] = env('APP_URL').'/wechat/shareQrCode/'.$userInfo->id;
             //生成分享配置
             $data['shareConfig'] = '';
-            if (isWeixin()) {
-                $app = EasyWeChat::officialAccount();
-                $data['shareConfig'] = $app->jssdk->buildConfig(array('onMenuShareTimeline', 'onMenuShareAppMessage'), false);
-            }
             return view('users.shareQrCode', $data);
         }
     }
