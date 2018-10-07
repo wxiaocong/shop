@@ -80,7 +80,7 @@ class UserDao extends BaseDao {
     public static function findRefereeLevel($user_id) {
         return User::leftJoin('users as s', 'users.referee_id', '=', 's.id')
             ->where('users.id', $user_id)
-            ->select('users.id', 'users.referee_id','s.level')->first();
+            ->select('users.id', 'users.referee_id','s.level')->first()->toArray();
     }
 
     /**

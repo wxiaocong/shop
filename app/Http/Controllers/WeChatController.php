@@ -149,8 +149,8 @@ class WeChatController extends Controller {
                     //查询订单
                     $orderSn = $message['out_trade_no'];
                     $orderInfo = AgentService::findOrderSnBalance($orderSn);
-                    //未找到订单或订单不是未付款状态，退款
-                    if (empty($orderInfo) || $orderInfo->state != 1) {
+                    //未找到订单或订单不是未付款状态
+                    if ( empty($orderInfo) || $orderInfo->state != 1) {
                         return true;
                     }
                     $pay_time = date('Y-m-d H:i:s', strtotime($result['time_end']));
@@ -162,8 +162,8 @@ class WeChatController extends Controller {
                     );
                     //推荐人是否为艾天使
                     $refereeLevel = UserService::findRefereeLevel($orderInfo->user_id);
-                    if (count($refereeLevel) > 0 && $refereeLevel->level == 2) {
-                        $updateData['referee_id'] = $refereeLevel->referee_id;
+                    if (! empty($refereeLevel) && $refereeLevel['level'] == 2) {
+                        $updateData['referee_id'] = $refereeLevel['referee_id'];
                     }
                     //开始事务
                     DB::beginTransaction();

@@ -89,6 +89,11 @@ class AgentService {
 			'pay_type' => 3,
 			'state' => 2, //已付款
 		);
+        //推荐人是否为艾天使
+        $refereeLevel = UserService::findRefereeLevel($orderInfo->user_id);
+        if (! empty($refereeLevel) && $refereeLevel['level'] == 2) {
+            $updateData['referee_id'] = $refereeLevel['referee_id'];
+        }
 		//开始事务
 		DB::beginTransaction();
 		try {
@@ -110,17 +115,17 @@ class AgentService {
                 }
                 DB::commit();
                 //微信通知
-                // if ($orderInfo->openid) {
-                //     $template = config('templatemessage.orderPaySuccess');
-                //     $templateData = array(
-                //         'first' => '您好，您的订单已支付成功',
-                //         'keyword1' => '￥' . $result['cash_fee'] / 100,
-                //         'keyword2' => $orderInfo->order_sn,
-                //         'remark' => '如有问题请联系客服,欢迎再次光临！',
-                //     );
-                //     $url = config('app.url').'/agent/detail/'.$orderSn;
-                //     WechatNoticeService::sendTemplateMessage($orderInfo->user_id, $orderInfo->openid, $url, $template['template_id'], $templateData);
-                // }
+                if ($orderInfo->openid) {
+                    $template = config('templatemessage.orderPaySuccess');
+                    $templateData = array(
+                        'first' => '您好，您的订单已支付成功',
+                        'keyword1' => '￥' . $result['cash_fee'] / 100,
+                        'keyword2' => $orderInfo->order_sn,
+                        'remark' => '如有问题请联系客服,欢迎再次光临！',
+                    );
+                    $url = config('app.url').'/agent/detail/'.$orderSn;
+                    WechatNoticeService::sendTemplateMessage($orderInfo->user_id, $orderInfo->openid, $url, $template['template_id'], $templateData);
+                }
                 $res['code'] = 200;
 				$res['messages'] = '支付成功';
 			} else {
@@ -235,7 +240,7 @@ class AgentService {
 	}
 
 	public static function findOrderSnBalance($orderSn) {
-		return OrderDao::findOrderSnBalance($orderSn);
+		return AgentDao::findOrderSnBalance($orderSn);
 	}
 
 	public static function findById($order_id) {

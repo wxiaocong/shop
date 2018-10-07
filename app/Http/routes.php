@@ -161,6 +161,7 @@ Route::group(array('middleware' => array('web')), function () {
 Route::group(array('middleware' => array('api')), function () {
 	Route::any('/wechat/refundOrder', 'WeChatController@refundOrder');
     Route::any('/wechat/payNotice', 'WeChatController@payNotice');
+    Route::any('/wechat/agentNotice', 'WeChatController@agentNotice');
     Route::any('/wechat/refundNotice', 'WeChatController@refundNotice');
     // Route::any('/wechat/templateMessageNotice/{noticeId}');
 
