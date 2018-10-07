@@ -77,7 +77,7 @@ class AgentService {
 
 	public static function balancePay($orderInfo) {
 		$userInfo = UserService::findById(session('user')->id);
-        if ($userInfo->balance < $orderInfo->payment) {
+        if (($userInfo->balance-$userInfo->lockBalance) < $orderInfo->payment) {
             $res['code'] = 500;
             $res['messages'] = '余额不足，请选择其他支付方式';
             return $res;
@@ -94,31 +94,33 @@ class AgentService {
 		try {
 			//更新订单状态
             if (AgentDao::noticeUpdateAgent($orderInfo->id, $updateData)) {
-                //写入支付记录
-                $payLogData = array(
-                    'user_id' => $orderInfo->user_id,
-                    'openid' => $orderInfo->openid,
-                    'pay_type' => 11,
-                    'gain' => 0,
-                    'expense' => $orderInfo->payment,
-                    'balance' => $userInfo->balance,
-                    'order_id' => $orderInfo->id,
-                );
-                PayLogsService::store($payLogData);
-
+                //扣减余额
+                if(UserService::getById(session('user')->id)->decrement('balance', $orderInfo->payment)) {
+                    //写入支付记录
+                    $payLogData = array(
+                        'user_id' => $orderInfo->user_id,
+                        'openid' => $orderInfo->openid,
+                        'pay_type' => 11,
+                        'gain' => 0,
+                        'expense' => $orderInfo->payment,
+                        'balance' => $userInfo->balance-$orderInfo->payment,
+                        'order_id' => $orderInfo->id,
+                    );
+                    PayLogsService::store($payLogData);
+                }
                 DB::commit();
                 //微信通知
-                if ($orderInfo->openid) {
-                    $template = config('templatemessage.orderPaySuccess');
-                    $templateData = array(
-                        'first' => '您好，您的订单已支付成功',
-                        'keyword1' => '￥' . $result['cash_fee'] / 100,
-                        'keyword2' => $orderInfo->order_sn,
-                        'remark' => '如有问题请联系客服,欢迎再次光临！',
-                    );
-                    $url = config('app.url').'/agent/detail/'.$orderSn;
-                    WechatNoticeService::sendTemplateMessage($orderInfo->user_id, $orderInfo->openid, $url, $template['template_id'], $templateData);
-                }
+                // if ($orderInfo->openid) {
+                //     $template = config('templatemessage.orderPaySuccess');
+                //     $templateData = array(
+                //         'first' => '您好，您的订单已支付成功',
+                //         'keyword1' => '￥' . $result['cash_fee'] / 100,
+                //         'keyword2' => $orderInfo->order_sn,
+                //         'remark' => '如有问题请联系客服,欢迎再次光临！',
+                //     );
+                //     $url = config('app.url').'/agent/detail/'.$orderSn;
+                //     WechatNoticeService::sendTemplateMessage($orderInfo->user_id, $orderInfo->openid, $url, $template['template_id'], $templateData);
+                // }
                 $res['code'] = 200;
 				$res['messages'] = '支付成功';
 			} else {

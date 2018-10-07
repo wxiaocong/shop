@@ -44,4 +44,11 @@ class PayLogsService
     {
         return PayLogsDao::findByPage($curPage, $pageSize, $params);
     }
+
+    /**
+     * 余额变动记录
+     */
+    public static function getAllByUser($user_id, $curPage, $pageSize) {
+        return PayLogsDao::getAllByUser($user_id, $curPage, $pageSize);
+    }
 }

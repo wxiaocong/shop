@@ -138,7 +138,7 @@ class OrderService {
 				$payLogData = array(
 					'user_id' => $order->user_id,
 					'openid' => $order->openid,
-					'pay_type' => 3,
+					'pay_type' => 1,
 					'gain' => 0,
 					'expense' => $order->payment,
 					'balance' => $userInfo->balance-$order->payment,

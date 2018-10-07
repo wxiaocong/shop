@@ -113,6 +113,8 @@ Route::group(array('middleware' => array('web')), function () {
         Route::get('/home/fund', 'HomeController@fund');
         Route::post('/home/getData', 'HomeController@getData');
         Route::get('/home/income/{payType}', 'HomeController@income');
+        Route::get('/home/balance', 'HomeController@balance');
+        Route::post('/home/getPayLogData', 'HomeController@getPayLogData');
         Route::resource('/home', 'HomeController');
 
 		Route::get('/agent/orderComplate/{ordersn}', 'AgentController@orderComplate');

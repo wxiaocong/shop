@@ -63,10 +63,18 @@ class HomeController extends Controller {
         return view('users.fund', array('userInfo' => $userInfo));
     }
 
-
     public function balance()
     {
-        return view('users.income', $data);
+        return view('users.balance')->with('pageSize',20);
+    }
+
+    public function getPayLogData()
+    {
+        $curPage = trimSpace(request('curPage', 1));
+        $pageSize = trimSpace(request('pageSize', 20));
+        $data['payLog'] = PayLogsService::getAllByUser(session('user')->id, $curPage, $pageSize);
+        $data['payTypeArr'] = array_column(config('statuses.payLog.payType'),'text','code');
+        return view('users.payLogData', $data);
     }
     
     //佣金收入

@@ -34,19 +34,15 @@
 </header>
 <section class="zyw-container">
     <div class="weui-tab">
-        <div class="weui-navbar">
-            <a href="/home/income/0" class="weui-navbar__item @if($payType == 0) weui-bar__item--on @endif">全部</a>
-            <a href="/home/income/5" class="weui-navbar__item @if($payType == 5) weui-bar__item--on @endif">赚取</a>
-            <a href="/home/income/6" class="weui-navbar__item @if($payType == 6) weui-bar__item--on @endif">消费</a>
-        </div>
         <div class="weui-tab__bd">
             <div class="order-group">
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th>下单者</th>
-                      <th>赚取</th>
-                      <th>收入方式</th>
+                      <th>类型</th>
+                      <th>收入</th>
+                      <th>支出</th>
+                      <th>余额</th>
                       <th>时间</th>
                     </tr>
                   </thead>
@@ -70,23 +66,23 @@ var curPage = 1;
 var loading = false;
 var loadMore = true;
 
-changeData({{$payType}});//初始数据
+changeData();//初始数据
 
 //加载更多
 $(document.body).infinite().on("infinite", function() {
   if(loading) return;
   loading = true;
-  changeData($('.weui-bar__item--on').attr('data'));
+  changeData();
 });
 
 //切换
-function changeData(payType){
+function changeData(){
     if(loadMore) {
         $('.weui-loadmore__tips').html('正在加载');
         $.ajax({
-            url: '/home/getData',
+            url: '/home/getPayLogData',
             type: 'POST',
-            data:{payType:payType,curPage:curPage},
+            data:{curPage:curPage},
             success: function(content) {
                 if(content.length > 0) {
                     $('#fundData').append(content);

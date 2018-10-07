@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="home-cont weui-cells" style="margin-bottom:56px;">
-                    <a class="weui-cell weui-cell_access" href="#">
+                    <a class="weui-cell weui-cell_access" href="/home/balance">
                         <div class="weui-cell__bd">
                             <p class="choose-text">余额明细</p>
                         </div>

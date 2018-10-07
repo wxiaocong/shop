@@ -29,7 +29,7 @@ body {
         </div>
         <div class="weui-msg__opr-area">
             <p class="weui-btn-area">
-              <a href="/home" class="weui-btn weui-btn_primary">用户用户</a>
+              <a href="/home" class="weui-btn weui-btn_primary">用户中心</a>
             </p>
         </div>
     </div>
