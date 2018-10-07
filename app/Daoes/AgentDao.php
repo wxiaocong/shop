@@ -27,6 +27,15 @@ class AgentDao extends BaseDao {
     	
     }
 
+    /**
+     * 跟据用户查找店铺
+     * @param  [type] $user_id [description]
+     * @return [type]          [description]
+     */
+    public static function findByUserId($user_id) {
+        return Agent::where('user_id', $user_id)->whereIn('state', array(2,3))->orderBy('id', 'desc')->first();
+    }
+
 	/**
 	 * 根据id查询订单,没加用户
 	 * @param int $id

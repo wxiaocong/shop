@@ -28,6 +28,15 @@ class AgentService {
 					'url' => '',
 				);
 			}
+            //检查地区是否已开
+            $haveAgent = AgentDao::findAgentByAddress($request['province'], $request['city'], $request['level']==1?0:$request['area']);
+            if (!empty($haveAgent)) {
+                return array(
+                    'code' => 500,
+                    'messages' => array('该地区已有代理商铺，请选择其他地区'),
+                    'url' => '',
+                );
+            }
 			$agent->level = $request['level'];
 			$agent->payment = $levelType[$request['level']]->price;
 			$agent->goodsNum = $levelType[$request['level']]->goodsNum;
@@ -231,6 +240,10 @@ class AgentService {
 			'url' => '',
 		);
 	}
+
+    public static function findByUserId($user_id) {
+        return AgentDao::findByUserId($user_id);
+    }
 
 	public static function findByOrderSn($orderSn, $isNotice = false) {
 		if (empty($orderSn)) {

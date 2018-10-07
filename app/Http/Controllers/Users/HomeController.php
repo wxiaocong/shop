@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\UsersRequest;
 use App\Services\Users\UserService;
 use App\Services\PayLogsService;
+use App\Services\AgentService;
 use EasyWeChat;
 use Session;
 use App\Utils\Page;
@@ -14,6 +15,7 @@ class HomeController extends Controller {
     public function index() {
         $data['userInfo'] = UserService::findById(session('user')->id);
         $data['levelArr'] = config('statuses.user.levelState');
+        $data['agent'] = AgentService::findByUserId(session('user')->id);
         return view('users.home', $data);
     }
 

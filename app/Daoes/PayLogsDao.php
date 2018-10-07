@@ -82,6 +82,6 @@ class PayLogsDao extends BaseDao
      * 余额变动记录
      */
     public static function getAllByUser($user_id, $curPage, $pageSize) {
-        return PayLogs::where('user_id', $user_id)->offset($pageSize * ($curPage - 1))->limit($pageSize)->get();
+        return PayLogs::where('user_id', $user_id)->orderBy('id', 'desc')->offset($pageSize * ($curPage - 1))->limit($pageSize)->get();
     }
 }

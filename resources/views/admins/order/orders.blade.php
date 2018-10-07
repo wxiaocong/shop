@@ -65,7 +65,7 @@
 				@foreach ($page->data as $data)
 				<tr>
 					<td><a target="_blank" href="{{ url('/admin/order/' . $data->id) }}">{{ $data->order_sn }}</a></td>
-					<td>{{ '【' . $data->user->mobile . '】' . $data->user->nickname}}</td>
+					<td>{{ $data->user->nickname}}</td>
 					<td>{{ $data->created_at }}</td>
 					<td>{{ translateStatus('order.state', $data->state) }}</td>
 					<td>{{ translateStatus('order.deliverStatus', $data->deliver_status) }}</td>

@@ -91,12 +91,21 @@
             </div>
             <div class="weui-cell__ft choose-des"></div>
         </a>
+        @if(empty($agent))
         <a class="weui-cell weui-cell_access" href="/agent">
             <div class="weui-cell__bd">
                 <p class="choose-text"><i class="iconfont icon-dailishang"></i> 代理商申请</p>
             </div>
             <div class="weui-cell__ft choose-des"></div>
         </a>
+        @else
+        <a class="weui-cell weui-cell_access" href="/agent/{{$agent['order_sn']}}">
+            <div class="weui-cell__bd">
+                <p class="choose-text"><i class="iconfont icon-dailishang"></i> 代理详情</p>
+            </div>
+            <div class="weui-cell__ft choose-des"></div>
+        </a>
+        @endif
         <a class="weui-cell weui-cell_access" href="/login/logout">
             <div class="weui-cell__bd">
                 <p class="choose-text"><i class="iconfont icon-guanbi"></i> 退出登录</p>

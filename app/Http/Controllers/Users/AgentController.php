@@ -6,13 +6,30 @@ use App\Services\AgentService;
 use App\Services\AgentTypeService;
 use App\Services\OrderService;
 use App\Services\Users\UserService;
+use App\Services\AreasService;
 use EasyWeChat;
 
 use App\Http\Controllers\Controller;
 class AgentController extends Controller {
     public function index() {
         $data['agent'] = AgentTypeService::getAll();
+        $agentInfo = AgentService::findByUserId(session('user')->id);
+        if (!empty($agentInfo)) {
+            abort(404, '您已经申请了代理商，请务重复申请');
+        }
         return view('users.agent', $data);
+    }
+
+    public function show() {
+        $order_sn = request('agent');
+        $data['agent'] = AgentService::getByOrderSn($order_sn)->where('user_id', session('user')->id)->whereIn('state', array(2,3))->orderBy('id', 'desc')->first();
+        if (empty($data)) {
+            abort(404, '您还不是代理商，请先申请');
+        }
+        $data['agentType'] = AgentTypeService::getAll();
+        $data['agent']->region = AreasService::convertAreaIdToName([$data['agent']->province, $data['agent']->city, $data['agent']->area]);
+        $data['agentState'] = config('statuses.agentState');
+        return view('users.agentDetail', $data);
     }
 
     //创建订单
