@@ -29,8 +29,12 @@
     });
     $('#getout').click(function(){
         var buttons = $(this);
-        var amount = $("#getmoneys").val();
+        var amount = parseInt($("#getmoneys").val() + 0);
         var maxAmount = $("#getmoneys").prop('max');
+        if (amount < 1) {
+            $.toast('提现金额错误', "forbidden");
+            return false;
+        }
         if (amount > maxAmount) {
             $.toast('余额不足', "forbidden");
             return false;
@@ -48,7 +52,14 @@
                 $.hideLoading();
                 if (jsonObject.code == 200) {
 
+                } else {
+                    $.toast(jsonObject.messages, "forbidden");
                 }
+                buttons.removeAttr('disabled');
+            },
+            error: function(xhr, type) {
+                buttons.removeAttr('disabled');
+                $.hideLoading();
             }
         })
     });
