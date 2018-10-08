@@ -29,6 +29,10 @@ class OrderDao extends BaseDao {
 		return Order::where('order_sn', $orderSn);
 	}
 
+    public static function findByTransactionId($transaction_id) {
+		return Order::where('transaction_id', $transaction_id)->first();
+    }
+
 	/**
 	 * 订单号查询订单
 	 * @param unknown $orderSn

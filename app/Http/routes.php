@@ -22,7 +22,7 @@
  */
 Route::group(array('middleware' => array('web')), function () {
     Route::get('/getCaptcha', 'CaptchaController@getCaptcha');
-    
+
     Route::any('/fileUpload/uploadFile', 'FileUploadController@uploadFile');
     Route::any('/fileUpload/uploadLocalFile', 'FileUploadController@uploadLocalFile');
     //fileUpload
@@ -68,6 +68,13 @@ Route::group(array('middleware' => array('web')), function () {
         //ad
         Route::post('/admin/ad/destroyAll', 'Tool\AdPositionController@destroyAll');
         Route::resource('/admin/ad', 'Tool\AdPositionController');
+
+        //wechat
+
+        Route::get('/admin/wechat/refund', 'Tool\WechatController@refund');
+        Route::post('/admin/wechat/wechatRefund', 'Tool\WechatController@wechatRefund');
+        Route::post('/admin/wechat/getOrderInfo', 'Tool\WechatController@getOrderInfo');
+        Route::resource('/admin/wechat', 'Tool\WechatController');
 
         //adminUser
         Route::get('/admin/adminUser/editPwd', 'System\AdminUserController@editPassword');

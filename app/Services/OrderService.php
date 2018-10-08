@@ -194,6 +194,16 @@ class OrderService {
 		return $app->order->queryByOutTradeNumber($orderSn);
 	}
 
+    /**
+     * 根据微信订单号查询 微信服务器订单查询
+     * @param unknown $transaction_id
+     */
+    public static function searchOrderByTransactionId($transaction_id)
+    {
+        $app = EasyWeChat::payment();
+        return $app->order->queryByTransactionId($transaction_id);
+    }
+
 	/**
 	 * 取消订单
 	 * @param  int $id
@@ -509,6 +519,13 @@ class OrderService {
 		}
 		return OrderDao::findByOrderSn($orderSn, $isNotice);
 	}
+
+    public static function findByTransactionId($transaction_id) {
+        if (empty($transaction_id)) {
+			return null;
+		}
+		return OrderDao::findByTransactionId($transaction_id);
+    }
 
 	public static function findAddGoodByOrderSn($orderSn) {
 		return OrderDao::findAddGoodByOrderSn($orderSn);
