@@ -46,7 +46,7 @@ button.weui-btn_warn{
         <label class="weui-cell weui-check__label" for="x{{$k}}">
           <div class="weui-cell__bd">
             <p>{{$v->type_name}}</p>
-            <div>代理价：{{sprintf("%.2f", $v->price/100)}}，配货数量：{{$v->goodsNum}}</div>
+            <div>保证金：{{sprintf("%.2f", $v->price/100)}}</div>
           </div>
           <div class="weui-cell__ft">
             <input type="radio" class="weui-check" name="level" value="{{$v->id}}" id="x{{$k}}" @if($k == 0) checked="checked"@endif>
