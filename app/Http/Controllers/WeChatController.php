@@ -10,7 +10,6 @@ use App\Services\PayLogsService;
 use App\Services\Users\UserService;
 use App\Services\WechatNoticeService;
 use App\Services\WechatNotifyService;
-use App\Services\Admins\StatisticalService;
 use EasyWeChat;
 use Illuminate\Support\Facades\DB;
 use Session;
@@ -40,10 +39,6 @@ class WeChatController extends Controller {
                 'country' => $user['country'],
                 'sex' => $user['sex'],
             );
-             //前1W名VIP
-            if ((empty($userInfo) || $userInfo->level == 0) && StatisticalService::findRegisterCount() < 10000) {
-                $wechatUserData['vip'] = 1;
-            }
             UserService::saveOrUpdate($openid, $wechatUserData);
             Session::forget('user');
             session(array('user' => UserService::findByOpenid($openid)));
@@ -281,10 +276,6 @@ class WeChatController extends Controller {
                                     'country' => $user['country'],
                                     'sex' => $user['sex'],
                                 );
-                                //前1W名VIP
-                                if (StatisticalService::findRegisterCount() < 10000) {
-                                    $wechatUserData['vip'] = 1;
-                                }
                                 UserService::saveOrUpdate($openid, $wechatUserData);
                             }
                         }

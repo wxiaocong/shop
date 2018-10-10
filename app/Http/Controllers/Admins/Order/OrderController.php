@@ -31,7 +31,8 @@ class OrderController extends Controller
             ->with('state', $params['state'])
             ->with('deliverStatus', $params['deliverStatus'])
             ->with('startPayDate', $params['startDate'])
-            ->with('endPayDate', $params['endDate']);
+            ->with('endPayDate', $params['endDate'])
+            ->with('province', json_decode(AreasService::getAreasTree(0)));
     }
 
     public function show($id)

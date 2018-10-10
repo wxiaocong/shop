@@ -51,7 +51,10 @@
 											<th>付款时间:</th><td>{{$agent->pay_time}}</td>
 										</tr>
 										<tr>
-											<th>配货数量:</th><td>{{$agent->goodsNum}}</td>
+											<th>付款凭证:</th><td><img width="200" height="200"  src="{{ $agent->transfer_voucher }}" /></td>
+										</tr>
+										<tr>
+											<th>库存:</th><td>{{$agent->goodsNum}}</td>
 										</tr>
 										<tr>
 											<th>代理商姓名:</th><td>{{ $agent->agent_name }}</td>

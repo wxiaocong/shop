@@ -33,7 +33,7 @@
                 <th>地区</th>
                 <th>订单金额</th>
                 <th>手机号</th>
-                <th>付款时间</th>
+                <th>库存</th>
                 <th>状态</th>
                 <th>操作</th>
             </tr>
@@ -59,7 +59,7 @@
                     </td>
                     <td>{{sprintf("%.2f", $data->payment/100)}}</td>
                     <td>{{ $data->mobile }}</td>
-                    <td>{{ $data->pay_time }}</td>
+                    <td>{{ $data->goodsNum }}</td>
                     <td>{{ $agentState[$data->state] }}</td>
                     <td>
                         <a target="_blank" href="{{ url('/admin/agent/' . $data->id) }}">

@@ -44,7 +44,7 @@ button.weui-btn_warn{
         <label class="weui-cell weui-check__label">
           <div class="weui-cell__bd">
             <p>{{$agentType[$agent->level]['type_name']}}</p>
-            <div>代理价：{{sprintf("%.2f", $agent->price/100)}}，配货数量：{{$agent->goodsNum}}</div>
+            <div>代理价：{{sprintf("%.2f", $agent->payment/100)}}，配货数量：{{$agent->goodsNum}}</div>
           </div>
         </label>
     </div>
@@ -99,6 +99,33 @@ button.weui-btn_warn{
           </div>
           <div class="weui-uploader__bd">
               <img src="{{$agent->back_identity_card}}" style="width:150px;height:100px;" >
+          </div>
+      </div>
+      <div class="weui-cells__title">转账凭证</div>
+      <div class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">转账银行</label>
+        </div>
+        <div class="weui-cell__bd">{{$bank['name']}}</div>
+      </div>
+      <div class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">银行卡号</label>
+        </div>
+        <div class="weui-cell__bd">{{$bank['holder']}}</div>
+      </div>
+      <div class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">收款人</label>
+        </div>
+        <div class="weui-cell__bd">{{$bank['card']}}</div>
+      </div>
+      <div class="weui-cell">
+          <div class="weui-cell__bd">
+            <p>转账凭证：</p>
+          </div>
+          <div class="weui-uploader__bd">
+              <img src="{{$agent->transfer_voucher}}" style="width:150px;height:100px;" >、
           </div>
       </div>
       <div class="weui-cells__title">备注</div>

@@ -33,7 +33,7 @@ class AgentDao extends BaseDao {
      * @return [type]          [description]
      */
     public static function findByUserId($user_id) {
-        return Agent::where('user_id', $user_id)->whereIn('state', array(2,3))->orderBy('id', 'desc')->first();
+        return Agent::where('user_id', $user_id)->whereIn('state', array(1,2,3))->orderBy('id', 'desc')->first();
     }
 
 	/**

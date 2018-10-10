@@ -85,6 +85,7 @@ button.weui-btn_warn{
             <input class="weui-input" type="text" name="address" maxlength="200" value="" placeholder="请输入详情地址,不包括地区">
           </div>
       </div>
+
       <div class="weui-cell">
           <div class="weui-cell__bd">
             <p>身份证正面：</p>
@@ -99,6 +100,33 @@ button.weui-btn_warn{
           </div>
           <div class="weui-uploader__bd">
               <img class="back_identity_card"  name="back_identity_card"  style="width:150px;height:100px;" >
+          </div>
+      </div>
+      <div class="weui-cells__title">转账凭证</div>
+      <div class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">转账银行</label>
+        </div>
+        <div class="weui-cell__bd">{{$bank['name']}}</div>
+      </div>
+      <div class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">银行卡号</label>
+        </div>
+        <div class="weui-cell__bd">{{$bank['holder']}}</div>
+      </div>
+      <div class="weui-cell">
+        <div class="weui-cell__hd">
+          <label class="weui-label">收款人</label>
+        </div>
+        <div class="weui-cell__bd">{{$bank['card']}}</div>
+      </div>
+      <div class="weui-cell">
+          <div class="weui-cell__bd">
+            <p>转账凭证：</p>
+          </div>
+          <div class="weui-uploader__bd">
+              <img class="transfer_voucher"  name="transfer_voucher" style="width:150px;height:100px;" >
           </div>
       </div>
       <div class="weui-cells__title">备注</div>
@@ -119,7 +147,7 @@ button.weui-btn_warn{
 <script src="{{ elixir('js/common/fileUpload.js') }}"></script>
 <script type="text/javascript">
 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-$(".front_identity_card,.back_identity_card").cnFileUpload();
+$(".front_identity_card,.back_identity_card,.transfer_voucher").cnFileUpload();
 $("#city-picker").cityPicker({
     title: "请选择地址"
 });

@@ -30,7 +30,7 @@
 @include('admins.footer')
 <script>
 $('#refund').click(function(){
-    var money = parseInt($('money').val()+0);
+    var money = parseInt($('#money').val());
     $(this).cnConfirm('确定要退款'+money+'元吗?', function() {
         $.ajax({
             url: '/admin/wechat/getOrderInfo',

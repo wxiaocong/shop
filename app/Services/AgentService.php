@@ -48,14 +48,19 @@ class AgentService {
 			if (substr( $request['back_identity_card'], 0, 1 ) != '/') {
 				$request['back_identity_card'] = '/'.$request['back_identity_card'];
 			}
+            if (substr( $request['transfer_voucher'], 0, 1 ) != '/') {
+                $request['transfer_voucher'] = '/'.$request['transfer_voucher'];
+            }
 			$agent->front_identity_card = $request['front_identity_card'];
 			$agent->back_identity_card = $request['back_identity_card'];
+            $agent->transfer_voucher = $request['transfer_voucher'];
 			$agent->province = $request['province'];
 			$agent->city = $request['city'];
 			$agent->area = $request['area'];
 			$agent->address = $request['address'];
+            $agent->pay_time = date('Y-m-d H:i:s');
 			$agent->remark = $request['remark'];
-			$agent->state = 1;
+			$agent->state = 2;
 			$agent->save();
 
 			if ($agent->id) {
@@ -63,7 +68,7 @@ class AgentService {
 				return array(
 					'code' => 200,
 					'messages' => array('保存订单成功'),
-					'url' => '/agent/cashPay/' . $agent->order_sn,
+					'url' => '/agent/' . $agent->order_sn,
 					'data' => array('order_id' => $agent->id, 'order_sn' => $agent->order_sn, 'payment' => $agent->payment),
 				);
 			} else {

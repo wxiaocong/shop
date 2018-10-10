@@ -29,8 +29,10 @@
         <thead>
             <tr>
                 <th>类型名称</th>
-                <th>价格</th>
-                <th>返利</th>
+                <th>保证金</th>
+                <th>退还金额</th>
+                <th>退还需销售数量</th>
+                <th>退还时间限制</th>
                 <th>配货数量</th>
                 <th>操作</th>
             </tr>
@@ -47,6 +49,12 @@
                         </td>
                         <td>
                             {{sprintf("%.2f", $data->returnMoney/100)}}
+                        </td>
+                        <td>
+                            {{ $data->salesNum }}
+                        </td>
+                        <td>
+                            {{ $data->timeLimit }}
                         </td>
                         <td>
                             {{ $data->goodsNum }}

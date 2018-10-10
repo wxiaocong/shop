@@ -11,8 +11,15 @@ use Illuminate\Support\Facades\DB;
 class UserDao extends BaseDao {
     //锁定余额
     public static function lockBalance($amount, $user_id) {
-        return DB::update("UPDATE `users` SET bal");
+        return DB::update("UPDATE `users` SET lockBalance = lockBalance + $amount where id = $user_id");
     }
+
+    //提成，金额锁定
+    public function profit($amount, $user_id) {
+        return DB::update("UPDATE `users` SET balance = balance + ? ,lockBalance = lockBalance + ? where id = ?", [$amount, $amount, $user_id]);
+    }
+
+
     /**
      * 根据openid查询用户
      * @param  string $openid
@@ -99,6 +106,14 @@ class UserDao extends BaseDao {
         }
 
         return $builder->get();
+    }
+
+    /**
+     * VIP用户总数
+     * @return int
+     */
+    public static function findVipCount() {
+        return User::where('vip',1)->count();
     }
 
     /**

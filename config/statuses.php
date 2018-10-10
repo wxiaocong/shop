@@ -189,6 +189,10 @@ return array(
                 'code' => 8,
                 'text' => '推荐店铺销售奖励'
             ),
+            'shopProfit' => array(
+                'code' => 9,
+                'text' => '店铺销售奖励'
+            ),
             'agentPay' => array(
                 'code' => 11,
                 'text' => '申请代理商'
@@ -235,7 +239,7 @@ return array(
     ),
     'agentState' => array(
         '1' =>  '待付款',
-        '2' =>  '已付款',
+        '2' =>  '待审核',
         '3' =>  '审核通过',
         '4' =>  '拒绝',
         '5' =>  '取消'

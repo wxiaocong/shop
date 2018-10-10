@@ -33,6 +33,14 @@ class StatisticalService {
 	}
 
 	/**
+	 * VIP用户总数
+	 * @return int
+	 */
+	public static function findVipCount() {
+		return UserDao::findVipCount();
+	}
+
+	/**
 	 * 根据时间段查询新增用户数
 	 * string $startDate
 	 * string $endDate
