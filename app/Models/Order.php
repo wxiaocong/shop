@@ -51,4 +51,34 @@ class Order extends Model
     {
         return $this->belongsTo('App\Models\Users\User', 'user_id', 'id')->withTrashed();
     }
+
+         /**
+     * Get the relational models of Areas.
+     *
+     * @return App\Models\Areas
+     */
+    public function provinceObj()
+    {
+        return $this->belongsTo('App\Models\Areas', 'province', 'id');
+    }
+
+    /**
+     * Get the relational models of Areas.
+     *
+     * @return App\Models\Areas
+     */
+    public function cityObj()
+    {
+        return $this->belongsTo('App\Models\Areas', 'city', 'id');
+    }
+
+    /**
+     * Get the relational models of Areas.
+     *
+     * @return App\Models\Areas
+     */
+    public function areaObj()
+    {
+        return $this->belongsTo('App\Models\Areas', 'area', 'id');
+    }
 }

@@ -22,6 +22,12 @@ class AreasController extends Controller
         $level = intval(request('level', 1));
         return view('admins.system.areasTemplate', ['level' => $level, 'areasTree' => AreasService::getAreasTree($parent_id)]);
     }
+
+    //获取下级
+    public function ajaxGetArea($parent_id)
+    {
+        return json_encode(AreasService::getAreasTree($parent_id));
+    }
     
     public function store(AreasRequest $request)
     {

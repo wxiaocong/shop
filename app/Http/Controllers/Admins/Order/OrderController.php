@@ -8,6 +8,7 @@ use App\Services\OrderRefundService;
 use App\Services\OrderService;
 use App\Services\OrderShippingService;
 use App\Services\PayLogsService;
+use App\Services\AreasService;
 use App\Utils\Page;
 use Illuminate\Http\Request;
 
@@ -19,8 +20,10 @@ class OrderController extends Controller
         $curPage                 = trimSpace(request('curPage', 1));
         $pageSize                = trimSpace(request('pageSize', Page::PAGESIZE));
         $params['search']        = trimSpace(request('search', ''));
+        $params['province']      = intval(request('province', 0));
+        $params['city']          = intval(request('city', 0));
+        $params['area']          = intval(request('area', 0));
         $params['state']         = trimSpace(request('state', ''));
-        $params['deliverStatus'] = trimSpace(request('deliverStatus', ''));
         $params['startDate']     = trimSpace(request('startPayDate', ''));
         $params['endDate']       = trimSpace(request('endPayDate', ''));
 
@@ -29,10 +32,10 @@ class OrderController extends Controller
             ->with('page', $page)
             ->with('search', $params['search'])
             ->with('state', $params['state'])
-            ->with('deliverStatus', $params['deliverStatus'])
             ->with('startPayDate', $params['startDate'])
             ->with('endPayDate', $params['endDate'])
-            ->with('province', json_decode(AreasService::getAreasTree(0)));
+            ->with('province', json_decode(AreasService::getAreasTree(0)))
+            ->with('totalStatic', OrderService::getPageStatistic($params));
     }
 
     public function show($id)

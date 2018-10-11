@@ -117,6 +117,15 @@ class OrderDao extends BaseDao {
 					->orWhere('users.nickname', 'like', '%' . $params['search'] . '%');
 			});
 		}
+		if (array_key_exists('province', $params) && $params['province'] != 0) {
+			$builder->where('order.province', $params['province']);
+		}
+		if (array_key_exists('city', $params) && $params['city'] != 0) {
+			$builder->where('order.city', $params['city']);
+		}
+		if (array_key_exists('area', $params) && $params['area'] != 0) {
+			$builder->where('order.area', $params['area']);
+		}
 		if (array_key_exists('state', $params) && $params['state'] != '') {
 			$builder->where('order.state', $params['state']);
 		}
@@ -148,7 +157,55 @@ class OrderDao extends BaseDao {
 			$builder->orderBy('order.created_at', 'desc');
 		}
 
-		return new Page($builder->paginate($pageSize, array('*'), 'page', $curPage));
+		return  new Page($builder->paginate($pageSize, array('*'), 'page', $curPage));
+	}
+
+	public static function getPageStatistic($params) {
+
+		$sql = "SELECT SUM(g.num) AS goods_num,SUM(o.payment) AS payment,SUM(o.real_pay) as real_pay,COUNT(o.id) AS order_num FROM `order` o JOIN order_goods g ON o.id = g.order_id JOIN users u ON o.user_id = u.id WHERE 1";
+		$p = [];
+		if (array_key_exists('search', $params) && $params['search'] != '') {
+			$sql .= " AND (o.order_sn like '%?%' or o.receiver_mobile like '%?%' or o.receiver_name like '%?%' or u.mobile like '%?%' or u.nickname like '%?%')";
+			$p = arrap_pad(array(), 5,$params['search']);
+		}
+		if (array_key_exists('province', $params) && $params['province'] != 0) {
+			$sql .= " AND o.province = ?";
+			$p[] = $params['province'];
+		}
+		if (array_key_exists('city', $params) && $params['city'] != 0) {
+			$sql .= " AND o.city = ?";
+			$p[] = $params['city'];
+		}
+		if (array_key_exists('area', $params) && $params['area'] != 0) {
+			$sql .= " AND o.area = ?";
+			$p[] = $params['area'];
+		}
+		if (array_key_exists('state', $params) && $params['state'] != '') {
+			$sql .= " AND o.state = ?";
+			$p[] = $params['state'];
+		}
+		if (array_key_exists('startPayDate', $params) && $params['startPayDate'] != '') {
+			// $builder->where('order.pay_time', '>=', DateUtils::addDay(0, $params['startPayDate']));
+			$sql .= " AND o.pay_time >= ?";
+			$p[] = DateUtils::addDay(0, $params['startPayDate']);
+		}
+		if (array_key_exists('endPayDate', $params) && $params['endPayDate'] != '') {
+			// $builder->where('order.pay_time', '<', DateUtils::addDay(1, $params['endPayDate']));
+			$sql .= " AND o.pay_time < ?";
+			$p[] = DateUtils::addDay(1, $params['endPayDate']);
+		}
+		if (array_key_exists('startDate', $params) && $params['startDate'] != '') {
+			// $builder->where('order.created_at', '>=', DateUtils::addDay(0, $params['startDate']));
+			$sql .= " AND o.created_at >= ?";
+			$p[] = DateUtils::addDay(0, $params['created_at']);
+		}
+		if (array_key_exists('endDate', $params) && $params['endDate'] != '') {
+			// $builder->where('order.created_at', '<', DateUtils::addDay(1, $params['endDate']));
+			$sql .= " AND o.created_at < ?";
+			$p[] = DateUtils::addDay(0, $params['endDate']);
+		}
+		$res = DB::select($sql, $p);
+		return empty($res) ? NULL : $res[0];
 	}
 
 	/**

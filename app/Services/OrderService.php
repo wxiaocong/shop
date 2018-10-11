@@ -579,6 +579,10 @@ class OrderService {
 		return OrderDao::findByPageAndParams($curPage, $pageSize, $params);
 	}
 
+	public static function getPageStatistic($params = array()) {
+		return OrderDao::getPageStatistic($params);
+	}
+
 	/**
 	 * @param  int $orderGoodId
 	 * @param  string $expressName

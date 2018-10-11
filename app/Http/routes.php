@@ -35,6 +35,7 @@ Route::group(array('middleware' => array('web')), function () {
 
         //system
         Route::get('/admin/system/areas/getArea', 'System\AreasController@getArea');
+        Route::get('/admin/system/areas/ajaxGetArea/{parent_id}', 'System\AreasController@ajaxGetArea');
         Route::resource('/admin/system/areas', 'System\AreasController');
         Route::resource('/admin/system','System\SystemController');
 
