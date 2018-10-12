@@ -8,8 +8,8 @@ return array(
     'payType' => array(1,3),
     //付款银行
     'bank' => array(
-        'name'  =>  '中国银行',
-        'holder'=>  '张三',
-        'card'  =>  '666666'
+        'name'  =>  '农业银行深圳西乡支行',
+        'holder'=>  '唐烁炜',
+        'card'  =>  '6228480128637658971'
     )
 );
