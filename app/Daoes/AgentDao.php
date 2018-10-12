@@ -24,7 +24,25 @@ class AgentDao extends BaseDao {
     		//旗舰店
     		return Agent::where(['province'=>$province, 'city'=>$city, 'level' => 1, 'state'=>3])->orderBy('id', 'desc')->first();
     	}
-    	
+    }
+
+    /**
+     * 消费扣除代理商库存
+     * @param  [type] $agent_id [description]
+     * @param  [type] $num      [description]
+     * @return [type]           [description]
+     */
+    public static function updateStock($agent_id, $num = 1) {
+        return Agent::where(['id'=>$agent_id, 'state' => 3])->decrement('goodsNum', $num);
+    }
+
+    /**
+     * 查找用户的店中店
+     * @param  [type] $user_id [description]
+     * @return [type]          [description]
+     */
+    public static function findUserInShop($user_id) {
+		return Agent::where(['user_id'=>$user_id, 'level' => 3, 'state'=>3])->first();
     }
 
     /**

@@ -120,7 +120,7 @@ $('.refuse-button').click(function() {
 });
 function merchantAudit(type) {
 	$.ajax({
-        url:  '/admin/user/' + {{$agent->id}} + '/agentAudit',
+        url:  '/admin/agent/' + {{$agent->id}} + '/audit',
         type: 'post',
         data: {'type': type},
         dataType: 'json',

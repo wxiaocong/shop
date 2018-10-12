@@ -28,15 +28,23 @@ class AgentService {
 					'url' => '',
 				);
 			}
-            //检查地区是否已开
-            $haveAgent = AgentDao::findAgentByAddress($request['province'], $request['city'], $request['level']==1?0:$request['area']);
-            if (!empty($haveAgent)) {
-                return array(
-                    'code' => 500,
-                    'messages' => array('该地区已有代理商铺，请选择其他地区'),
-                    'url' => '',
-                );
+            //非店中店检查地区是否已开
+            if ($request['level'] != 3) {
+                $haveAgent = AgentDao::findAgentByAddress($request['province'], $request['city'], $request['level']==1?0:$request['area']);
+                if (!empty($haveAgent)) {
+                    return array(
+                        'code' => 500,
+                        'messages' => array('该地区已有代理商铺，请选择其他地区'),
+                        'url' => '',
+                    );
+                }
             }
+            //推荐人为艾天使，写入店铺推荐人
+            $refereeLevel = UserService::findRefereeLevel(session('user')->id);
+            if (! empty($refereeLevel) && $refereeLevel['level'] == 2) {
+                $agent->referee_id = $refereeLevel['referee_id'];
+            }
+
 			$agent->level = $request['level'];
 			$agent->payment = $levelType[$request['level']]->price;
 			$agent->goodsNum = $levelType[$request['level']]->goodsNum;
@@ -155,6 +163,16 @@ class AgentService {
 		return $res;
 	}
 
+    /**
+     * 消费扣除代理商库存
+     * @param  [type] $agent_id [description]
+     * @param  [type] $num      [description]
+     * @return [type]           [description]
+     */
+    public static function updateStock($agent_id, $num = 1) {
+        return AgentDao::updateStock($agent_id, $num);
+    }
+
 	/**
 	* 保存
 	* @param  App\Models\Users\User $user
@@ -176,6 +194,14 @@ class AgentService {
             'messages' => array('更新成功'),
             'url' => '',
         );
+    }
+    /**
+     * 查找用户的店中店
+     * @param  [type] $user_id [description]
+     * @return [type]          [description]
+     */
+    public static function findUserInShop($user_id) {
+        return AgentDao::findUserInShop($user_id);
     }
 
     /**

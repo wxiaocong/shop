@@ -193,6 +193,10 @@ return array(
                 'code' => 9,
                 'text' => '店铺销售奖励'
             ),
+            'recommendShop' => array(
+                'code' => 10,
+                'text' => '推荐代理商奖励'
+            ),
             'agentPay' => array(
                 'code' => 11,
                 'text' => '申请代理商'

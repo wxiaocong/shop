@@ -4,6 +4,7 @@ namespace App\Daoes;
 
 use App\Daoes\BaseDao;
 use App\Models\Order;
+use App\Models\OrderGoods;
 use App\Utils\DateUtils;
 use App\Utils\Page;
 use Illuminate\Support\Facades\DB;
@@ -32,6 +33,15 @@ class OrderDao extends BaseDao {
     public static function findByTransactionId($transaction_id) {
 		return Order::where('transaction_id', $transaction_id)->first();
     }
+
+	/**
+	 * 订单商品总数
+	 * @param  [type] $order_id [description]
+	 * @return [type]           [description]
+	 */
+	public static function orderGoodsNum($order_id) {
+		return OrderGoods::where('order_id', $order_id)->sum('num');
+	}
 
 	/**
 	 * 订单号查询订单

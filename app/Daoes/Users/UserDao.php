@@ -15,7 +15,7 @@ class UserDao extends BaseDao {
     }
 
     //提成，金额锁定
-    public function profit($amount, $user_id) {
+    public static function profit($amount, $user_id) {
         return DB::update("UPDATE `users` SET balance = balance + ? ,lockBalance = lockBalance + ? where id = ?", [$amount, $amount, $user_id]);
     }
 

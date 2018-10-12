@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admins\Member;
 use App\Http\Controllers\Controller;
 use App\Services\AgentService;
 use App\Services\AgentTypeService;
+use App\Services\Admins\SystemService;
+use App\Services\Users\UserService;
 use App\Utils\Page;
 use Illuminate\Http\Request;
 
@@ -72,10 +74,29 @@ class AgentController extends Controller
         }
         $results = AgentService::getByOrderSn($agent->order_sn)->update(['state'=>$agent->state]);
         if ($results) {
+            if ($agent->state == 3) {
+                //审核通过用户升级艾天使
+                UserService::getById($agent->user_id)->update(['level'=>2]);
+                //审核通过有推荐人发放推荐开店奖励
+                if ($agent->referee_id > 0) { 
+                    switch ($agent->level) {
+                        case '1':
+                            $reward = SystemService::findByName('recommended_city_shop_commission');
+                            break;
+                        case '2':
+                            $reward = SystemService::findByName('recommended_area_shop_commission');
+                            break;
+                        default:
+                            $reward = SystemService::findByName('recommended_inside_shop_commission');
+                            break;
+                    }
+                    UserService::buildShopRecommend($agent, $reward->val);
+                }
+            }
             return response()->json(array(
                 'code'     => 200,
                 'messages' => array('操作成功'),
-                'url'      => '/admin/user/agent/' . $id,
+                'url'      => '/admin/agent/' . $agent->id,
             ));
         }
         return response()->json(array(

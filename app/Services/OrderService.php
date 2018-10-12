@@ -129,7 +129,7 @@ class OrderService {
 				//更新余额
 				UserService::balancePay($order->payment, $userInfo->id);
 				//更新库存
-				GoodsSpecService::updateGoodsSpecNum($order->id);
+				// GoodsSpecService::updateGoodsSpecNum($order->id);
 				//用户级别变更及销售奖励分配
 				UserService::upgradeUserLevel($order->user_id);
 				//推荐店铺奖励
@@ -635,5 +635,14 @@ class OrderService {
 		$orderRefund->opera_id = session('adminUser')->id;
 		$orderRefund->state = 0;
 		return $orderRefund;
+	}
+
+	/**
+	 * 订单商品总数
+	 * @param  [type] $order_id [description]
+	 * @return [type]           [description]
+	 */
+	public static function orderGoodsNum($order_id) {
+		return OrderDao::orderGoodsNum($order_id);
 	}
 }

@@ -8,6 +8,7 @@ use App\Services\AgentService;
 use App\Services\PayLogsService;
 use App\Services\WechatNoticeService;
 use App\Services\Admins\StatisticalService;
+use App\Services\OrderService;
 
 class UserService {
     /**
@@ -76,7 +77,7 @@ class UserService {
                         WechatNoticeService::sendTemplateMessage($refereeInfo->id, $refereeInfo->openid, $url, $template['template_id'], $templateData);
                         if ($refereeInfo->vip) {
                             $vip_extra_bonus = $system_param['vip_extra_bonus'];
-                            if(UserDao::profit($vip_extra_bonus * 100, $refereeInfo->user_id)) {
+                            if(UserDao::profit($vip_extra_bonus * 100, $refereeInfo->id)) {
                                 $payLogData = array(
                                     'user_id' => $refereeInfo->id,
                                     'openid' => $refereeInfo->openid,
@@ -141,6 +142,74 @@ class UserService {
     public static function agentRefereeMoney($orderInfo) {
         //系统参数
         $system_param = SystemDao::getAll();
+        //消息模板
+        $template = config('templatemessage.getCommission');
+        //减库存标记
+        $hasUpdateStock = 0;
+        //用户信息
+        $inInfo = UserDao::findById($orderInfo->user_id);
+        //是否是店中店
+        $inAgent = AgentService::findUserInShop($orderInfo->user_id);
+        if (!empty($inAgent)) {
+            $agent_referee_id =  $inAgent->referee_id ?? 0;
+            $agent_openId = $inAgent->openid ?? 0;
+            $referee_type = 'in';
+            if(UserDao::profit($system_param['sales_inside_shop_profit'] * 100, $orderInfo->user_id)) {
+                //写入支付记录
+                $payLogData = array(
+                    'user_id' => $orderInfo->user_id,
+                    'openid' => $orderInfo->openid,
+                    'pay_type' => config('statuses.payLog.payType.shopProfit.code'),
+                    'gain' => $system_param['sales_inside_shop_profit']*100,
+                    'expense' => 0,
+                    'balance' => $inInfo->balance + $system_param['sales_inside_shop_profit']*100,
+                    'order_id' => $orderInfo->id,
+                );
+                PayLogsService::store($payLogData);
+                //扣除库存
+                if (! $hasUpdateStock) {
+                    AgentService::updateStock($inAgent->id, OrderService::orderGoodsNum($orderInfo->id));
+                    $hasUpdateStock = 1;
+                }
+                //消息提示
+                if ($orderInfo->openid) {
+                    $templateData = array(
+                        'first' => '您好，您获得了一笔新的佣金。',
+                        'keyword1' => sprintf("%.2f", $system_param['sales_inside_shop_profit']) .'元',
+                        'keyword2' => date('Y-m-d H:i:s'),
+                        'remark' => '请进入系统查看详情！',
+                    );
+                    $url = config('app.url').'/home/income/0';
+                    WechatNoticeService::sendTemplateMessage($orderInfo->user_id, $orderInfo->openid, $url, $template['template_id'], $templateData);
+                }
+                //有店中店推荐人，发放推荐人奖励
+                if ($agent_referee_id) {
+                    $refereeInfo = UserDao::findById($agent_referee_id);
+                    if(UserDao::profit($system_param['recommended_inside_shop_sales_commission'] * 100, $agent_referee_id)) {
+                        //写入支付记录
+                        $payLogData = array(
+                            'user_id' => $agent_referee_id,
+                            'openid' => $refereeInfo->openid,
+                            'pay_type' => config('statuses.payLog.payType.shopReward.code'),
+                            'gain' => $system_param['recommended_inside_shop_sales_commission']*100,
+                            'expense' => 0,
+                            'balance' => $refereeInfo->balance + $system_param['recommended_inside_shop_sales_commission']*100,
+                            'order_id' => $orderInfo->id,
+                        );
+                        PayLogsService::store($payLogData);
+                        //消息提示
+                        $templateData = array(
+                            'first' => '您好，您获得了一笔新的佣金。',
+                            'keyword1' => sprintf("%.2f", $system_param['recommended_inside_shop_sales_commission']) .'元',
+                            'keyword2' => date('Y-m-d H:i:s'),
+                            'remark' => '请进入系统查看详情！',
+                        );
+                        $url = config('app.url').'/home/income/0';
+                        WechatNoticeService::sendTemplateMessage($refereeInfo->id, $refereeInfo->openid, $url, $template['template_id'], $templateData);
+                    }
+                }
+            }
+        }
         //查找提货店(区域)
         $areaAgent = AgentService::findAgentByAddress($orderInfo->province, $orderInfo->city, $orderInfo->area);
         if (!empty($areaAgent)) {
@@ -161,6 +230,11 @@ class UserService {
                     'order_id' => $orderInfo->id,
                 );
                 PayLogsService::store($payLogData);
+                //扣除库存
+                if (! $hasUpdateStock) {
+                    AgentService::updateStock($areaAgent->id, OrderService::orderGoodsNum($orderInfo->id));
+                    $hasUpdateStock = 1;
+                }
                 //消息提示
                 if ($agent_openId) {
                     $templateData = array(
@@ -216,10 +290,15 @@ class UserService {
                     'pay_type' => config('statuses.payLog.payType.shopProfit.code'),
                     'gain' => $system_param['sales_city_shop_profit']*100,
                     'expense' => 0,
-                    'balance' => $areaInfo->balance + $system_param['sales_city_shop_profit']*100,
+                    'balance' => $cityInfo->balance + $system_param['sales_city_shop_profit']*100,
                     'order_id' => $orderInfo->id,
                 );
                 PayLogsService::store($payLogData);
+                //扣除库存
+                if (! $hasUpdateStock) {
+                    AgentService::updateStock($cityAgent->id, OrderService::orderGoodsNum($orderInfo->id));
+                    $hasUpdateStock = 1;
+                }
                 //消息提示
                 if ($agent_openId) {
                     $templateData = array(
@@ -259,6 +338,72 @@ class UserService {
                     }
                 }
             }
+        }
+        //无推荐人推荐收益归店
+        if ($inInfo->referee_id == 0) {
+            $tuiUser = NULL; //计入店的用户
+            if (!empty($inAgent)) {
+                $tuiUser = $inInfo;
+            } elseif (!empty($areaAgent)) {
+                $tuiUser = $areaInfo;
+            } elseif (!empty($cityAgent)) {
+                $tuiUser = $cityInfo;
+            }
+            if (!empty($tuiUser)) {
+                if(UserDao::profit($system_param['subordinate_sales_commission'] * 100, $tuiUser->id)) {
+                    $template = config('templatemessage.getCommission');
+                    //写入支付记录
+                    $payLogData = array(
+                        'user_id' => $tuiUser->id,
+                        'openid' => $tuiUser->openid,
+                        'pay_type' => config('statuses.payLog.payType.shopProfit.code'),
+                        'gain' => $system_param['subordinate_sales_commission']*100,
+                        'expense' => 0,
+                        'balance' => $tuiUser->balance + $system_param['subordinate_sales_commission']*100,
+                        'order_id' => $orderInfo->id,
+                    );
+                    PayLogsService::store($payLogData);
+                    //消息提示
+                    if ($tuiUser->openid) {
+                        $templateData = array(
+                            'first' => '您好，您获得了一笔新的佣金。',
+                            'keyword1' => sprintf("%.2f", $system_param['subordinate_sales_commission']) .'元',
+                            'keyword2' => date('Y-m-d H:i:s'),
+                            'remark' => '请进入系统查看详情！',
+                        );
+                        $url = config('app.url').'/home/income/0';
+                        WechatNoticeService::sendTemplateMessage($tuiUser->user_id, $tuiUser->openid, $url, $template['template_id'], $templateData);
+                    }
+                }
+            }
+        }
+    }
+
+    public static function buildShopRecommend($agent, $reward) {
+        //消息模板
+        $template = config('templatemessage.getCommission');
+        if(UserDao::getById($agent->referee_id)->increment('balance', $reward * 100)) {
+            $userInfo = UserDao::findById($agent->referee_id);
+            //日志
+            $payLogData = array(
+                'user_id' => $agent->referee_id,
+                'openid' => $userInfo->openid,
+                'pay_type' => config('statuses.payLog.payType.recommendShop.code'),
+                'gain' => $reward*100,
+                'expense' => 0,
+                'balance' => $userInfo->balance,
+                'order_id' => $agent->id,
+            );
+            PayLogsService::store($payLogData);
+            //消息提示
+            $templateData = array(
+                'first' => '您好，您获得了一笔新的佣金。',
+                'keyword1' => sprintf("%.2f", $reward) .'元',
+                'keyword2' => date('Y-m-d H:i:s'),
+                'remark' => '请进入系统查看详情！',
+            );
+            $url = config('app.url').'/home/income/0';
+            WechatNoticeService::sendTemplateMessage($agent->user_id, $userInfo->openid, $url, $template['template_id'], $templateData);
         }
     }
     
