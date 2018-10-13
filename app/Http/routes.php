@@ -87,6 +87,7 @@ Route::group(array('middleware' => array('web')), function () {
         Route::resource('/admin/agentType', 'Member\AgentTypeController');
 
         //agent
+        Route::post('/admin/agent/increStock', 'Member\AgentController@increStock');
         Route::post('/admin/agent/{id}/audit', 'Member\AgentController@audit');
         Route::resource('/admin/agent', 'Member\AgentController');
 

@@ -326,4 +326,24 @@ class AgentService {
 	public static function findByPageAndParams($curPage, $pageSize, $params = array()) {
 		return AgentDao::findByPageAndParams($curPage, $pageSize, $params);
 	}
+
+    /**
+     * 更新库存
+     * @param  [type] $id    [description]
+     * @param  [type] $stock [description]
+     * @return [type]        [description]
+     */
+    public static function increStock($id, $stock) {
+        $param = AgentDao::findById($id);
+        if (!$param) {
+            return array(
+                'code'     => 500,
+                'messages' => array('代理商不存在'),
+                'url'      => '',
+            );
+        }
+        $param->updated_at = date('Y-m-d H:i:s');
+        $param->goodsNum += $stock;
+        return AgentDao::save($param, session('adminUser')->id);
+    }
 }

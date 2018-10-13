@@ -334,12 +334,12 @@ class WeChatController extends Controller {
             [
                 "type" => "view",
                 "name" => "植·商城",
-                "url"  => "http://zda.youwangtong.com"
+                "url"  => "http://www.zhideai.shop"
             ],
             [
                 "type" => "view",
                 "name" => "得·官网",
-                "url"  => "http://zda.youwangtong.com"
+                "url"  => "http://www.zhideai.shop"
             ],
             [
                 "name"       => "艾·中心",

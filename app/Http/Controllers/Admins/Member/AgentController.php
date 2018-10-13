@@ -106,4 +106,29 @@ class AgentController extends Controller
         ));
 
     }
+
+    public function increStock() {
+        $id = intval(request('id'),0);
+        $stock = intval(request('stock'),0);
+        if ($id < 1 || $stock == 0) {
+            return response()->json(array(
+                'code'     => 500,
+                'messages' => array('参数错误'),
+                'url'      => '',
+            ));
+        }
+        if(AgentService::increStock($id, $stock)) {
+            return response()->json(array(
+                'code'     => 200,
+                'messages' => array('更新成功'),
+                'url'      => '/admin/agent/' . $id,
+            ));
+        } else {
+            return response()->json(array(
+                'code'     => 500,
+                'messages' => array('该代理商状态不允许增加库存'),
+                'url'      => '',
+            ));
+        }
+    }
 }

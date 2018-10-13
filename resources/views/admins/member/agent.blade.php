@@ -54,7 +54,7 @@
 											<th>付款凭证:</th><td><img width="200" height="200"  src="{{ $agent->transfer_voucher }}" /></td>
 										</tr>
 										<tr>
-											<th>库存:</th><td>{{$agent->goodsNum}}</td>
+											<th>库存:{{$agent->goodsNum}}</th><td>@if ($agent->state == 3) <input class="col-lg-8" type="number" id="stock" placeholder="请输入增加库存数" value="" /><button type="button" id="updateStock" class="btn btn-primary pull-right">更新</button> @endif</td>
 										</tr>
 										<tr>
 											<th>代理商姓名:</th><td>{{ $agent->agent_name }}</td>
@@ -136,5 +136,25 @@ function merchantAudit(type) {
         }
     });
 }
+//更新库存
+$('#updateStock').click(function(){
+	var stock = $('#stock').val();
+	$.ajax({
+        url:  '/admin/agent/increStock',
+        type: 'post',
+        data: {'id':"{{$agent->id}}",'stock': stock},
+        dataType: 'json',
+        success: function(jsonObject) {
+            if (jsonObject.code == 200) {
+                window.location.href = jsonObject.url;
+            } else {
+                showErrorNotice(jsonObject.messages);
+            }
+        },
+        error: function(xhr, type) {
+            ajaxResponseError(xhr, type);
+        }
+    });
+});
 </script>
 @include('admins.footer')

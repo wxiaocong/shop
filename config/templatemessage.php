@@ -2,7 +2,7 @@
 return array(
     //订单支付成功 first,keyword1,keyword2,remark
     'orderPaySuccess' => array(
-        'template_id' => 'R_TrME6S8VaH2Ub1VRGoafDTa-UEn5tDDwC4DxVAZkI',
+        'template_id' => 'f6IvHxN-WiEBpMAx9_GsCMLR0cpK5-3I8N74cIgGZcg',
         'data' => array(
             'first' => '',
             'keyword1' => '',
@@ -12,7 +12,7 @@ return array(
     ),
     //订单退款成功 first,keyword1,keyword2,remark
     'orderRefundSuccess' => array(
-        'template_id' => '89iqlerrCfCk5iAs7oboWksmwz8BqvrMlCyxrgC6N3k',
+        'template_id' => 'Y91qGKgcQ7t4Nidygjquq-en0o7WhWBZ7xCrM5FgjIs',
         'data' => array(
             'first' => '',
             'keyword1' => '',
@@ -22,7 +22,7 @@ return array(
     ),
         //获得佣金提示 first,keyword1,keyword2,remark
     'getCommission' =>  array(
-        'template_id' => '1OsKF3Y4g3Kkx1meSBJd1ClJDrsiq_k0741S9CVvMoQ',
+        'template_id' => 'vj_FztLIWq_GhCKWQb7em67B6e38W34NeQ3Gg__Zdr4',
         'data' => array(
             'first' => '',
             'keyword1' => '',
