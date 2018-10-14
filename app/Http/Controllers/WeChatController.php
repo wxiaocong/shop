@@ -75,13 +75,14 @@ class WeChatController extends Controller {
                         'transaction_id' => $result['transaction_id'], //微信支付订单号
                         'state' => 2, //已付款
                     );
+                    $res = OrderService::noticeUpdateOrder($orderInfo->id, $updateData);
                     //开始事务
                     DB::beginTransaction();
                     try {
                         //更新订单状态
-                        if (OrderService::noticeUpdateOrder($orderInfo->id, $updateData)) {
+                        if ($res) {
                             //更新库存
-                            GoodsSpecService::updateGoodsSpecNum($orderInfo->id);
+                            // GoodsSpecService::updateGoodsSpecNum($orderInfo->id);
                             //用户级别变更及销售奖励分配
                             UserService::upgradeUserLevel($orderInfo->user_id);
                             //推荐店铺奖励

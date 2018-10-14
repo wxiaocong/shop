@@ -36,8 +36,8 @@
                             <div class="media-body">
                                 <div class="order-item-info">
                                     <h5 class="order-item-title">昵称：{{$val->nickname}}</h5>
-                                    <div class="order-item-title">关注时间：{{date('Y-m-d H:i:s',$val->subscribe_time)}}</div>
-                                    <div class="weui-media-box__desc">级别：{{$levelState[$val->level]}}</div>
+                                    <div class="order-item-title">关注时间：{{$val->subscribe_time ? date('Y-m-d H:i:s',$val->subscribe_time) : ''}}</div>
+                                    <div class="weui-media-box__desc">级别：{{$levelState[$val->level]}}&nbsp;&nbsp;{{$agentState[$val->agentLevel]['type_name'] ?? ''}}</div>
                                 </div>
                             </div>
                         </div>

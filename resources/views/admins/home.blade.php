@@ -190,60 +190,6 @@
                 </div>
             </section>
         </div>
-        <div class="box box-info">
-            <div class="box-header">
-                <i class="fa fa-file-o"></i>
-                <h3 class="box-title">最新10条等待发货订单</h3>
-            </div>
-            <div class="box-body">
-                <table class="table">
-                    <colgroup>
-                        <col />
-                        <col width="245px" />
-                        <col width="150px" />
-                        <col width="150px" />
-                        <col width="130px" />
-                        <col width="90px" />
-                        <col width="215px" />
-                        <col width="80px" />
-                        <col width="90px" />
-                        <col width="40px" />
-                    </colgroup>
-                    <thead>
-                        <th>订单编号</th>
-                        <th>下单用户</th>
-                        <th>下单时间</th>
-                        <th>付款时间</th>
-                        <th>订单状态</th>
-                        <th>发货状态</th>
-                        <th>收货人</th>
-                        <th>支付方式</th>
-                        <th>订单金额</th>
-                        <th>操作</th>
-                    </thead>
-                    <tbody>
-                        @if (isset($orderPage))
-                            @foreach ($orderPage->data as $data)
-                                <tr>
-                                    <td><a target="_blank" href="{{ url('/admin/order/' . $data->id) }}">{{ $data->order_sn }}</a></td>
-                                    <td>{{ '【' . $data->user->mobile . '】' . $data->user->nickname}}</td>
-                                    <td>{{ $data->created_at }}</td>
-                                    <td>{{ $data->pay_time }}</td>
-                                    <td>{{ translateStatus('order.state', $data->state) }}</td>
-                                    <td>{{ translateStatus('order.deliverStatus', $data->deliver_status) }}</td>
-                                    <td>{{ '【' . $data->receiver_mobile . '】' . $data->receiver_name }}</td>
-                                    <td>{{ translateStatus('order.payType', $data->pay_type) }}</td>
-                                    <td>{{ round($data->payment/100,2) }}</td>
-                                    <td>
-                                        <a target="_blank" href="{{ url('/admin/order/' . $data->id) }}"><i class='operator fa fa-file-text-o fa-lg' title="查看订单"></i></a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
 </div>
 @include('admins.footer')

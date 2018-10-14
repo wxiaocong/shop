@@ -44,7 +44,7 @@ button.weui-btn_warn{
         <label class="weui-cell weui-check__label">
           <div class="weui-cell__bd">
             <p>{{$agentType[$agent->level]['type_name']}}</p>
-            <div>代理价：{{sprintf("%.2f", $agent->payment/100)}}，配货数量：{{$agent->goodsNum}}</div>
+            <div>保证金：{{sprintf("%.2f", $agent->payment/100)}}，库存：{{$agent->goodsNum}}</div>
           </div>
         </label>
     </div>
@@ -58,18 +58,6 @@ button.weui-btn_warn{
           <label class="weui-label">手机号码</label>
         </div>
         <div class="weui-cell__bd">{{$agent->mobile}}</div>
-      </div>
-      <div class="weui-cell">
-        <div class="weui-cell__hd">
-          <label class="weui-label">付款金额</label>
-        </div>
-        <div class="weui-cell__bd">{{sprintf("%.2f", $agent->payment/100)}}</div>
-      </div>
-      <div class="weui-cell">
-        <div class="weui-cell__hd">
-          <label class="weui-label">配货数量</label>
-        </div>
-        <div class="weui-cell__bd">{{$agent->goodsNum}}</div>
       </div>
       <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">状态</label></div>
@@ -102,6 +90,14 @@ button.weui-btn_warn{
           </div>
       </div>
       <div class="weui-cells__title">转账凭证</div>
+      <div class="weui-cell">
+          <div class="weui-cell__bd">
+            <p>支付宝</p>
+          </div>
+          <div class="weui-uploader__bd">
+              <img src="{{ elixir('images/users/alipay.jpg') }}" style="width:150px;height:150px;" >、
+          </div>
+      </div>
       <div class="weui-cell">
         <div class="weui-cell__hd">
           <label class="weui-label">转账银行</label>

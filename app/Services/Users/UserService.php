@@ -35,6 +35,18 @@ class UserService {
             }
             if (!empty($userUpdateData)) {
                 UserDao::getById($user_id)->update($userUpdateData);
+                if(!empty($userUpdateData['vip'])) {
+                    //VIP消息提示
+                    $template = config('templatemessage.vip');
+                    $templateData = array(
+                        'first' => '恭喜您成为植得艾VIP专享会员',
+                        'keyword1' => $userUpdateData['vipNumber'],
+                        'keyword2' => date('Y-m-d'),
+                        'remark' => '感谢您的到来',
+                    );
+                    $url = config('app.url').'/home';
+                    WechatNoticeService::sendTemplateMessage($userInfo->id, $userInfo->openid, $url, $template['template_id'], $templateData);
+                }
             }
             //上级艾达人如果有5个下级艾达人，升级艾天使
             if ($userInfo->referee_id > 0) {
@@ -146,6 +158,8 @@ class UserService {
         $template = config('templatemessage.getCommission');
         //减库存标记
         $hasUpdateStock = 0;
+        //商品数量
+        $goodsNum = OrderService::orderGoodsNum($orderInfo->id);
         //用户信息
         $inInfo = UserDao::findById($orderInfo->user_id);
         //是否是店中店
@@ -154,6 +168,11 @@ class UserService {
             $agent_referee_id =  $inAgent->referee_id ?? 0;
             $agent_openId = $inAgent->openid ?? 0;
             $referee_type = 'in';
+            //扣除库存
+            if (! $hasUpdateStock) {
+                AgentService::updateStock($inAgent->id, $goodsNum);
+                $hasUpdateStock = 1;
+            }
             if(UserDao::profit($system_param['sales_inside_shop_profit'] * 100, $orderInfo->user_id)) {
                 //写入支付记录
                 $payLogData = array(
@@ -166,11 +185,6 @@ class UserService {
                     'order_id' => $orderInfo->id,
                 );
                 PayLogsService::store($payLogData);
-                //扣除库存
-                if (! $hasUpdateStock) {
-                    AgentService::updateStock($inAgent->id, OrderService::orderGoodsNum($orderInfo->id));
-                    $hasUpdateStock = 1;
-                }
                 //消息提示
                 if ($orderInfo->openid) {
                     $templateData = array(
@@ -372,7 +386,7 @@ class UserService {
                             'remark' => '请进入系统查看详情！',
                         );
                         $url = config('app.url').'/home/income/0';
-                        WechatNoticeService::sendTemplateMessage($tuiUser->user_id, $tuiUser->openid, $url, $template['template_id'], $templateData);
+                        WechatNoticeService::sendTemplateMessage($tuiUser->id, $tuiUser->openid, $url, $template['template_id'], $templateData);
                     }
                 }
             }

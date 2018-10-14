@@ -10,6 +10,16 @@ return array(
             'remark' => '',
         ),
     ),
+    //成为vip会员
+    'vip' => array(
+        'template_id' => 'IlJajnDu43n5s_3sUmC51d3pmZkLmeamJsXUkYqjUTs',
+        'data' => array(
+            'first' => '',
+            'keyword1' => '',
+            'keyword2' => '',
+            'remark' => '',
+        ),
+    ),
     //订单退款成功 first,keyword1,keyword2,remark
     'orderRefundSuccess' => array(
         'template_id' => 'Y91qGKgcQ7t4Nidygjquq-en0o7WhWBZ7xCrM5FgjIs',

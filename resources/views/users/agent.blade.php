@@ -104,6 +104,14 @@ button.weui-btn_warn{
       </div>
       <div class="weui-cells__title">转账凭证</div>
       <div class="weui-cell">
+          <div class="weui-cell__bd">
+            <p>支付宝</p>
+          </div>
+          <div class="weui-uploader__bd">
+              <img src="{{ elixir('images/users/alipay.png') }}" style="width:150px;height:100px;" >、
+          </div>
+      </div>
+      <div class="weui-cell">
         <div class="weui-cell__hd">
           <label class="weui-label">转账银行</label>
         </div>
@@ -203,7 +211,7 @@ $(".agent-submit").click(function() {
     return false;
 });
 function isPoneAvailable(str) {
-    var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+    var myreg=/^[1][3,4,5,6,7,8,9][0-9]{9}$/;
     if (!myreg.test(str)) {
         return false;
     } else {

@@ -16,8 +16,8 @@
         </div>
     </div>
 </footer>
-<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
+<script src="{{ elixir('js/users/jquery.min.js') }}"></script>
+<script src="{{ elixir('js/users/jquery-weui.min.js') }}"></script>
 <script src="{{ elixir('js/users/bootstrap.min.js') }}"></script>
 <script src="{{elixir('js/users/front.js')}}"></script>
 </body>

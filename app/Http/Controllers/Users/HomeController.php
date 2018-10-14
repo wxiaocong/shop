@@ -7,6 +7,7 @@ use App\Http\Requests\Users\UsersRequest;
 use App\Services\Users\UserService;
 use App\Services\PayLogsService;
 use App\Services\AgentService;
+use App\Services\AgentTypeService;
 use EasyWeChat;
 use Session;
 use App\Utils\Page;
@@ -110,6 +111,7 @@ class HomeController extends Controller {
             $data['team'] = UserService::getTeam($type);
         }
         $data['levelState'] = config('statuses.user.levelState');
+        $data['agentState'] = AgentTypeService::getAll();
         return view('users.team', $data);
     }
 

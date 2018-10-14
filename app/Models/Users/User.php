@@ -44,4 +44,8 @@ class User extends Model {
 	public function expressAddress() {
 		return $this->hasMany('App\Models\Users\ExpressAddress');
 	}
+
+	public function agent() {
+		return $this->hasMany('App\Models\Agent', 'user_id','id');
+	}
 }

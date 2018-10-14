@@ -189,7 +189,10 @@ class UserDao extends BaseDao {
      */
     public static function getTeam($type)
     {
-        $build =  User::where('referee_id', session('user')->id);
+        $build =  User::leftJoin('agent', function($leftJoin){
+            $leftJoin->on('users.id', '=', 'agent.user_id')->where('agent.state', 3);
+        })->where('users.referee_id', session('user')->id)
+        ->select('users.*', 'agent.level as agentLevel');
         if ($type > 0) {
             $build->where('level', $type-1);
         }
