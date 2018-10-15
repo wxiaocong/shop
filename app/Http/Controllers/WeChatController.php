@@ -363,12 +363,12 @@ class WeChatController extends Controller {
                     [
                         "type" => "view",
                         "name" => "市场前景",
-                        "url" => "https://mp.weixin.qq.com/s?__biz=MzI4MjY2MTEzMw==&tempkey=OTc2XzRROUovc3daQzhmT2k2cjVGS2JOOWxCT2pNQXFGVlBFMVdpbUtxODMzTEJHVm9SN2gya1pSSlpTT1FJZFdvMzlzaUdlU3RvNEF0MWdUckVyOXptZWtQUG83LXA0SHRfSXl6ZkVBc1ZOZDZqM2MxR3hDQjQtY29aVVlFOFJNVGVmWFA5MklOZTNsc0VSUFg0bURpeE1XU3hOeE1vbDZXY0YwWUxDbmd%2Bfg%3D%3D&chksm=6b97d9415ce0505715fdc29e5d02edfff6906b627aa26e06593c54b586aefa7def94ef6f738e#rd"
+                        "url" => "https://mp.weixin.qq.com/s/87NgYA_yulBK-vYTjJemHg"
                     ],
                     [
                         "type" => "view",
                         "name" => "产品分析",
-                        "url" => "https://mp.weixin.qq.com/s?__biz=MzI4MjY2MTEzMw==&tempkey=OTc2X2w0Z3E0U0JHK3lXOVVnWkJGS2JOOWxCT2pNQXFGVlBFMVdpbUtxODMzTEJHVm9SN2gya1pSSlpTT1FJdkVsNG9aM29iMEtHNk9EdmkwTTdueG1JLS1VQUdBckp4aVJYcDBlRUZjTENpTzFYWi1GLTNlZnc4czhEdW5jaU1GcDdDX3E1aGxnVUhqR2NsX3oyZFRPODVNUlpZdWRhZ1ZIMEowaHN5aEF%2Bfg%3D%3D&chksm=6b97d97a5ce0506c1ee17855615aa1493ea3c55bb1a289514827b6b0a4955733d951f4110cd0#rd"
+                        "url" => "https://mp.weixin.qq.com/s/crhQ7qMAfSqzbZKri8V9yQ"
                     ],
                 ],
             ],
@@ -416,14 +416,14 @@ class WeChatController extends Controller {
         $bigImgPath = './images/users/bg.jpg';
         $userId = session('user')->id;
         $imgType = '.jpg';
-        
+
         $file = './shareImg/' . $userId . $imgType;
-        
+
         if (file_exists($file)) {
             return env('APP_URL') . '/shareImg/' . $userId . $imgType;
             exit;
         }
-        
+
         //生成二维码
         $ewmPath = './shareImg/qrcode/'.$userId.'.jpg';
         if (! file_exists($ewmPath)) {
@@ -435,12 +435,12 @@ class WeChatController extends Controller {
         }
         $bigImg2 = imagecreatefromstring(file_get_contents($bigImgPath));
         $qCodeImg = imagecreatefromstring(file_get_contents($ewmPath));
-        
+
         list($bigImgWidth, $bigImgHight, $bigImgType) = getimagesize($bigImgPath);
         list($qCodeWidth, $qCodeHight, $qCodeType) = getimagesize($ewmPath);
-        
+
         imagecopymerge($bigImg2, $qCodeImg, ($bigImgWidth - $qCodeWidth)/2, ($bigImgHight - $qCodeHight)/2, 0, 0, $qCodeWidth, $qCodeHight, 100);
-        
+
         //合成文字
         $textFile = './shareImg/textImg/' . time() . '-' . $userId . '.png';
         $text = mb_substr(session('user')->nickname, 0, 10);
@@ -452,7 +452,7 @@ class WeChatController extends Controller {
         imagefttext($block, 40, 0, (600-mb_strlen($text)*45)/2, 50, $color, realpath('./PingFang.ttc'), $text);
         imagesavealpha($block, true); //设置保存PNG时保留透明通道信息
         imagepng($block, $textFile);
-        
+
         $textFileImg = imagecreatefromstring(file_get_contents($textFile));
         $this->imagecopymerge_alpha($bigImg2, $textFileImg, ($bigImgWidth - 600)/2, 860, 0, 0, 600, 100, 100);
         switch ($bigImgType) {
@@ -471,12 +471,12 @@ class WeChatController extends Controller {
         unlink($textFile);
         return env('APP_URL') . '/shareImg/' . $userId . $imgType;
     }
-    
+
     //合成头像
     public function combineHeader($bigImgPath, $addImgPath, $tarImgPath) {
         $bigImg = imagecreatefromstring(file_get_contents($bigImgPath));
         list($bigImgWidth, $bigImgHight, $bigImgType) = getimagesize($bigImgPath);
-        
+
         if (!file_exists($addImgPath)) {
             if (!file_exists('./upload/headerUrl/' . $this->user['uid'] . '.png')) {
                 getImage($this->user['headerUrl'], './upload/headerUrl/', $this->user['uid'] . '.png', 1);
@@ -486,9 +486,9 @@ class WeChatController extends Controller {
         }
         $dest_path = $this->rediusImg($addImgPath);
         $addImg = imagecreatefromstring(file_get_contents($dest_path));
-        
+
         $this->imagecopymerge_alpha($bigImg, $addImg, 14, $bigImgHight - 344, 0, 0, 126, 126, 100);
-        
+
         switch ($bigImgType) {
             case 1: //gif
                 imagegif($bigImg, $tarImgPath);
@@ -505,7 +505,7 @@ class WeChatController extends Controller {
         unlink($dest_path);
         return $tarImgPath;
     }
-    
+
     function imagecopymerge_alpha($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct) {
         $opacity = $pct;
         // getting the watermark widthW
@@ -518,20 +518,20 @@ class WeChatController extends Controller {
         imagecopy($cut, $src_im, 0, 0, $src_x, $src_y, $src_w, $src_h);
         imagecopymerge($dst_im, $cut, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $opacity);
     }
-    
+
     function rediusImg($url, $path = './') {
         $w = 126;
         $h = 126; // original size
         $original_path = $url;
         $dest_path = "./upload/tmp/" . time() . '@' . $this->user['uid'] . '.png';
         $src = imagecreatefromstring(file_get_contents($original_path));
-        
+
         $newpic = imagecreatetruecolor($w, $h);
         $transparent = imagecolorallocatealpha($newpic, 0, 0, 0, 127);
         imagealphablending($newpic, false);
         imagefill($newpic, 0, 0, $transparent);
         imagesavealpha($newpic, true);
-        
+
         //         imagepng($newpic , './upload/tmp/e.png');
         $r = $w / 2;
         for ($x = 0; $x < $w; $x++) {
@@ -546,30 +546,30 @@ class WeChatController extends Controller {
                 }
             }
         }
-        
+
         imagesavealpha($newpic, true);
         imagepng($newpic, $dest_path);
         imagedestroy($newpic);
         imagedestroy($src);
-        
+
         return $dest_path;
     }
-    
+
     //合成背景
     public function combineImg($bigImgPath, $addImgPath, $tarImgPath) {
         $bigImg = imagecreatefromstring(file_get_contents($bigImgPath));
         list($bigImgWidth, $bigImgHight, $bigImgType) = getimagesize($bigImgPath);
-        
+
         //背景图压缩
         $tmpFile = './upload/tmp/' . time() . '@' . rand(1000, 9999) . '.png';
         $this->thumb($addImgPath, $tmpFile, $bigImgWidth, 274);
-        
+
         $addImg = imagecreatefromstring(file_get_contents($tmpFile));
-        
+
         imagecopymerge($bigImg, $addImg, 0, $bigImgHight - 414, 0, 0, $bigImgWidth, 274, 70);
-        
+
         list($bigWidth, $bigHight, $bigType) = getimagesize($bigImgPath);
-        
+
         switch ($bigType) {
             case 1: //gif
                 imagegif($bigImg, $tarImgPath);
@@ -586,7 +586,7 @@ class WeChatController extends Controller {
         unlink($tmpFile);
         return $tarImgPath;
     }
-    
+
     public function getEwm($uid, $type = 1, $width = 200, $height = 200){
         if($uid){
             $filename = "./upload/ewm/".$type.'/'.$uid.".png"; //二维码
@@ -595,11 +595,11 @@ class WeChatController extends Controller {
                         'appId' => $this->config->item ( 'appId' ),
                         'appSecret' => $this->config->item ( 'appSecret' )
                 ) );
-                
+
                 $accessToken = $this->jssdk->getAccessToken();
                 $url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=".$accessToken;
                 $uid = $this->user_model->get_uid_by_openid($this->openid);
-                
+
                 $m = array(
                         'expire_seconds'    =>    604800,
                         'action_name'        =>    'QR_SCENE',
@@ -614,56 +614,56 @@ class WeChatController extends Controller {
             return $filename;
         }
     }
-    
+
     public  function thumb($dst, $save = NULL, $width = 200, $height = 200) {
         // 首先判断待处理的图片存不存在
         $dinfo = $this->imageInfo($dst);
         if ($dinfo == false) {
             return false;
         }
-        
+
         // 计算缩放比例
         $calc = min ( $width / $dinfo ['width'], $height / $dinfo ['height'] );
-        
+
         // 创建原始图的画布
         $dfunc = 'imagecreatefrom' . $dinfo ['ext'];
         $dim = $dfunc ( $dst );
-        
+
         // 创建缩略画布
         $tim = imagecreatetruecolor ( $width, $height );
-        
+
         // 创建白色填充缩略画布
         $white = imagecolorallocate ( $tim, 255, 255, 255 );
-        
+
         // 填充缩略画布
         imagefill ( $tim, 0, 0, $white );
-        
+
         // 复制并缩略
         $dwidth = ( int ) $dinfo ['width'] * $calc;
         $dheight = ( int ) $dinfo ['height'] * $calc;
-        
+
         $paddingx = ( int ) ($width - $dwidth) / 2;
         $paddingy = ( int ) ($height - $dheight) / 2;
-        
+
         imagecopyresampled ( $tim, $dim, $paddingx, $paddingy, 0, 0, $dwidth, $dheight, $dinfo ['width'],
-                
+
                 $dinfo ['height'] );
-        
+
         // 保存图片
         if (! $save) {
             $save = $dst;
             unlink ( $dst );
         }
-        
+
         $createfunc = 'image' . $dinfo ['ext'];
         $createfunc ( $tim, $save );
-        
+
         imagedestroy ( $dim );
         imagedestroy ( $tim );
-        
+
         return true;
     }
-    
+
     // imageInfo 分析图片的信息
     // return array()
     public function imageInfo($image) {
@@ -671,18 +671,18 @@ class WeChatController extends Controller {
         if (! file_exists ( $image )) {
             return false;
         }
-        
+
         $info = getimagesize ( $image );
-        
+
         if ($info == false) {
             return false;
         }
-        
+
         // 此时info分析出来,是一个数组
         $img ['width'] = $info [0];
         $img ['height'] = $info [1];
         $img ['ext'] = substr ( $info ['mime'], strpos ( $info ['mime'], '/' ) + 1 );
-        
+
         return $img;
     }
 }
