@@ -162,8 +162,8 @@ class UserService {
         $goodsNum = OrderService::orderGoodsNum($orderInfo->id);
         //用户信息
         $inInfo = UserDao::findById($orderInfo->user_id);
-        //是否是店中店
-        $inAgent = AgentService::findUserInShop($orderInfo->user_id);
+        //上级是否是店中店
+        $inAgent = $inInfo->referee_id > 0 ? AgentService::findUserInShop($inInfo->referee_id) : NULL;
         if (!empty($inAgent)) {
             $agent_referee_id =  $inAgent->referee_id ?? 0;
             $agent_openId = $inAgent->openid ?? 0;
@@ -173,15 +173,16 @@ class UserService {
                 AgentService::updateStock($inAgent->id, $goodsNum);
                 $hasUpdateStock = 1;
             }
-            if(UserDao::profit($system_param['sales_inside_shop_profit'] * 100, $orderInfo->user_id)) {
+            $inside_info = UserDao::findById($inAgent->user_id);
+            if(UserDao::profit($system_param['sales_inside_shop_profit'] * 100, $inInfo->referee_id)) {
                 //写入支付记录
                 $payLogData = array(
-                    'user_id' => $orderInfo->user_id,
-                    'openid' => $orderInfo->openid,
+                    'user_id' => $inAgent->user_id,
+                    'openid' => $inAgent->openid,
                     'pay_type' => config('statuses.payLog.payType.shopProfit.code'),
                     'gain' => $system_param['sales_inside_shop_profit']*100,
                     'expense' => 0,
-                    'balance' => $inInfo->balance + $system_param['sales_inside_shop_profit']*100,
+                    'balance' => $inside_info->balance + $system_param['sales_inside_shop_profit']*100,
                     'order_id' => $orderInfo->id,
                 );
                 PayLogsService::store($payLogData);
@@ -194,7 +195,7 @@ class UserService {
                         'remark' => '请进入系统查看详情！',
                     );
                     $url = config('app.url').'/home/income/0';
-                    WechatNoticeService::sendTemplateMessage($orderInfo->user_id, $orderInfo->openid, $url, $template['template_id'], $templateData);
+                    WechatNoticeService::sendTemplateMessage($inAgent->user_id, $inAgent->openid, $url, $template['template_id'], $templateData);
                 }
                 //有店中店推荐人，发放推荐人奖励
                 if ($agent_referee_id) {

@@ -32,8 +32,8 @@
         // 服务器统一请求接口路径
         , serverUrl: URL + "php/controller.php"
 
-        //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
-        , /*toolbars: [[
+        //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
+        , toolbars: [[
             'fullscreen', 'source', '|', 'undo', 'redo', '|',
             'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
             'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
@@ -41,52 +41,8 @@
             'directionalityltr', 'directionalityrtl', 'indent', '|',
             'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
             'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-            'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
-            'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
-            'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-            'print', 'preview', 'searchreplace', 'help', 'drafts'
-        ]]*/
-        toolbars: [
-            [
-                'bold', //加粗
-                'snapscreen', //截图
-                'italic', //斜体
-                'underline', //下划线
-                'strikethrough', //删除线
-                'subscript', //下标
-                'fontborder', //字符边框
-                'superscript', //上标
-                'formatmatch', //格式刷
-                'source', //源代码
-                'selectall', //全选
-                'horizontal', //分隔线
-                'removeformat', //清除格式
-                'time', //时间
-                'date', //日期
-                'unlink', //取消链接
-                'fontfamily', //字体
-                'fontsize', //字号
-                'simpleupload', //单图上传
-                'insertimage', //多图上传
-                'link', //超链接
-                'emotion', //表情
-                'spechars', //特殊字符
-                'searchreplace', //查询替换
-                'map', //Baidu地图
-                'gmap', //Google地图
-                'insertvideo', //视频
-                'forecolor', //字体颜色
-                'backcolor', //背景色
-                'fullscreen', //全屏
-                'imagenone', //默认
-                'attachment', //附件
-                'imagecenter', //居中
-                'wordimage', //图片转存
-                'edittip ', //编辑提示
-                'background', //背景
-                'charts', // 图表
-            ]
-        ]
+            'simpleupload', 'insertimage', 'emotion', 'insertvideo', 'background', 'horizontal'
+        ]]
         //当鼠标放在工具栏上时显示的tooltip提示,留空支持自动多语言配置，否则以配置值为准
         //,labelMap:{
         //    'anchor':'', 'undo':''
@@ -124,7 +80,7 @@
         //如果自定义，最好给p标签如下的行高，要不输入中文时，会有跳动感
         //,initialStyle:'p{line-height:1em}'//编辑器层级的基数,可以用来改变字体等
 
-        //,iframeCssUrl: URL + '/themes/iframe.css' //给编辑器内部引入一个css文件
+        //,iframeCssUrl: URL + '/themes/iframe.css' //给编辑区域的iframe引入一个css文件
 
         //indentValue
         //首行缩进距离,默认是2em
@@ -138,9 +94,9 @@
         //,autoClearEmptyNode : true //getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
 
         //启用自动保存
-        ,enableAutoSave: true
+        //,enableAutoSave: true
         //自动保存间隔时间， 单位ms
-        ,saveInterval: 50000
+        //,saveInterval: 500
 
         //,fullscreen : false //是否开启初始化时即全屏，默认关闭
 
@@ -288,10 +244,10 @@
 
         //elementPathEnabled
         //是否启用元素路径，默认是显示
-        ,elementPathEnabled : false
+        //,elementPathEnabled : true
 
         //wordCount
-        ,wordCount:false          //是否开启字数统计
+        //,wordCount:true          //是否开启字数统计
         //,maximumWords:10000       //允许的最大字符数
         //字数统计提示，{#count}代表当前字数，{#leave}代表还可以输入多少字符数,留空支持多语言自动切换，否则按此配置显示
         //,wordCountMsg:''   //当前已输入 {#count} 个字符，您还可以输入{#leave} 个字符
@@ -334,6 +290,9 @@
         //编辑器底部距离工具栏高度(如果参数大于等于编辑器高度，则设置无效)
         //,toolbarTopOffset:400
 
+        //设置远程图片是否抓取到本地保存
+        //,catchRemoteImageEnable: true //设置是否抓取远程图片
+
         //pageBreakTag
         //分页标识符,默认是_ueditor_page_break_tag_
         //,pageBreakTag:'_ueditor_page_break_tag_'
@@ -362,7 +321,7 @@
         //表格是否可以拖拽
         //,tableDragable: true
 
-        //,disabledTableInTable:true  //禁止表格嵌套
+
 
         //sourceEditor
         //源码的查看方式,codemirror 是代码高亮，textarea是文本框,默认是codemirror
@@ -382,8 +341,89 @@
         //    'anchor':'~/dialogs/anchor/anchor.html',
         //}
 
+        //allowLinkProtocol 允许的链接地址，有这些前缀的链接地址不会自动添加http
+        //, allowLinkProtocols: ['http:', 'https:', '#', '/', 'ftp:', 'mailto:', 'tel:', 'git:', 'svn:']
+
         //webAppKey 百度应用的APIkey，每个站长必须首先去百度官网注册一个key后方能正常使用app功能，注册介绍，http://app.baidu.com/static/cms/getapikey.html
         //, webAppKey: ""
+
+        //默认过滤规则相关配置项目
+        //,disabledTableInTable:true  //禁止表格嵌套
+        //,allowDivTransToP:true      //允许进入编辑器的div标签自动变成p标签
+        //,rgb2Hex:true               //默认产出的数据中的color自动从rgb格式变成16进制格式
+
+        // xss 过滤是否开启,inserthtml等操作
+        ,xssFilterRules: true
+        //input xss过滤
+        ,inputXssFilter: true
+        //output xss过滤
+        ,outputXssFilter: true
+        // xss过滤白名单 名单来源: https://raw.githubusercontent.com/leizongmin/js-xss/master/lib/default.js
+        ,whitList: {
+            a:      ['target', 'href', 'title', 'class', 'style'],
+            abbr:   ['title', 'class', 'style'],
+            address: ['class', 'style'],
+            area:   ['shape', 'coords', 'href', 'alt'],
+            article: [],
+            aside:  [],
+            audio:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'class', 'style'],
+            b:      ['class', 'style'],
+            bdi:    ['dir'],
+            bdo:    ['dir'],
+            big:    [],
+            blockquote: ['cite', 'class', 'style'],
+            br:     [],
+            caption: ['class', 'style'],
+            center: [],
+            cite:   [],
+            code:   ['class', 'style'],
+            col:    ['align', 'valign', 'span', 'width', 'class', 'style'],
+            colgroup: ['align', 'valign', 'span', 'width', 'class', 'style'],
+            dd:     ['class', 'style'],
+            del:    ['datetime'],
+            details: ['open'],
+            div:    ['class', 'style'],
+            dl:     ['class', 'style'],
+            dt:     ['class', 'style'],
+            em:     ['class', 'style'],
+            font:   ['color', 'size', 'face'],
+            footer: [],
+            h1:     ['class', 'style'],
+            h2:     ['class', 'style'],
+            h3:     ['class', 'style'],
+            h4:     ['class', 'style'],
+            h5:     ['class', 'style'],
+            h6:     ['class', 'style'],
+            header: [],
+            hr:     [],
+            i:      ['class', 'style'],
+            img:    ['src', 'alt', 'title', 'width', 'height', 'id', '_src', 'loadingclass', 'class', 'data-latex'],
+            ins:    ['datetime'],
+            li:     ['class', 'style'],
+            mark:   [],
+            nav:    [],
+            ol:     ['class', 'style'],
+            p:      ['class', 'style'],
+            pre:    ['class', 'style'],
+            s:      [],
+            section:[],
+            small:  [],
+            span:   ['class', 'style'],
+            sub:    ['class', 'style'],
+            sup:    ['class', 'style'],
+            strong: ['class', 'style'],
+            table:  ['width', 'border', 'align', 'valign', 'class', 'style'],
+            tbody:  ['align', 'valign', 'class', 'style'],
+            td:     ['width', 'rowspan', 'colspan', 'align', 'valign', 'class', 'style'],
+            tfoot:  ['align', 'valign', 'class', 'style'],
+            th:     ['width', 'rowspan', 'colspan', 'align', 'valign', 'class', 'style'],
+            thead:  ['align', 'valign', 'class', 'style'],
+            tr:     ['rowspan', 'align', 'valign', 'class', 'style'],
+            tt:     [],
+            u:      [],
+            ul:     ['class', 'style'],
+            video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width', 'class', 'style']
+        }
     };
 
     function getUEBasePath(docUrl, confUrl) {
