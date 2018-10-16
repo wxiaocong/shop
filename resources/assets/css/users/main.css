@@ -516,7 +516,7 @@ position: absolute;
 
 /*搜索*/
 .weui-search-bar__label{
-    line-height: 1.6;
+    line-height: 21px;
 }
 .weui-search-bar{
     position: fixed;

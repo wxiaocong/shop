@@ -51,19 +51,13 @@
 											<th>付款时间:</th><td>{{$agent->pay_time}}</td>
 										</tr>
 										<tr>
-											<th>付款凭证:</th><td><img width="200" height="200"  src="{{ $agent->transfer_voucher }}" /></td>
-										</tr>
-										<tr>
 											<th>库存:{{$agent->goodsNum}}</th><td>@if ($agent->state == 3) <input class="col-lg-8" type="number" id="stock" placeholder="请输入增加库存数" value="" /><button type="button" id="updateStock" class="btn btn-primary pull-right">更新</button> @endif</td>
 										</tr>
 										<tr>
 											<th>代理商姓名:</th><td>{{ $agent->agent_name }}</td>
 										</tr>
 										<tr>
-											<th>身份证正面:</th><td><img width="200" height="200" src="{{ $agent->front_identity_card }}" /></td>
-										</tr>
-										<tr>
-											<th>身份证反面:</th><td><img width="200" height="200"  src="{{ $agent->back_identity_card }}" /></td>
+											<th>身份证:</th><td>{{ $agent->idCard }}</td>
 										</tr>
 										<tr>
 											<th>代理商手机:</th><td>{{ $agent->mobile }}</td>

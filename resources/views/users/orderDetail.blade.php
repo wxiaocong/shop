@@ -68,7 +68,7 @@
 </style>
 <header class="zyw-header">
     <div class="zyw-container white-color">
-        <div class="head-l"><a href="javascript:history.back(-1);" target="_self"><i class="iconfont icon-fanhui1"></i></a></div>
+        <div class="head-l"><a href="javascript:self.location='/order'" target="_self"><i class="iconfont icon-fanhui1"></i></a></div>
         <h1>订单详情</h1>
         <div class="head-r"><i class="iconfont icon-gengduo"></i></div>
     </div>

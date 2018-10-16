@@ -389,7 +389,7 @@ class WeChatController extends Controller {
             $userInfo = UserService::findById($userId);
             if (!empty($userInfo)) {
                 $data['imgSrc'] = env('APP_URL').'/shareImg/' . $userId . '.jpg';
-                $data['shareLink'] = url()->full();
+                $data['shareLink'] = env('APP_URL').'/wechat/shareQrCode/'.$userId;//url()->full();
                 if ($userInfo->level > 0 && file_exists('./shareImg/' . $userId . '.jpg')) {
                     return view('users.shareQrCode', $data);
                 }

@@ -66,7 +66,7 @@
         <div class="weui-cells">
           <div class="weui-cell">
             <div class="weui-cell__bd">
-              <input class="weui-input" type="text" id="remark" placeholder="请输入备注信息">
+              <input class="weui-input" type="text" id="remark" placeholder="请输入备注信息" style="font-size:14px;">
             </div>
           </div>
         </div>

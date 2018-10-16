@@ -15,7 +15,7 @@
     <div class="index-wares">
         <div class="wares-title" style="color:#e93b3d;">精品推荐</div>
         <div class="wares-cont">
-            <ul class="clearfix">
+            <ul class="clearfix" style="padding-bottom: 10px;">
                 @forelse($recommends as $recommend)
                 <li class="ware-box">
                     <a href="\goods\{{$recommend->id}}">
