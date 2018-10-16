@@ -50,15 +50,15 @@ class AgentService {
 			$agent->goodsNum = $levelType[$request['level']]->goodsNum;
 			$agent->agent_name = $request['agent_name'];
 			$agent->mobile = $request['mobile'];
-			if (substr( $request['front_identity_card'], 0, 1 ) != '/') {
-				$request['front_identity_card'] = '/'.$request['front_identity_card'];
-			}
-			if (substr( $request['back_identity_card'], 0, 1 ) != '/') {
-				$request['back_identity_card'] = '/'.$request['back_identity_card'];
-			}
-            if (substr( $request['transfer_voucher'], 0, 1 ) != '/') {
-                $request['transfer_voucher'] = '/'.$request['transfer_voucher'];
-            }
+			// if (substr( $request['front_identity_card'], 0, 1 ) != '/') {
+			// 	$request['front_identity_card'] = '/'.$request['front_identity_card'];
+			// }
+			// if (substr( $request['back_identity_card'], 0, 1 ) != '/') {
+			// 	$request['back_identity_card'] = '/'.$request['back_identity_card'];
+			// }
+   //          if (substr( $request['transfer_voucher'], 0, 1 ) != '/') {
+   //              $request['transfer_voucher'] = '/'.$request['transfer_voucher'];
+   //          }
             $agent->idCard = $request['idCard'];
 			// $agent->front_identity_card = $request['front_identity_card'];
 			// $agent->back_identity_card = $request['back_identity_card'];
@@ -69,11 +69,26 @@ class AgentService {
 			$agent->address = $request['address'];
             $agent->pay_time = date('Y-m-d H:i:s');
 			$agent->remark = $request['remark'];
-			$agent->state = 2;
+			$agent->state = evn('APP_SYSTEM_TYPE') == 'test' ? 3 : 2;
 			$agent->save();
 
 			if ($agent->id) {
 				DB::commit();
+                if (evn('APP_SYSTEM_TYPE') == 'test') {
+                    $userInfo = UserService::findById($agent->user_id);
+                    UserService::balancePay($agent->payment, $agent->user_id);
+                    //写入支付记录
+                    $payLogData = array(
+                        'user_id' => $agent->user_id,
+                        'openid' => $agent->openid,
+                        'pay_type' => 11,
+                        'gain' => 0,
+                        'expense' => $agent->payment,
+                        'balance' => $userInfo->balance-$agent->payment,
+                        'order_id' => $agent->id,
+                    );
+                    PayLogsService::store($payLogData);
+                }
 				return array(
 					'code' => 200,
 					'messages' => array('保存订单成功'),

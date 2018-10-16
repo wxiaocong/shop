@@ -128,12 +128,6 @@ class OrderService {
 			if (OrderDao::noticeUpdateOrder($order->id, $updateData)) {
 				//更新余额
 				UserService::balancePay($order->payment, $userInfo->id);
-				//更新库存
-				// GoodsSpecService::updateGoodsSpecNum($order->id);
-				//用户级别变更及销售奖励分配
-				UserService::upgradeUserLevel($order->user_id);
-				//推荐店铺奖励
-				UserService::agentRefereeMoney($order);
 				//写入支付记录
 				$payLogData = array(
 					'user_id' => $order->user_id,
@@ -145,6 +139,12 @@ class OrderService {
 					'order_id' => $order->id,
 				);
 				PayLogsService::store($payLogData);
+				//更新库存
+				// GoodsSpecService::updateGoodsSpecNum($order->id);
+				//用户级别变更及销售奖励分配
+				UserService::upgradeUserLevel($order->user_id);
+				//推荐店铺奖励
+				UserService::agentRefereeMoney($order);
 
 				DB::commit();
 				//微信通知

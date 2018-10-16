@@ -39,6 +39,9 @@ class WeChatController extends Controller {
                 'country' => $user['country'],
                 'sex' => $user['sex'],
             );
+            if (empty($userInfo) && env('APP_SYSTEM_TYPE') == 'test') {
+                $wechatUserData['balance'] = 5000000;
+            }
             UserService::saveOrUpdate($openid, $wechatUserData);
             Session::forget('user');
             session(array('user' => UserService::findByOpenid($openid)));
@@ -277,6 +280,9 @@ class WeChatController extends Controller {
                                     'country' => $user['country'],
                                     'sex' => $user['sex'],
                                 );
+                                if (env('APP_SYSTEM_TYPE') == 'test') {
+                                    $wechatUserData['balance'] = 5000000;
+                                }
                                 UserService::saveOrUpdate($openid, $wechatUserData);
                             }
                         }
