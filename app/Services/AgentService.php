@@ -69,26 +69,35 @@ class AgentService {
 			$agent->address = $request['address'];
             $agent->pay_time = date('Y-m-d H:i:s');
 			$agent->remark = $request['remark'];
-			$agent->state = evn('APP_SYSTEM_TYPE') == 'test' ? 3 : 2;
+			$agent->state = env('APP_SYSTEM_TYPE') == 'test' ? 3 : 2;
+
+            if (env('APP_SYSTEM_TYPE') == 'test') {
+                $userInfo = UserService::findById($agent->user_id);
+                if ($agent->payment > $userInfo->balance) {
+                    return array(
+                        'code' => 500,
+                        'messages' => array('余额不足，请选择其他支付方式'),
+                        'url' => '',
+                    );
+                }
+                UserService::balancePay($agent->payment, $agent->user_id);
+                //写入支付记录
+                $payLogData = array(
+                    'user_id' => $agent->user_id,
+                    'openid' => $agent->openid,
+                    'pay_type' => 11,
+                    'gain' => 0,
+                    'expense' => $agent->payment,
+                    'balance' => $userInfo->balance-$agent->payment,
+                    'order_id' => $agent->id,
+                );
+                PayLogsService::store($payLogData);
+            }
+
 			$agent->save();
 
 			if ($agent->id) {
 				DB::commit();
-                if (evn('APP_SYSTEM_TYPE') == 'test') {
-                    $userInfo = UserService::findById($agent->user_id);
-                    UserService::balancePay($agent->payment, $agent->user_id);
-                    //写入支付记录
-                    $payLogData = array(
-                        'user_id' => $agent->user_id,
-                        'openid' => $agent->openid,
-                        'pay_type' => 11,
-                        'gain' => 0,
-                        'expense' => $agent->payment,
-                        'balance' => $userInfo->balance-$agent->payment,
-                        'order_id' => $agent->id,
-                    );
-                    PayLogsService::store($payLogData);
-                }
 				return array(
 					'code' => 200,
 					'messages' => array('保存订单成功'),
