@@ -59,8 +59,9 @@ class AgentService {
             if (substr( $request['transfer_voucher'], 0, 1 ) != '/') {
                 $request['transfer_voucher'] = '/'.$request['transfer_voucher'];
             }
-			$agent->front_identity_card = $request['front_identity_card'];
-			$agent->back_identity_card = $request['back_identity_card'];
+            $agent->idCard = $request['idCard'];
+			// $agent->front_identity_card = $request['front_identity_card'];
+			// $agent->back_identity_card = $request['back_identity_card'];
             $agent->transfer_voucher = $request['transfer_voucher'];
 			$agent->province = $request['province'];
 			$agent->city = $request['city'];

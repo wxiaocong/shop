@@ -64,6 +64,12 @@ button.weui-btn_warn{
         </div>
       </div>
       <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">身份证</label></div>
+        <div class="weui-cell__bd">
+          <input class="weui-input" name="idCard" type="text" placeholder="请填写身份证">
+        </div>
+      </div>
+      <div class="weui-cell">
         <div class="weui-cell__hd">
           <label class="weui-label">手机号码</label>
         </div>
@@ -85,30 +91,13 @@ button.weui-btn_warn{
             <input class="weui-input" type="text" name="address" maxlength="200" value="" placeholder="请输入详情地址,不包括地区">
           </div>
       </div>
-
-      <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>身份证正面：</p>
-          </div>
-          <div class="weui-uploader__bd">
-              <img class="front_identity_card"  name="front_identity_card"  style="width:150px;height:100px;" >
-          </div>
-      </div>
-      <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>身份证反面：</p>
-          </div>
-          <div class="weui-uploader__bd">
-              <img class="back_identity_card"  name="back_identity_card"  style="width:150px;height:100px;" >
-          </div>
-      </div>
       <div class="weui-cells__title">转账凭证</div>
       <div class="weui-cell">
           <div class="weui-cell__bd">
             <p>支付宝</p>
           </div>
           <div class="weui-uploader__bd">
-              <img src="{{ elixir('images/users/alipay.png') }}" style="width:150px;height:100px;" >、
+              <img src="{{ elixir('images/users/alipay.jpg') }}" style="width:150px;height:150px;" >、
           </div>
       </div>
       <div class="weui-cell">
@@ -128,14 +117,6 @@ button.weui-btn_warn{
           <label class="weui-label">收款人</label>
         </div>
         <div class="weui-cell__bd">{{$bank['card']}}</div>
-      </div>
-      <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>转账凭证：</p>
-          </div>
-          <div class="weui-uploader__bd">
-              <img class="transfer_voucher"  name="transfer_voucher" style="width:150px;height:100px;" >
-          </div>
       </div>
       <div class="weui-cells__title">备注</div>
       <div class="weui-cells weui-cells_form">

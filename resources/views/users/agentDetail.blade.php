@@ -35,7 +35,7 @@ button.weui-btn_warn{
 </style>
 <header class="zyw-header">
     <div class="zyw-container white-color">
-        <div class="head-l"><a href="javascript:history.back(-1);" target="_self"><i class="iconfont icon-fanhui1"></i></a></div>
+        <div class="head-l"><a href="javascript:self.location='/home'" target="_self"><i class="iconfont icon-fanhui1"></i></a></div>
         <h1>代理商详情</h1>
     </div>
 </header>
@@ -52,6 +52,10 @@ button.weui-btn_warn{
       <div class="weui-cell">
         <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
         <div class="weui-cell__bd">{{$agent->agent_name}}</div>
+      </div>
+      <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">身份证</label></div>
+        <div class="weui-cell__bd">{{$agent->idCard}}</div>
       </div>
       <div class="weui-cell">
         <div class="weui-cell__hd">
@@ -72,22 +76,6 @@ button.weui-btn_warn{
       <div class="weui-cell">
           <div class="weui-cell__hd"><label class="weui-label">详细地址</label></div>
           <div class="weui-cell__bd">{{$agent->address}}</div>
-      </div>
-      <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>身份证正面：</p>
-          </div>
-          <div class="weui-uploader__bd">
-              <img src="{{$agent->front_identity_card}}" style="width:150px;height:100px;" >
-          </div>
-      </div>
-      <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>身份证反面：</p>
-          </div>
-          <div class="weui-uploader__bd">
-              <img src="{{$agent->back_identity_card}}" style="width:150px;height:100px;" >
-          </div>
       </div>
       <div class="weui-cells__title">转账凭证</div>
       <div class="weui-cell">
@@ -115,14 +103,6 @@ button.weui-btn_warn{
           <label class="weui-label">收款人</label>
         </div>
         <div class="weui-cell__bd">{{$bank['card']}}</div>
-      </div>
-      <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <p>转账凭证：</p>
-          </div>
-          <div class="weui-uploader__bd">
-              <img src="{{$agent->transfer_voucher}}" style="width:150px;height:100px;" >、
-          </div>
       </div>
       <div class="weui-cells__title">备注</div>
       <div class="weui-cells weui-cells_form">
