@@ -340,7 +340,7 @@ class WeChatController extends Controller {
             [
                 "type" => "view",
                 "name" => "得·官网",
-                "url"  => "http://www.zhideai.shop"
+                "url"  => "http://zdadjk.creditbrand.org/"
             ],
             [
                 "name"       => "艾·中心",
