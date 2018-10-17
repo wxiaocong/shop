@@ -56,6 +56,15 @@
         </a>
     </div>
     <div class="home-cont weui-cells" style="margin-bottom:56px;">
+        @if(!empty($agent) && $agent->state == 3)
+        <a class="weui-cell weui-cell_access" href="/agent/order">
+            <div class="weui-cell__bd">
+                <p class="choose-text"><i class="iconfont icon-shangjia"></i> 店铺订单</p>
+            </div>
+            <div class="weui-cell__ft choose-des">
+            </div>
+        </a>
+        @endif
         <a class="weui-cell weui-cell_access" href="/home/fund">
             <div class="weui-cell__bd">
                 <p class="choose-text"><i class="iconfont icon-zijinzouxiang"></i> 资金管理</p>
