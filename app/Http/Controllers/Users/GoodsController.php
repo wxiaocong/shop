@@ -29,7 +29,7 @@ class GoodsController extends Controller {
             if (isWeixin()) {
                 $app = EasyWeChat::officialAccount();
                 $data['shareConfig'] = $app->jssdk->buildConfig(array('onMenuShareTimeline', 'onMenuShareAppMessage'), false);
-                $data['shareLink'] = url()->full().'?shareId='.$userInfo->id;
+                $data['shareLink'] = url()->full().'?shareId='.session('user')->id;
             }
             return view('users.goodsDetail', $data);
         }

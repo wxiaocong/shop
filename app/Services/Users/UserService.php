@@ -421,7 +421,7 @@ class UserService {
             WechatNoticeService::sendTemplateMessage($agent->user_id, $userInfo->openid, $url, $template['template_id'], $templateData);
         }
     }
-    
+
     public static function balancePay($payment, $user_id) {
         return UserDao::getById($user_id)->decrement('balance', $payment);
     }
@@ -541,13 +541,13 @@ class UserService {
             'url' => '',
         );
     }
-    
+
     /**
      * 获取团队数据
      * @param unknown $type
      */
-    public static function getTeam($type)
+    public static function getTeam($type, $user_id = 0)
     {
-        return UserDao::getTeam($type);
+        return UserDao::getTeam($type, $user_id);
     }
 }

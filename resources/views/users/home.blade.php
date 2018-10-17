@@ -63,7 +63,7 @@
             <div class="weui-cell__ft choose-des">
             </div>
         </a>
-        <a class="weui-cell weui-cell_access" href="/home/myTeam/0">
+        <a class="weui-cell weui-cell_access" href="/home/myTeam/0/0">
             <div class="weui-cell__bd">
                 <p class="choose-text"><i class="iconfont icon-tuandui"></i> 我的团队</p>
             </div>

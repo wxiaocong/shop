@@ -182,20 +182,20 @@ class UserDao extends BaseDao {
 
         return new Page($builder->paginate($pageSize, array('*'), 'page', $curPage));
     }
-    
+
     /**
      * 获取团队数据
      * @param unknown $type
      */
-    public static function getTeam($type)
+    public static function getTeam($type, $user_id = 0)
     {
         $build =  User::leftJoin('agent', function($leftJoin){
             $leftJoin->on('users.id', '=', 'agent.user_id')->where('agent.state', 3);
-        })->where('users.referee_id', session('user')->id)
+        })->where('users.referee_id', $user_id > 0 ? $user_id : session('user')->id)
         ->select('users.*', 'agent.level as agentLevel');
         if ($type > 0) {
-            $build->where('level', $type-1);
+            $build->where('users.level', $type-1);
         }
-        return $build->get();
+        return $build->orderBy('users.id', 'desc')->get();
     }
 }

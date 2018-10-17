@@ -117,7 +117,7 @@ Route::group(array('middleware' => array('web')), function () {
         Route::resource('/category', 'CategoryController');
 
         Route::get('/home/withdraw', 'HomeController@withdraw');
-        Route::get('/home/myTeam/{type}', 'HomeController@myTeam');
+        Route::get('/home/myTeam/{type}/{child}', 'HomeController@myTeam');
         Route::get('/home/shareQrCode', 'HomeController@shareQrCode');
         Route::get('/home/fund', 'HomeController@fund');
         Route::post('/home/getData', 'HomeController@getData');

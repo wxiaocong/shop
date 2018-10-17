@@ -58,7 +58,7 @@ class HomeController extends Controller {
             ));
         }
     }
-    
+
     //资金记录
     public function fund()
     {
@@ -79,7 +79,7 @@ class HomeController extends Controller {
         $data['payTypeArr'] = array_column(config('statuses.payLog.payType'),'text','code');
         return view('users.payLogData', $data);
     }
-    
+
     //佣金收入
     public function income()
     {
@@ -87,28 +87,36 @@ class HomeController extends Controller {
         $data['payType']= intval(request('payType', 0));
         return view('users.income', $data);
     }
-    
+
     //获取资金记录列表数据
     public function getData() {
         $param['userId'] = session('user')->id;
         $param['payType'] = intval(request('payType', 0));
         $param['orderBy'] = array('id' => 'desc');
         $param['pageType'] = config('statuses.payLog.pageType.fund');
-        
+
         $curPage = trimSpace(request('curPage', 1));
         $pageSize = trimSpace(request('pageSize', Page::PAGESIZE));
-        
+
         $data['fundList'] = PayLogsService::findByPage($curPage, $pageSize, $param);
         $data['payTypeArr'] = array_column(config('statuses.payLog.payType'),'text','code');
         return view('users.incomeData', $data);
     }
-    
+
     //我的团队
     public function myTeam() {
+        $data['childId'] = $childId = intval(request('child', 0));
         $data['teamType'] = $type = intval(request('type'));
         $levelType = config('statuses.user.levelType');
         if (in_array($type, array_keys($levelType))) {
-            $data['team'] = UserService::getTeam($type);
+            //如果查询下级，检查childId是还否是当前用户下级
+            if ($childId > 0) {
+                $childInfo = UserService::findById($childId);
+                if (empty($childInfo) || $childInfo->referee_id != session('user')->id) {
+                    abort(404, '该会员不是您的下级!');
+                }
+            }
+            $data['team'] = UserService::getTeam($type, $childId);
         }
         $data['levelState'] = config('statuses.user.levelState');
         $data['agentState'] = AgentTypeService::getAll();

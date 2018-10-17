@@ -16,10 +16,10 @@
 <section class="zyw-container">
     <div class="weui-tab">
         <div class="weui-navbar">
-            <a href="/home/myTeam/0" class="weui-navbar__item @if($teamType == 0) weui-bar__item--on @endif">全部</a>
-            <a href="/home/myTeam/1" class="weui-navbar__item @if($teamType == 1) weui-bar__item--on @endif">游客</a>
-            <a href="/home/myTeam/2" class="weui-navbar__item @if($teamType == 2) weui-bar__item--on @endif">艾达人</a>
-            <a href="/home/myTeam/3" class="weui-navbar__item @if($teamType == 3) weui-bar__item--on @endif">艾天使</a>
+            <a href="/home/myTeam/0/{{$childId}}" class="weui-navbar__item @if($teamType == 0) weui-bar__item--on @endif">全部</a>
+            <a href="/home/myTeam/1/{{$childId}}" class="weui-navbar__item @if($teamType == 1) weui-bar__item--on @endif">游客</a>
+            <a href="/home/myTeam/2/{{$childId}}" class="weui-navbar__item @if($teamType == 2) weui-bar__item--on @endif">艾达人</a>
+            <a href="/home/myTeam/3/{{$childId}}" class="weui-navbar__item @if($teamType == 3) weui-bar__item--on @endif">艾天使</a>
         </div>
         <div class="weui-tab__bd">
             <div class="order-group">
@@ -30,7 +30,7 @@
                 <div class="order-group-item clearfix">
                     <div class="order-item-box">
                         <div class="media">
-                            <a href="javascript:;" class="pull-left">
+                            <a href="@if($childId>0) javascript:; @else /home/myTeam/0/{{$val->id}} @endif" class="pull-left">
                                 <img src="{{empty($val->headimgurl) ? elixir('images/users/mylogo.png') : $val->headimgurl}}" alt="" class="media-object order-item-img">
                             </a>
                             <div class="media-body">

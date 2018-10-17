@@ -46,7 +46,8 @@ class WeChatController extends Controller {
                 if (session('target_url')) {
                     preg_match('/shareId=(\d+)/', session('target_url'), $match);
                     if (!empty($match)) {
-                        if(UserService::getById($match['1'])->exists()) {
+                        $refeInfo = UserService::findById($match['1']);
+                        if(!empty($refeInfo) && $refeInfo->level > 0) {
                             $wechatUserData['referee_id'] = $match['1'];
                         }
                     }
