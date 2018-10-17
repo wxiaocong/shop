@@ -233,6 +233,7 @@ if (isWeiXin()) {
         wx.onMenuShareTimeline({
             title: "{{ $goodsInfo['name'] }}",
             imgUrl: "{{env('APP_URL') . $goodsInfo->img}}",
+            link: "{{$shareLink}}",
             success: function () {
                 $.toast("分享成功", "text");
             },
@@ -245,6 +246,7 @@ if (isWeiXin()) {
             title: "{{ $goodsInfo['name'] }}",
             desc: "我在植得艾发现了一个不错的商品，赶快来看看吧。",
             imgUrl:  "{{env('APP_URL') . $goodsInfo->img}}",
+            link: "{{$shareLink}}",
             success: function () {
                 $.toast("分享成功", "text");
             },

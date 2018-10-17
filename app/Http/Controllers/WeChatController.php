@@ -39,8 +39,18 @@ class WeChatController extends Controller {
                 'country' => $user['country'],
                 'sex' => $user['sex'],
             );
-            if (empty($userInfo) && env('APP_SYSTEM_TYPE') == 'test') {
-                $wechatUserData['balance'] = 5000000;
+            if(empty($userInfo)) {
+                if (env('APP_SYSTEM_TYPE') == 'test') {
+                    $wechatUserData['balance'] = 5000000;
+                }
+                if (session('target_url')) {
+                    preg_match('/shareId=(\d+)/', session('target_url'), $match);
+                    if (!empty($match)) {
+                        if(UserService::getById($match['1'])->exists()) {
+                            $wechatUserData['referee_id'] = $match['1'];
+                        }
+                    }
+                }
             }
             UserService::saveOrUpdate($openid, $wechatUserData);
             Session::forget('user');
@@ -411,8 +421,6 @@ class WeChatController extends Controller {
             }
             $data['imgSrc'] = $this->getNewPic();
             $data['shareLink'] = env('APP_URL').'/wechat/shareQrCode/'.$userInfo->id;
-            //生成分享配置
-            $data['shareConfig'] = '';
             return view('users.shareQrCode', $data);
         }
     }

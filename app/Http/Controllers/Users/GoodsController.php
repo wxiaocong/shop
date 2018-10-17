@@ -29,6 +29,7 @@ class GoodsController extends Controller {
             if (isWeixin()) {
                 $app = EasyWeChat::officialAccount();
                 $data['shareConfig'] = $app->jssdk->buildConfig(array('onMenuShareTimeline', 'onMenuShareAppMessage'), false);
+                $data['shareLink'] = url()->full().'?shareId='.$userInfo->id;
             }
             return view('users.goodsDetail', $data);
         }
@@ -49,7 +50,7 @@ class GoodsController extends Controller {
         $data['num'] = intval(request('num', 1));
         $spec = request('spec');
         Session::forget('expressReferer');
-        
+
         if ($goodsId < 1 || (empty($spec) && $specId < 1)) {
             abort(404, '缺少参数');
         }
