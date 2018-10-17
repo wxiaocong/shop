@@ -219,8 +219,8 @@ del{
         @endif
     </div>
 </footer>
-<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/jquery-weui.min.js"></script>
+<script src="{{ elixir('js/users/jquery.min.js') }}"></script>
+<script src="{{ elixir('js/users/jquery-weui.min.js') }}"></script>
 <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script src="{{asset('js/users/swiper.min.js')}}"></script>
 <script src="{{asset('js/users/front.js')}}"></script>
