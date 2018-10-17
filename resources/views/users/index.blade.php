@@ -1,5 +1,4 @@
 @include('users.inc.header')
-@include('users.inc.search')
 <section class="zyw-container">
     @if (!empty($adPositions))
     <div class="swiper-container">
@@ -13,23 +12,22 @@
     </div>
     @endif
     <div class="index-wares">
-        <div class="wares-title" style="color:#e93b3d;">精品推荐</div>
         <div class="wares-cont">
-            <ul class="clearfix" style="padding-bottom: 10px;">
+            <ul class="clearfix" style="width:100%;margin-bottom:0;">
                 @forelse($recommends as $recommend)
                 <li class="ware-box">
                     <a href="\goods\{{$recommend->id}}">
                         <div class="ware-img">
                             @if(!empty($recommend->img))<img src="{{$recommend->img}}">@endif
-                            <span class="ware-vip">热卖</span>
                         </div>
-                        <h3 class="ware-title">{{$recommend->name}}</h3>
-                        <span class="ware-prince red-color">￥{{ sprintf("%.2f",$recommend->sell_price/100)}}</span>
                     </a>
                 </li>
                 @empty
                 @endforelse
             </ul>
+        </div>
+        <div>
+            <img style="width:100%;margin-bottom: 60px;" src="{{ elixir('images/users/service.jpg') }}" >
         </div>
     </div>
 </section>

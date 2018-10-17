@@ -23,7 +23,8 @@ class HomeController extends Controller {
     //个人信息
     public function show() {
         $userInfo = UserService::findById(session('user')->id);
-        return view('users.person', array('userInfo' => $userInfo));
+        return view('users.person')->with('userInfo', $userInfo)
+            ->with('bank_no', config('system.bank_no'));
     }
 
     //保存个人信息

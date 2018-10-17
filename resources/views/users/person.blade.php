@@ -61,6 +61,24 @@ button.weui-btn_warn{
             <input type="text" name="realname"  class="weui-input" value="{{ $userInfo->realname ?? '' }}" />
             </div>
           </div>
+          <div class="weui-cell weui-cell_select">
+            <div class="weui-cell__bd">
+              <select class="weui-select" name="bank_code">
+                <option value="0">请选择开户行</option>
+                @foreach($bank_no as $key=>$val)
+                <option value="{{$key}}" @if($key == $userInfo->bank_code) selected @endif >{{$val}}</option>
+                @endforeach
+              </select>
+            </div>
+          </div>
+          <div class="weui-cell weui-cell_access">
+            <div class="weui-cell__bd">
+              <p>银行卡号</p>
+            </div>
+            <div class="weui-cell__bd">
+              <input type="text" name="enc_bank_no"  class="weui-input" value="{{ $userInfo->enc_bank_no ?? '' }}" />
+            </div>
+          </div>
           <div class="weui-cell weui-cell_access">
             <div class="weui-cell__bd">
               <p>手机</p>
