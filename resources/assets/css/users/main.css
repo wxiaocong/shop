@@ -720,20 +720,15 @@ ul, ol, li{list-style-type: none;}
     background: #fff;
 }
 .index-wares .wares-cont .ware-box{
-    width: 44%;
-    float: left;
-    margin-top: 12px;
-    border: 1px solid #d6cfcf;
-    margin-left: 4%;
-    padding-bottom: 6px;
-    box-shadow: 0 4px 8px 0 rgba(111, 107, 107, 0.2), 0 6px 20px 0 rgba(251, 247, 247, 0.19);
+    width: 100%;
+    border-bottom: 1px solid #d6cfcf;
 }
 .index-wares .wares-cont .ware-box:nth-child(2n+1){
     border-right: 1px solid #f4f4f4;
 }
 .index-wares .wares-cont .ware-box .ware-img{
     position: relative;
-    height:180px;
+    height:280px;
     text-align: center;
 }
 .index-wares .wares-cont .ware-box .ware-img img{

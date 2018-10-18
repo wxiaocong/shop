@@ -25,7 +25,7 @@ class GoodsController extends Controller {
             $data['defaultImgs'] = json_decode($data['goodsInfo']->imgs);
 
             //生成分享配置
-            $data['shareConfig'] = '';
+            $data['shareLink'] = $data['shareConfig'] = '';
             if (isWeixin()) {
                 $app = EasyWeChat::officialAccount();
                 $data['shareConfig'] = $app->jssdk->buildConfig(array('onMenuShareTimeline', 'onMenuShareAppMessage'), false);
