@@ -162,18 +162,16 @@ class UserService {
         $goodsNum = OrderService::orderGoodsNum($orderInfo->id);
         //用户信息
         $inInfo = UserDao::findById($orderInfo->user_id);
+        //发货代理id
+        $orderAgent = array();
         //上级是否是店中店
         $inAgent = $inInfo->referee_id > 0 ? AgentService::findUserInShop($inInfo->referee_id) : NULL;
         if (!empty($inAgent)) {
             $agent_referee_id =  $inAgent->referee_id ?? 0;
             $agent_openId = $inAgent->openid ?? 0;
-            $referee_type = 'in';
-            //扣除库存
-            if (! $hasUpdateStock) {
-                AgentService::updateStock($inAgent->id, $goodsNum);
-                $hasUpdateStock = 1;
-            }
+
             $inside_info = UserDao::findById($inAgent->user_id);
+
             if(UserDao::profit($system_param['sales_inside_shop_profit'] * 100, $inInfo->referee_id)) {
                 //写入支付记录
                 $payLogData = array(
@@ -234,6 +232,10 @@ class UserService {
             //有区域店，发放区域店提成15
             $areaInfo = UserDao::findById($areaAgent->user_id);
             if(UserDao::profit($system_param['sales_area_shop_profit'] * 100, $areaAgent->user_id)) {
+                $orderAgent = array(
+                    'agent_id' => $areaAgent->user_id,
+                    'openid' => $agent_openId
+                );
                 //写入支付记录
                 $payLogData = array(
                     'user_id' => $areaAgent->user_id,
@@ -298,6 +300,10 @@ class UserService {
             //有旗舰店，发放旗舰店提成20
             $cityInfo = UserDao::findById($cityAgent->user_id);
             if(UserDao::profit($system_param['sales_city_shop_profit'] * 100, $cityAgent->user_id)) {
+                $orderAgent = array(
+                    'agent_id' => $cityAgent->user_id,
+                    'openid' => $agent_openId
+                );
                 //写入支付记录
                 $payLogData = array(
                     'user_id' => $cityAgent->user_id,
@@ -391,6 +397,22 @@ class UserService {
                     }
                 }
             }
+        }
+        //更新订单，写入提货代理店
+        if(!empty($orderAgent)) {
+            OrderService::getByOrderSn($orderInfo->order_sn)->update(['agent_id'=>$orderAgent['agent_id']]);
+            //通知代理商
+            $template = config('templatemessage.pendingDelivery');
+            $templateData = array(
+                'first' => '您有一个新的待发货订单',
+                'keyword1' => $orderInfo->order_sn,
+                'keyword2' => sprintf("%.2f", $orderInfo->real_pay .'元',
+                'keyword3' => empty($inInfo->realname) ? $inInfo->nickname : $inInfo->realname,
+                'keyword4' => '已付款',
+                'remark' => '客户已付款，请尽快发货吧',
+            );
+            $url = config('app.url').'/agent/order';
+            WechatNoticeService::sendTemplateMessage($orderAgent['agent_id'], $orderAgent['openid'], $url, $template['template_id'], $templateData);
         }
     }
 

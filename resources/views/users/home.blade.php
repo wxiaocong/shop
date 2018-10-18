@@ -24,7 +24,7 @@
                         @if ($userInfo->vip == 1)<i class="iconfont icon-VIP"></i>@endif
                         <span>{{$levelArr[$userInfo->level]}}</span>
                     </div>
-                    <div class="my-head-user">余额：{{sprintf("%.2f", $userInfo->balance/100)}}</div>
+                    <div class="my-head-user">余额：{{sprintf("%.2f", $userInfo->balance/100)}}&nbsp;&nbsp;锁定金额：{{sprintf("%.2f", $userInfo->lockBalance/100)}}</div>
                 </div>
             </div>
         </div>

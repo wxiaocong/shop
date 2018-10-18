@@ -37,7 +37,7 @@ class WeChatController extends Controller {
                 'city' => $user['city'],
                 'province' => $user['province'],
                 'country' => $user['country'],
-                'sex' => $user['sex'],
+                'sex' => $user['sex']
             );
             if(empty($userInfo)) {
                 if (env('APP_SYSTEM_TYPE') == 'test') {
@@ -53,7 +53,20 @@ class WeChatController extends Controller {
                     }
                 }
             }
-            UserService::saveOrUpdate($openid, $wechatUserData);
+            if(UserService::saveOrUpdate($openid, $wechatUserData)) {
+                //新用户有上级通知上级
+                if(isset($wechatUserData['referee_id']) && $wechatUserData['referee_id'] > 0) {
+                    $template = config('templatemessage.vip');
+                    $templateData = array(
+                        'first' => '您有新的下级会员通过分享商品链接加入',
+                        'keyword1' => $wechatUserData['nickname'],
+                        'keyword2' => date('Y-m-d'),
+                        'remark' => '如有问题请联系客服',
+                    );
+                    $url = config('app.url').'/home/myTeam/0/0';
+                    WechatNoticeService::sendTemplateMessage($refeInfo->id, $refeInfo->openid, $url, $template['template_id'], $templateData);
+                }
+            }
             Session::forget('user');
             session(array('user' => UserService::findByOpenid($openid)));
         }
@@ -294,7 +307,23 @@ class WeChatController extends Controller {
                                 if (env('APP_SYSTEM_TYPE') == 'test') {
                                     $wechatUserData['balance'] = 5000000;
                                 }
-                                UserService::saveOrUpdate($openid, $wechatUserData);
+                                if(UserService::saveOrUpdate($openid, $wechatUserData)) {
+                                     //新用户有上级通知上级
+                                    if($parentId > 0) {
+                                        $parentInfo = UserService::findById($parentId);
+                                        if(!empty($parentInfo)) {
+                                            $template = config('templatemessage.vip');
+                                            $templateData = array(
+                                                'first' => '您有新的下级会员通过扫码加入',
+                                                'keyword1' => $wechatUserData['nickname'],
+                                                'keyword2' => date('Y-m-d'),
+                                                'remark' => '如有问题请联系客服',
+                                            );
+                                            $url = config('app.url').'/home/myTeam/0/0';
+                                            WechatNoticeService::sendTemplateMessage($parentInfo->id, $parentInfo->openid, $url, $template['template_id'], $templateData);
+                                        }
+                                    }
+                                }
                             }
                         }
                         return '欢迎来到植得艾';
