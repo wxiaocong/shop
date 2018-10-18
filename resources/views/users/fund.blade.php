@@ -25,7 +25,7 @@
         <div class="weui-tab__bd">
             <div class="order-group">
                 <div class="order-group-item clearfix">
-                    <div class="team-item">余额：{{sprintf("%.2f", $userInfo->balance/100)}}</div>
+                    <div class="team-item">余额：{{sprintf("%.2f", $userInfo->balance/100)}}&nbsp;&nbsp;锁定金额：{{sprintf("%.2f", $userInfo->lockBalance/100)}}</div>
                     <div class="pay-button">
                         <a href="/home/withdraw" class="btn btn-warning">提现</a>
                     </div>
@@ -45,7 +45,7 @@
                         <div class="weui-cell__ft choose-des">
                         </div>
                     </a>
-                    <a class="weui-cell weui-cell_access" href="#">
+                    <a class="weui-cell weui-cell_access" href="/home/record">
                         <div class="weui-cell__bd">
                             <p class="choose-text">提现记录</p>
                         </div>

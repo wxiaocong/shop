@@ -200,6 +200,10 @@ return array(
             'agentPay' => array(
                 'code' => 11,
                 'text' => '申请代理商'
+            ),
+            'withdraw' => array(
+                'code' => 12,
+                'text' => '提现'
             )
         ),
         'pageType' => array(

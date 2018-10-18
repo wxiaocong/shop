@@ -167,13 +167,23 @@ class OrderController extends Controller {
         }
         $orderSn = createOrderSn();
         $withdrawData = array(
+            'order_sn'  =>  $orderSn,
             'amount'    =>  $amount,
-            'order_sn'  =>  $orderSn
+            'pay_type'  =>  1,
+            'bank_code' => $userInfo->bank_code,
+            'enc_bank_no' => $userInfo->enc_bank_no
         );
 
-        if(WithdrawService::store(withdrawData)) {
+        if(WithdrawService::store($withdrawData)) {
             //用户余额锁定
             UserService::getById(session('user')->id)->increment('lockBalance', $amount);
+            return response()->json(
+                array(
+                    'code' => 200,
+                    'messages' => '申请提现成功',
+                    'url'   => '/home/fund'
+                )
+            );
             $app = EasyWeChat::payment();
             $result  = $app->transfer->toBalance([
                 'partner_trade_no' => $orderSn,
@@ -183,7 +193,6 @@ class OrderController extends Controller {
                 'amount' => $amount, // 企业付款金额，单位为分
                 'desc' => '余额提现', // 企业付款操作说明信息。必填
             ]);
-            \Log::error(json_encode($result));
             return json_encode($result);
         } else {
             return response()->json(

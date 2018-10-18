@@ -43,7 +43,7 @@ class PayLogsDao extends BaseDao
     }
     
     /**
-     * 分页查询资金记录
+     * 分页查询资金记录,此时pay_logs.order_id存的下单用户id
      * @param  int $pageSize
      * @param  array $params
      *

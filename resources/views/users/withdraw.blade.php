@@ -10,13 +10,13 @@
     <div class="tixian-box">
         <div class="tobank">
             <span class="dzyh">提现到</span>
-            <span class="yhk">微信零钱</span>
-            <span class="dz"></span>
+            <span class="yhk">{{$bank_no[$userInfo->bank_code]}}：{{$userInfo->enc_bank_no}}</span>
+            <span class="dz">实名认证：{{$userInfo->realname}}</span>
         </div>
         <div class="t-moneys">
             <span class="txje">提现金额</span>
             <span class="rmb">￥</span>
-            <span class="kyye">当前零钱余额：<span id="cur-balance">{{sprintf("%.2f", $userInfo->balance/100)}}</span>元，<a href="javascript:;" id="getall">全部提现</a></span>
+            <span class="kyye">当前零钱余额：<span id="cur-balance">{{sprintf("%.2f", ($userInfo->balance-$userInfo->lockBalance)/100)}}</span>元，<a href="javascript:;" id="getall">全部提现</a></span>
             <input type="number" max="{{($userInfo->balance-$userInfo->lockBalance)/100}}" value="" id="getmoneys" class="t-input">
             <button id="getout">提现</button>
         </div>
@@ -29,7 +29,7 @@
     });
     $('#getout').click(function(){
         var buttons = $(this);
-        var amount = parseInt($("#getmoneys").val() + 0);
+        var amount = parseInt($("#getmoneys").val()) + 0;
         var maxAmount = $("#getmoneys").prop('max');
         if (amount < 1) {
             $.toast('提现金额错误', "forbidden");
@@ -51,7 +51,10 @@
             success: function(jsonObject) {
                 $.hideLoading();
                 if (jsonObject.code == 200) {
-
+                    $.toast(jsonObject.messages);
+                    setTimeout(function(){
+                        window.location.href = jsonObject.url;
+                    },1000);
                 } else {
                     $.toast(jsonObject.messages, "forbidden");
                 }

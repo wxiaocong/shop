@@ -26,8 +26,8 @@
                 @endforelse
             </ul>
         </div>
-        <div>
-            <img style="width:100%;margin-bottom: 60px;" src="{{ elixir('images/users/service.jpg') }}" >
+        <div style="width:100%;margin-bottom: 60px;">
+            <!-- <img style="width:100%;margin-bottom: 60px;" src="{{ elixir('images/users/service.jpg') }}" > -->
         </div>
     </div>
 </section>

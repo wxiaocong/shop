@@ -8,6 +8,7 @@ use App\Services\Users\UserService;
 use App\Services\PayLogsService;
 use App\Services\AgentService;
 use App\Services\AgentTypeService;
+use App\Services\WithdrawService;
 use EasyWeChat;
 use Session;
 use App\Utils\Page;
@@ -126,8 +127,24 @@ class HomeController extends Controller {
 
     //提现
     public function withdraw() {
+        $data['bank_no'] = config('system.bank_no');
         $data['userInfo'] = UserService::findById(session('user')->id);
         return view('users.withdraw', $data);
+    }
+
+    //提现记录
+    public function record() {
+        return view('users.withdrawRecord')->with('pageSize',20);
+    }
+
+
+    public function getWithdraw()
+    {
+        $curPage = trimSpace(request('curPage', 1));
+        $pageSize = trimSpace(request('pageSize', 20));
+        $data['record'] = WithdrawService::getAllByUser(session('user')->id, $curPage, $pageSize);
+        
+        return view('users.withdrawRecordData', $data);
     }
 
 }

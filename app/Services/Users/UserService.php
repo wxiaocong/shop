@@ -406,7 +406,7 @@ class UserService {
             $templateData = array(
                 'first' => '您有一个新的待发货订单',
                 'keyword1' => $orderInfo->order_sn,
-                'keyword2' => sprintf("%.2f", $orderInfo->real_pay .'元',
+                'keyword2' => sprintf("%.2f", $orderInfo->real_pay) .'元',
                 'keyword3' => empty($inInfo->realname) ? $inInfo->nickname : $inInfo->realname,
                 'keyword4' => '已付款',
                 'remark' => '客户已付款，请尽快发货吧',
@@ -452,6 +452,12 @@ class UserService {
     public static function lockBalance($amount, $user_id) {
         return UserDao::lockBalance($amount, $user_id);
     }
+
+    //解除锁定余额
+    public static function unLockBalance($amount, $user_id) {
+        return UserDao::unLockBalance($amount, $user_id);
+    }
+
     /**
      * 查询推荐人级别
      * @param  [type] $user_id [description]
@@ -571,5 +577,10 @@ class UserService {
     public static function getTeam($type, $user_id = 0)
     {
         return UserDao::getTeam($type, $user_id);
+    }
+
+    //提现，金额解锁
+    public static function withdraw($amount, $user_id) {
+        return UserDao::withdraw($amount, $user_id);
     }
 }

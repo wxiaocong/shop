@@ -14,11 +14,20 @@ class UserDao extends BaseDao {
         return DB::update("UPDATE `users` SET lockBalance = lockBalance + $amount where id = $user_id");
     }
 
+    //锁定余额
+    public static function unLockBalance($amount, $user_id) {
+        return DB::update("UPDATE `users` SET lockBalance = lockBalance - $amount where id = $user_id");
+    }
+
     //提成，金额锁定
     public static function profit($amount, $user_id) {
         return DB::update("UPDATE `users` SET balance = balance + ? ,lockBalance = lockBalance + ? where id = ?", [$amount, $amount, $user_id]);
     }
 
+    //提现，金额解锁
+    public static function withdraw($amount, $user_id) {
+        return DB::update("UPDATE `users` SET balance = balance - ? ,lockBalance = lockBalance - ? where id = ?", [$amount, $amount, $user_id]);
+    }
 
     /**
      * 根据openid查询用户

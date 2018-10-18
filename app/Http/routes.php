@@ -66,6 +66,12 @@ Route::group(array('middleware' => array('web')), function () {
         Route::post('/admin/order/{id}/deliver', 'Order\OrderController@deliver');
         Route::resource('/admin/order', 'Order\OrderController');
 
+        //withdraw
+        Route::post('/admin/withdraw/audit', 'Order\WithdrawController@audit');
+        Route::post('/admin/withdraw/cancle', 'Order\WithdrawController@cancle');
+        Route::get('/admin/withdraw/getDetail', 'Order\WithdrawController@getDetail');
+        Route::resource('/admin/withdraw', 'Order\WithdrawController');
+
         //ad
         Route::post('/admin/ad/destroyAll', 'Tool\AdPositionController@destroyAll');
         Route::resource('/admin/ad', 'Tool\AdPositionController');
@@ -117,6 +123,8 @@ Route::group(array('middleware' => array('web')), function () {
         Route::resource('/category', 'CategoryController');
 
         Route::get('/home/withdraw', 'HomeController@withdraw');
+        Route::get('/home/record', 'HomeController@record');
+        Route::post('/home/getWithdraw', 'HomeController@getWithdraw');
         Route::get('/home/myTeam/{type}/{child}', 'HomeController@myTeam');
         Route::get('/home/shareQrCode', 'HomeController@shareQrCode');
         Route::get('/home/fund', 'HomeController@fund');
