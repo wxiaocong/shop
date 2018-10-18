@@ -568,6 +568,17 @@ class OrderService {
 	}
 
 	/**
+	 * 分页查询下级订单
+	 * @param  int $pageSize
+	 * @param  array $params
+	 *
+	 * @return array
+	 */
+	public static function findLowerByPage($curPage, $pageSize, $params = array()) {
+		return OrderDao::findLowerByPage($curPage, $pageSize, $params);
+	}
+
+	/**
 	 * 分页查询订单
 	 * @param  int $curPage
 	 * @param  int $pageSize

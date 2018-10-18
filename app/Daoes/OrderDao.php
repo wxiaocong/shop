@@ -108,6 +108,27 @@ class OrderDao extends BaseDao {
 	}
 
 	/**
+	 * 分页查询下级订单
+	 * @param  int $pageSize
+	 * @param  array $params
+	 *
+	 * @return array
+	 */
+	public static function findLowerByPage($curPage, $pageSize, $params) {
+		$builder = Order::join('order_goods as og', 'order.id', '=', 'og.order_id')
+		    ->join('users as us', 'order.user_id', '=', 'us.id')
+			->where('us.referee_id', $params['user_id'])
+			->groupBy('order.id')
+			->select('order.id', 'order.order_sn', 'order.payment', 'order.express_fee', 'order.state', 'us.nickname', DB::raw('SUM(og.num) as num'), 'og.goods_name', 'og.spec_values as values', DB::raw('GROUP_CONCAT(og.goods_img) as img'))
+			->orderBy('order.created_at', 'desc')
+			->offset($pageSize * ($curPage - 1))->limit($pageSize);
+		if (!empty($params['order_type']) && array_key_exists($params['order_type'], config('order.order_state'))) {
+			$builder->where('order.state', $params['order_type']);
+		}
+		return $builder->get();
+	}
+
+	/**
 	 * 分页查询订单
 	 * @param  int $curPage
 	 * @param  int $pageSize

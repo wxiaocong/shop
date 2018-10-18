@@ -34,6 +34,28 @@ class AgentController extends Controller {
         return view('users.agentDetail', $data);
     }
 
+    //下级订单列表
+    public function order() {
+        $data['pageSize'] = Page::PAGESIZE;
+        $data['showState'] = config('order.show_state');
+        $data['orderType'] = intval(request('order_type'));
+        $data['orderType'] = array_key_exists($data['orderType'], $data['showState']) ? $data['orderType'] : 0;
+        return view('users.order', $data);
+    }
+
+    //获取下级订单列表数据
+    public function getData() {
+        $param['user_id'] = session('user')->id;
+        $param['order_type'] = intval(request('order_type', 0));
+
+        $curPage = trimSpace(request('curPage', 1));
+        $pageSize = trimSpace(request('pageSize', Page::PAGESIZE));
+
+        $data['orderList'] = OrderService::findLowerByPage($curPage, $pageSize, $param);
+        $data['order_state'] = config('order.order_state');
+        return view('users.agentOrderData', $data);
+    }
+
     //创建订单
     public function store(AgentRequest $request) {
         $res = AgentService::store($request);

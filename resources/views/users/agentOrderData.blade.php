@@ -26,16 +26,10 @@
             @endif
         </div>
     </div>
-    <p class="text-right order-item-sum">共计{{$val->num}}件商品，合计{{sprintf("%.2f",$val->payment/100)}}元）</p>
+    <p class="text-right order-item-sum">下单人：{{$val->nickname}}，共计{{$val->num}}件商品，合计{{sprintf("%.2f",$val->payment/100)}}元）</p>
     <div class="order-item-btn pull-right">
-        @if (in_array($val->state,array(1)))
-        <a href="javascript:;" class="btn btn-sm btn-default cancel_order" data="{{$val->order_sn}}">取消订单</a>
-        @endif
-        @if ($val->state == 1)
-        <a href="/order/cashPay/{{$val->order_sn}}" class="btn btn-sm btn-primary theme-bdcolor theme-bgcolor pay-order">去支付</a>
-        @endif
-        @if ($val->state == 3)
-        <a href="javascript:;" class="btn btn-sm btn-primary theme-bdcolor theme-bgcolor confirm_recipt" data="{{$val->order_sn}}">确认收货</a>
+        @if ($val->state == 2)
+        <a href="javascript:;" class="btn btn-sm btn-primary theme-bdcolor theme-bgcolor confirm_recipt" data="{{$val->order_sn}}">发货</a>
         @endif
     </div>
 </div>

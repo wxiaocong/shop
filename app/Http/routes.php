@@ -126,7 +126,9 @@ Route::group(array('middleware' => array('web')), function () {
         Route::post('/home/getPayLogData', 'HomeController@getPayLogData');
         Route::resource('/home', 'HomeController');
 
-		Route::get('/agent/orderComplate/{ordersn}', 'AgentController@orderComplate');
+        Route::get('/agent/order', 'AgentController@order');
+        Route::post('/agent/getData', 'AgentController@getData');
+        Route::get('/agent/orderComplate/{ordersn}', 'AgentController@orderComplate');
         Route::post('/agent/prepay', 'AgentController@prepay');
         Route::get('/agent/cashPay/{ordersn}', 'AgentController@cashPay');
         Route::resource('/agent', 'AgentController');
