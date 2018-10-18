@@ -30,13 +30,25 @@ return array(
             'remark' => '',
         ),
     ),
-        //获得佣金提示 first,keyword1,keyword2,remark
+    //获得佣金提示 first,keyword1,keyword2,remark
     'getCommission' =>  array(
         'template_id' => 'vj_FztLIWq_GhCKWQb7em67B6e38W34NeQ3Gg__Zdr4',
         'data' => array(
             'first' => '',
             'keyword1' => '',
             'keyword2' => '',
+            'remark' => '',
+        ),
+    ),
+    //订单待发货通知代理商 first,keyword1,keyword2,keyword3,keyword4,remark
+    'pendingDelivery' => array(
+        'template_id' => 'm-7gQf1D-UCxsoKnbaf9DWqKLaT_5huVxJTc_NqAGhg',
+        'data' => array(
+            'first' => '',
+            'keyword1' => '',
+            'keyword2' => '',
+            'keyword3' => '',
+            'keyword4' => '',
             'remark' => '',
         ),
     )
