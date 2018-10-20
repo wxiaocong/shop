@@ -42,7 +42,6 @@
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th>订单号</th>
                       <th>金额</th>
                       <th>手续费</th>
                       <th>状态</th>

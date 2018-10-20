@@ -281,16 +281,24 @@ class WeChatController extends Controller {
         $app->server->push(function ($message) {
             switch ($message['MsgType']) {
                 case 'event':
-                    if ($message['Event'] == 'subscribe') {
-                        //保存微信通知数据
-                        WechatNotifyService::store($message);
-                        //扫码事件, 创建用户建立上下级
-                        if (isset($message['EventKey'])) {
+                    //保存微信通知数据
+                    WechatNotifyService::store($message);
+                    if (isset($message['EventKey'])) {
+                        if (strpos($message['EventKey'], 'qrscene_') !== false) {
                             $parentId = str_replace('qrscene_','',$message['EventKey']);
+                            if ($parentId > 0) {
+                                $parentInfo =  UserService::findById($parentId);
+                                if (empty($parentInfo)) {
+                                    $parentId = 0;
+                                }
+                            } else {
+                                $parentId = 0;
+                            }
+                            
                             $openid = $message['FromUserName'];
-                            //查询用户是否存在
                             $userInfo = UserService::findByOpenid($openid);
-                            if(empty($userInfo)){
+                            //用户不存在或游客无上级
+                            if(empty($userInfo) || ($userInfo->referee_id == 0 && $userInfo->level == 0)){
                                 $app = EasyWeChat::officialAccount();
                                 $user = $app->user->get($openid);
                                 $wechatUserData = array(
@@ -304,13 +312,12 @@ class WeChatController extends Controller {
                                     'country' => $user['country'],
                                     'sex' => $user['sex'],
                                 );
-                                if (env('APP_SYSTEM_TYPE') == 'test') {
+                                if (empty($userInfo) && env('APP_SYSTEM_TYPE') == 'test') {
                                     $wechatUserData['balance'] = 5000000;
                                 }
                                 if(UserService::saveOrUpdate($openid, $wechatUserData)) {
                                      //新用户有上级通知上级
                                     if($parentId > 0) {
-                                        $parentInfo = UserService::findById($parentId);
                                         if(!empty($parentInfo)) {
                                             $template = config('templatemessage.vip');
                                             $templateData = array(
@@ -326,6 +333,8 @@ class WeChatController extends Controller {
                                 }
                             }
                         }
+                    }
+                    if ($message['Event'] == 'subscribe') {
                         return '欢迎来到植得艾';
                     }
                     return '';
