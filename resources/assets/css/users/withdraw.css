@@ -280,3 +280,19 @@ html{
     color:white;
     filter: alpha(opacity:40);
 }
+.weui-dialog__bd{
+    text-align: left;
+}
+.weui-dialog__btn{
+    color: #fff;
+    background: #e93b3d;
+}
+.weui-dialog__btn:active{
+    background: #e93b3d;
+}
+.weui-dialog__ft{
+    line-height:40px;
+}
+.weui-dialog__ft a:focus, .weui-dialog__ft a:hover{
+    color: #fff;
+}

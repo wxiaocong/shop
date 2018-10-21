@@ -51,5 +51,15 @@ return array(
             'keyword4' => '',
             'remark' => '',
         ),
+    ),
+    //提现申请通知客服
+    'withdraw' => array(
+        'template_id' => 'cmd9bkVEIoeTFerj56MeidCXa5V-OHZa0bIlZtm4LwE',
+        'data' => array(
+            'first' => '',
+            'keyword1' => '',
+            'keyword2' => '',
+            'remark' => '',
+        ),
     )
 );

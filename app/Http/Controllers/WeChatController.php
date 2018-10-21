@@ -284,7 +284,11 @@ class WeChatController extends Controller {
                     //保存微信通知数据
                     WechatNotifyService::store($message);
                     if (isset($message['EventKey'])) {
-                        if (strpos($message['EventKey'], 'qrscene_') !== false) {
+                        $parentId = 0;
+                        //已关注
+                        if($message['Event'] == 'SCAN') {
+                            $parentId = $message['EventKey'];
+                        } elseif (strpos($message['EventKey'], 'qrscene_') !== false) {
                             $parentId = str_replace('qrscene_','',$message['EventKey']);
                             if ($parentId > 0) {
                                 $parentInfo =  UserService::findById($parentId);
@@ -294,41 +298,41 @@ class WeChatController extends Controller {
                             } else {
                                 $parentId = 0;
                             }
-                            
-                            $openid = $message['FromUserName'];
-                            $userInfo = UserService::findByOpenid($openid);
-                            //用户不存在或游客无上级
-                            if(empty($userInfo) || ($userInfo->referee_id == 0 && $userInfo->level == 0)){
-                                $app = EasyWeChat::officialAccount();
-                                $user = $app->user->get($openid);
-                                $wechatUserData = array(
-                                    'referee_id' => $parentId,
-                                    'subscribe' => $user['subscribe'],
-                                    'subscribe_time' => $user['subscribe_time'],
-                                    'nickname' => $user['nickname'],
-                                    'headimgurl' => $user['headimgurl'],
-                                    'city' => $user['city'],
-                                    'province' => $user['province'],
-                                    'country' => $user['country'],
-                                    'sex' => $user['sex'],
-                                );
-                                if (empty($userInfo) && env('APP_SYSTEM_TYPE') == 'test') {
-                                    $wechatUserData['balance'] = 5000000;
-                                }
-                                if(UserService::saveOrUpdate($openid, $wechatUserData)) {
-                                     //新用户有上级通知上级
-                                    if($parentId > 0) {
-                                        if(!empty($parentInfo)) {
-                                            $template = config('templatemessage.vip');
-                                            $templateData = array(
-                                                'first' => '您有新的下级会员通过扫码加入',
-                                                'keyword1' => $wechatUserData['nickname'],
-                                                'keyword2' => date('Y-m-d'),
-                                                'remark' => '如有问题请联系客服',
-                                            );
-                                            $url = config('app.url').'/home/myTeam/0/0';
-                                            WechatNoticeService::sendTemplateMessage($parentInfo->id, $parentInfo->openid, $url, $template['template_id'], $templateData);
-                                        }
+                        }
+
+                        $openid = $message['FromUserName'];
+                        $userInfo = UserService::findByOpenid($openid);
+                        //用户不存在或游客无上级
+                        if(empty($userInfo) || ($userInfo->referee_id == 0 && $userInfo->level == 0)){
+                            $app = EasyWeChat::officialAccount();
+                            $user = $app->user->get($openid);
+                            $wechatUserData = array(
+                                'referee_id' => $parentId,
+                                'subscribe' => $user['subscribe'],
+                                'subscribe_time' => $user['subscribe_time'],
+                                'nickname' => $user['nickname'],
+                                'headimgurl' => $user['headimgurl'],
+                                'city' => $user['city'],
+                                'province' => $user['province'],
+                                'country' => $user['country'],
+                                'sex' => $user['sex'],
+                            );
+                            if (empty($userInfo) && env('APP_SYSTEM_TYPE') == 'test') {
+                                $wechatUserData['balance'] = 5000000;
+                            }
+                            if(UserService::saveOrUpdate($openid, $wechatUserData)) {
+                                 //新用户有上级通知上级
+                                if($parentId > 0) {
+                                    if(!empty($parentInfo)) {
+                                        $template = config('templatemessage.vip');
+                                        $templateData = array(
+                                            'first' => '您有新的下级会员通过扫码加入',
+                                            'keyword1' => $wechatUserData['nickname'],
+                                            'keyword2' => date('Y-m-d'),
+                                            'remark' => '如有问题请联系客服',
+                                        );
+                                        $url = config('app.url').'/home/myTeam/0/0';
+                                        WechatNoticeService::sendTemplateMessage($parentInfo->id, $parentInfo->openid, $url, $template['template_id'], $templateData);
                                     }
                                 }
                             }

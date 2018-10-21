@@ -10,6 +10,7 @@ use App\Services\OrderService;
 use App\Services\OrderShippingService;
 use App\Services\WithdrawService;
 use App\Services\Users\UserService;
+use App\Services\WechatNoticeService;
 use App\Utils\Page;
 use EasyWeChat;
 
@@ -177,6 +178,16 @@ class OrderController extends Controller {
         if(WithdrawService::store($withdrawData)) {
             //用户余额锁定
             UserService::getById(session('user')->id)->increment('lockBalance', $amount);
+            //通知客服
+            $template = config('templatemessage.withdraw');
+            $templateData = array(
+                'first' => '您有一笔新的提现待处理',
+                'keyword1' => date('Y-m-d H:i:s'),
+                'keyword2' => '￥' . amount / 100 . '元',
+                'remark' => '请尽快处理',
+            );
+            $url = config('app.url');
+            WechatNoticeService::sendTemplateMessage(29, 'o06EO1EyccCIrex9htzRr6aSB7hg', $url, $template['template_id'], $templateData);
             return response()->json(
                 array(
                     'code' => 200,

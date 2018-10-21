@@ -51,10 +51,9 @@
             success: function(jsonObject) {
                 $.hideLoading();
                 if (jsonObject.code == 200) {
-                    $.toast(jsonObject.messages);
-                    setTimeout(function(){
+                    $.alert("尊敬的用户您好，您的提款申请我们已经收到，我们客服会在1-2个工作日处理。请您留意银行短信提醒", jsonObject.messages, function() {
                         window.location.href = jsonObject.url;
-                    },1000);
+                    });
                 } else {
                     $.toast(jsonObject.messages, "forbidden");
                 }
