@@ -6,6 +6,7 @@ use App\Daoes\GoodsSpecDao;
 use App\Http\Controllers\Controller;
 use App\Services\AdPositionService;
 use App\Services\CategoryService;
+use App\Services\GoodsSpecService;
 
 class IndexController extends Controller {
 	public function index() {
@@ -15,18 +16,9 @@ class IndexController extends Controller {
         $data['category'] = CategoryService::getCategoryList();
 		//热卖推荐
 		$data['recommends'] = GoodsSpecDao::recommend();
+        //商品
+        $data['goods'] = GoodsSpecService::getIndexGood();
+
 		return view('users.index', $data);
 	}
-
-    public function getRecommend() {
-        $category_id = intval(request('category_id'), 0);
-        $child = CategoryService::getCategoryList($category_id);
-        if (!empty($child)) {
-            foreach ($child as $value) {
-            
-            }
-        }
-        
-
-    }
 }

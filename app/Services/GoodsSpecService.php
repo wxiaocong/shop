@@ -66,4 +66,20 @@ class GoodsSpecService
     {
         return GoodsSpecDao::updateGoodsSpecNum($order_id);
     }
+
+    /**
+     * 首页商品
+     * @return [type] [description]
+     */
+    public static function getIndexGood() {
+        $goods = array();
+        $res = array_map('get_object_vars', GoodsSpecDao::getIndexGood());
+        if (!empty($res)) {
+            foreach ($res as $key => $value) {
+                $goods[$value['first_id']][] = $value;
+            }
+        }
+        \Log::error($goods);
+        return $goods;
+    }
 }

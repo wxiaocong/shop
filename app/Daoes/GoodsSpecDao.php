@@ -172,6 +172,14 @@ class GoodsSpecDao extends BaseDao {
 			->first();
 	}
 
+	//首页商品
+	public static function getIndexGood() {
+		return DB::select("SELECT s.*,f.id AS first_id FROM goods_spec s LEFT JOIN category c ON s.category_parent_id = c.id LEFT JOIN category f ON c.parent_id = f.id
+		WHERE s.state = 0 AND s.sell_price > 0 AND s.number > 0 AND s.deleted_at IS NULL AND s.category_parent_id IN (
+ 		SELECT id  FROM category WHERE parent_id IN(
+  		SELECT id FROM (SELECT id FROM category WHERE parent_id = 0 AND state = 1 AND deleted_at IS NULL ORDER BY sort DESC,id DESC LIMIT 3) AS p ))");
+	}
+
 	/**
 	 * 支付完成更新库存
 	 * @param  int $order_id

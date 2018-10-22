@@ -192,7 +192,6 @@ class UserDao extends BaseDao {
         if (array_key_exists('search', $params) && $params['search'] != '') {
             $builder->where(function ($query) use ($params) {
                 $query->where('users.mobile', 'like', '%' . $params['search'] . '%')
-                    ->orWhere('users.phone', 'like', '%' . $params['search'] . '%')
                     ->orWhere('users.nickname', 'like', '%' . $params['search'] . '%');
             });
         }

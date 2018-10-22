@@ -46,7 +46,7 @@
                 <tr>
                     <td><a target="_blank" href="{{ url('/admin/withdraw/' . $data->id) }}">{{ $data->order_sn }}</a></td>
                     <td>{{ $data->nickname}}({{$data->realname}})</td>
-                    <td>{{ sprintf("%.2f",$data->payment/100) }}</td>
+                    <td>{{ sprintf("%.2f",$data->amount/100) }}</td>
                     <td>{{ $data->created_at }}</td>
                     <td>@if($data->state==1) 等待付款 @elseif($data->state==2) 提现成功 @else 取消 @endif</td>
                     <td>

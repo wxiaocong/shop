@@ -13,45 +13,37 @@
     @endif
     <div class="weui-tab">
         <div class="weui-navbar">
-        <a class="weui-navbar__item weui-bar__item--on" href="#tab1">
-          选项一
+        @foreach($category as $key=>$val)
+        <a class="weui-navbar__item @if($key == 0) weui-bar__item--on @endif" href="#tab{{$val->id}}">
+          {{$val->name}}
         </a>
-        <a class="weui-navbar__item" href="#tab2">
-          选项二
-        </a>
-        <a class="weui-navbar__item" href="#tab3">
-          选项三
-        </a>
+        @endforeach
         </div>
         <div class="weui-tab__bd">
-        <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
-          <h1>页面一</h1>
-        </div>
-        <div id="tab2" class="weui-tab__bd-item">
-          <h1>页面二</h1>
-        </div>
-        <div id="tab3" class="weui-tab__bd-item">
-          <h1>页面三</h1>
-        </div>
-        </div>
-    </div>
-    <div class="index-wares">
-        <div class="wares-cont">
+        @foreach($category as $key=>$val)
+        <div id="tab{{$val->id}}" class="weui-tab__bd-item @if($key == 0) weui-tab__bd-item--active @endif">
+          <div class="wares-cont">
             <ul class="clearfix" style="width:100%;margin-bottom:0;">
-                @forelse($recommends as $recommend)
+                @if(!empty($goods[$val->id]))
+                @foreach($goods[$val->id] as $good)
                 <li class="ware-box">
-                    <a href="\goods\{{$recommend->id}}">
+                    <a href="\goods\{{$good['id']}}">
                         <div class="ware-img">
-                            @if(!empty($recommend->img))<img src="{{$recommend->img}}">@endif
+                            @if(!empty($good['img'])) <img src="{{$good['img']}}"> @endif
                         </div>
                     </a>
                 </li>
-                @empty
-                @endforelse
+                @foreach
+                @endif
             </ul>
+          </div>
         </div>
+        @endforeach
+        </div>
+    </div>
+    <div class="index-wares">
         <div style="width:100%;margin-bottom: 60px;">
-            <!-- <img style="width:100%;margin-bottom: 60px;" src="{{ elixir('images/users/service.jpg') }}" > -->
+            <img style="width:100%;margin-bottom: 60px;" src="{{ elixir('images/users/service.jpg') }}" >
         </div>
     </div>
 </section>
@@ -73,5 +65,3 @@ $(document).ready(function () {
     });
 });
 </script>
-</body>
-</html>
