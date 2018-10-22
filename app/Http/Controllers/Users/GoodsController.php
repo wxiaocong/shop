@@ -23,6 +23,9 @@ class GoodsController extends Controller {
             $data['attrs'] = GoodsAttrDao::getAttrByGoods($data['goodsInfo']->goods_id);
             //默认大图
             $data['defaultImgs'] = json_decode($data['goodsInfo']->imgs);
+            if (count($data['defaultImgs']) > 1) {
+                array_shift($data['defaultImgs']);
+            }
 
             //生成分享配置
             $data['shareLink'] = $data['shareConfig'] = '';
