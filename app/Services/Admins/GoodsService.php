@@ -453,7 +453,12 @@ class GoodsService {
 			$attrValues = ($goodSkuParams['specValues'][$index] == '0') ? '' : $goodSkuParams['specValues'][$index];
 			$value = ($attrValues == null || $attrValues == '') ? '0' : $attrValues;
 			if (isset($goodSkuParams['pic']) && isset($goodSkuParams['pic'][$value])) {
-				$goodsSpec->img = $goodSkuParams['pic'][$value][0];
+				if (count($goodSkuParams['pic'][$value]) > 1) {
+					$goodsSpec->img = $goodSkuParams['pic'][$value][1];
+				} else {
+					$goodsSpec->img = $goodSkuParams['pic'][$value][0];
+				}
+				
 				$goodsSpec->imgs = json_encode($goodSkuParams['pic'][$value]);
 			} else {
 				$goodsSpec->img = '';

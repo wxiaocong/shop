@@ -108,6 +108,9 @@ $(document).ready(function() {
                 //组图变更
                 slige_imgs = JSON.parse(jsonObject.imgs);
                 if(slige_imgs.length > 0) {
+                    if(slige_imgs.length > 1) {
+                        slige_imgs.splice(0,1);
+                    }
                     for(index in slige_imgs){
                         slideHtml += "<div class='swiper-slide'><img src='" + slige_imgs[index] + "' ></div>";
                     }
