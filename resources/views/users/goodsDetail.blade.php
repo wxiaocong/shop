@@ -11,11 +11,8 @@
 #goods-content img｛
     max-width:100%;
 ｝
-.item-img{
-    height:375px;
-}
 .swiper-slide img{
-    max-height:400px;
+    max-height:240px;
 }
 .spec-num{
     height:60px;
@@ -60,10 +57,10 @@ del{
     text-align:center;
 }
 .swiper-slide{
-    height:360px;
+    height:260px;
 }
 .item-img{
-    height:360px;
+    height:260px;
 }
 .item-spec-layer .spec-info .spec-info-hd{
     clear:both;
