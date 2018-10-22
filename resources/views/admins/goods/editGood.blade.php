@@ -202,7 +202,7 @@
                                                                             <p class="text-center">
                                                                                 <a href="javascript:void(0);" class="del-good-spec-old-img">
                                                                                     <i class="operator fa fa-close" title="删除"></i>
-                                                                                    <input type="hidden" name="goodSku[pic][{{ $spec['values'] }}][]" value="{{ $img }}"/>
+                                                                                    <input type="hidden" name="goodSku[pic][{{ $spec['values'] ? $spec['values'] : 0 }}][]" value="{{ $img }}"/>
                                                                                 </a>
                                                                             </p>
                                                                         </div>
@@ -369,11 +369,11 @@
                                     @if(isset($spec['imgs']) && count(json_decode($spec['imgs'])) > 0)
                                         @foreach (json_decode($spec['imgs']) as $img)
                                             <div class="pic pull-left">
-                                                <img class="img-thumbnail" style="margin-top:12px;margin-right:14px;width:160px;height:160px" src="{{ $img . '?x-oss-process=image/resize,w_160,h_160' }}" alt="{{ $img . '?x-oss-process=image/resize,w_160,h_160' }}">
+                                                <img class="img-thumbnail" style="margin-top:12px;margin-right:14px;width:160px;height:160px" src="{{ $img }}" alt="{{ $img }}">
                                                 <p class="text-center">
                                                     <a href="javascript:void(0);" class="del-good-spec-old-img">
                                                         <i class="operator fa fa-close" title="删除"></i>
-                                                        <input type="hidden" name="goodSku[pic][{{ $spec['values'] }}][]" value="{{ $img }}"/>
+                                                        <input type="hidden" name="goodSku[pic][{{ $spec['values'] ? $spec['values'] : 0 }}][]" value="{{ $img }}"/>
                                                     </a>
                                                 </p>
                                             </div>
