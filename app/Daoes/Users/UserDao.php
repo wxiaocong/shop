@@ -79,6 +79,18 @@ class UserDao extends BaseDao {
     }
 
     /**
+     * 根据Id查询用户及推荐人
+     * @param int $id
+     *
+     * @return App\Models\Users
+     */
+    public static function findUserAndRefee($user_id) {
+        return User::leftJoin('users as s', 'users.referee_id', '=', 's.id')
+            ->where('users.id', $user_id)
+            ->select('users.*', 's.nickname as referee_nickname','s.level as referee_level')->first();
+    }
+
+    /**
      * 获取用户
      * @param int $id
      *

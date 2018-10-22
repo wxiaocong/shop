@@ -510,6 +510,16 @@ class UserService {
     }
 
     /**
+     * 根据Id查询用户及推荐人
+     * @param int $id
+     *
+     * @return App\Models\Users
+     */
+    public static function findUserAndRefee($user_id) {
+        return UserDao::findUserAndRefee($user_id);
+    }
+
+    /**
      * 获取用户
      * @param int $id
      *

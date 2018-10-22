@@ -97,7 +97,7 @@ class WeChatController extends Controller {
                     }
                     $pay_time = date('Y-m-d H:i:s', strtotime($result['time_end']));
                     $updateData = array(
-                        'real_pay' => $result['cash_fee'], //实付款
+                        'real_pay' => $result['total_fee'], //实付款
                         'pay_time' => $pay_time, //付款时间
                         'transaction_id' => $result['transaction_id'], //微信支付订单号
                         'state' => 2, //已付款
@@ -119,8 +119,8 @@ class WeChatController extends Controller {
                                 'user_id' => $orderInfo->user_id,
                                 'openid' => $orderInfo->openid,
                                 'pay_type' => 1,
-                                'gain' => $result['cash_fee'],
-                                'expense' => $result['cash_fee'],
+                                'gain' => $result['total_fee'],
+                                'expense' => $result['total_fee'],
                                 'balance' => $orderInfo->balance,
                                 'order_id' => $orderInfo->id,
                             );
@@ -132,7 +132,7 @@ class WeChatController extends Controller {
                                 $template = config('templatemessage.orderPaySuccess');
                                 $templateData = array(
                                     'first' => '您好，您的订单已支付成功',
-                                    'keyword1' => '￥' . $result['cash_fee'] / 100,
+                                    'keyword1' => '￥' . $result['total_fee'] / 100,
                                     'keyword2' => $orderInfo->order_sn,
                                     'remark' => '如有问题请联系客服,欢迎再次光临！',
                                 );
@@ -178,7 +178,7 @@ class WeChatController extends Controller {
                     }
                     $pay_time = date('Y-m-d H:i:s', strtotime($result['time_end']));
                     $updateData = array(
-                        'real_pay' => $result['cash_fee'], //实付款
+                        'real_pay' => $result['total_fee'], //实付款
                         'pay_time' => $pay_time, //付款时间
                         'transaction_id' => $result['transaction_id'], //微信支付订单号
                         'state' => 2, //已付款
@@ -198,8 +198,8 @@ class WeChatController extends Controller {
                                 'user_id' => $orderInfo->user_id,
                                 'openid' => $orderInfo->openid,
                                 'pay_type' => 11,
-                                'gain' => $result['cash_fee'],
-                                'expense' => $result['cash_fee'],
+                                'gain' => $result['total_fee'],
+                                'expense' => $result['total_fee'],
                                 'balance' => $orderInfo->balance,
                                 'order_id' => $orderInfo->id,
                             );
@@ -211,7 +211,7 @@ class WeChatController extends Controller {
                                 $template = config('templatemessage.orderPaySuccess');
                                 $templateData = array(
                                     'first' => '您好，您的订单已支付成功',
-                                    'keyword1' => '￥' . $result['cash_fee'] / 100,
+                                    'keyword1' => '￥' . $result['total_fee'] / 100,
                                     'keyword2' => $orderInfo->order_sn,
                                     'remark' => '如有问题请联系客服,欢迎再次光临！',
                                 );

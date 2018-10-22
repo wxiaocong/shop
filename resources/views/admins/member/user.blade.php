@@ -45,6 +45,15 @@
 											<th>手机号:</th><td>{{ $user->mobile }}</td>
 										</tr>
 										<tr>
+											<th>级别:</th><td>{{ $userLevel[$user->level] }}</td>
+										</tr>
+										<tr>
+											<th>推荐人:</th><td>{{ $user->referee_nickname ?? '无' }}</td>
+										</tr>
+										<tr>
+											<th>推荐级别:</th><td>{{ $userLevel[$user->referee_level] ?? '无' }}</td>
+										</tr>
+										<tr>
 											<th>Email:</th><td>{{ $user->email }}</td>
 										</tr>
 										<tr>

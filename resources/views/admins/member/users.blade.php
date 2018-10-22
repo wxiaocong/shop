@@ -41,6 +41,7 @@
 			<tr>
 				<th>昵称</th>
 				<th>手机号</th>
+				<th>级别</th>
 				<th>VIP编号</th>
 				<th>性别</th>
 				<th>联系地址</th>
@@ -55,6 +56,7 @@
 				<tr>
 					<td>{{ $data->nickname }}</td>
 					<td><a href="{{ url('/admin/user/' . $data->id) }}">{{ $data->mobile }}</a></td>
+					<td>{{ $userLevel[$data->level] }}</td>
 					<td>{{ $data->vipNumber }}</td>
 					<td>@if ($data->sex == 1) 男 @elseif ($data->sex == 2) 女 @else 未知 @endif</td>
 					<td>

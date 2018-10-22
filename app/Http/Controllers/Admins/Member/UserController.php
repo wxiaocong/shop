@@ -19,18 +19,20 @@ class UserController extends Controller
         $page = UserService::findByPageAndParams($curPage, $pageSize, $params);
         return view('admins.member.users')
             ->with('page', $page)
-            ->with('search', $params['search']);
+            ->with('search', $params['search'])
+            ->with('userLevel', config('statuses.user.levelState'));
     }
 
     public function show($id)
     {
-        $user = UserService::findById($id);
+        $user = UserService::findUserAndRefee($id);
         if (!$user) {
             abort(400, '用户不存在');
         }
 
         return view('admins.member.user')
-            ->with('user', $user);
+            ->with('user', $user)
+            ->with('userLevel', config('statuses.user.levelState'));
     }
 
     public function updateState($id)
