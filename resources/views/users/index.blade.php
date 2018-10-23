@@ -24,8 +24,8 @@
         <div id="tab{{$val->id}}" class="weui-tab__bd-item @if($key == 0) weui-tab__bd-item--active @endif">
           <div class="wares-cont">
             <ul class="clearfix" style="width:100%;margin-bottom:0;">
-                @if(!empty($goods[$val->id]))
-                @foreach($goods[$val->id] as $good)
+                @if(!empty($goods[$val['id']]))
+                @foreach($goods[$val['id']] as $good)
                 <li class="ware-box">
                     <a href="\goods\{{$good['id']}}">
                         <div class="ware-img">
@@ -33,7 +33,7 @@
                         </div>
                     </a>
                 </li>
-                @foreach
+                @endforeach
                 @endif
             </ul>
           </div>

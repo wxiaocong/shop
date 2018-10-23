@@ -79,7 +79,6 @@ class GoodsSpecService
                 $goods[$value['first_id']][] = $value;
             }
         }
-        \Log::error($goods);
         return $goods;
     }
 }
