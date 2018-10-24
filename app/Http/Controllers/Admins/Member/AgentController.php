@@ -7,6 +7,7 @@ use App\Services\AgentService;
 use App\Services\AgentTypeService;
 use App\Services\Admins\SystemService;
 use App\Services\Users\UserService;
+use App\Services\Admins\StatisticalService;
 use App\Utils\Page;
 use Illuminate\Http\Request;
 
@@ -75,8 +76,18 @@ class AgentController extends Controller
         $results = AgentService::getByOrderSn($agent->order_sn)->update(['state'=>$agent->state]);
         if ($results) {
             if ($agent->state == 3) {
+                $userUpdateData = array('level' => 2);
+                $userInfo = UserService::findById($agent->user_id);
+                //前9000名VIP，基数1000
+                if ($userInfo->vip == 0) {
+                    $vipCount = StatisticalService::findVipCount();
+                    if ($vipCount < 9000) {
+                        $userUpdateData['vip'] = 1;
+                        $userUpdateData['vipNumber'] = $vipCount + 1001;
+                    }
+                }
                 //审核通过用户升级艾天使
-                UserService::getById($agent->user_id)->update(['level'=>2]);
+                UserService::getById($agent->user_id)->update($userUpdateData);
                 //审核通过有推荐人发放推荐开店奖励
                 if ($agent->referee_id > 0) { 
                     switch ($agent->level) {
