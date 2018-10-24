@@ -56,6 +56,13 @@
         </a>
     </div>
     <div class="home-cont weui-cells" style="margin-bottom:56px;">
+        <a class="weui-cell weui-cell_access" href="/home/1">
+            <div class="weui-cell__bd">
+                <p class="choose-text"><i class="iconfont icon-weibiaoti2fuzhi12"></i> 个人资料</p>
+            </div>
+            <div class="weui-cell__ft choose-des">
+            </div>
+        </a>
         @if(!empty($agent) && $agent->state == 3)
         <a class="weui-cell weui-cell_access" href="/agent/order">
             <div class="weui-cell__bd">
@@ -115,12 +122,6 @@
             <div class="weui-cell__ft choose-des"></div>
         </a>
         @endif
-        <a class="weui-cell weui-cell_access" href="/login/logout">
-            <div class="weui-cell__bd">
-                <p class="choose-text"><i class="iconfont icon-guanbi"></i> 退出登录</p>
-            </div>
-            <div class="weui-cell__ft choose-des"></div>
-        </a>
     </div>
 </section>
 @include('users.inc.footer')
