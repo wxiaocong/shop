@@ -18,7 +18,7 @@
 		@if(in_array($order->state, array(config('statuses.order.state.waitDelivery.code'),config('statuses.order.state.waitGood.code')))
 			&& in_array($order->deliver_status, array(config('statuses.order.deliverStatus.waitDelivery.code'),config('statuses.order.deliverStatus.partDelivery.code'))))
 			<button type="button" class="btn btn-primary order-deliver-button">发货</button>
-			<button type="button" class="btn btn-warning order-refundment-button">退单退款</button>
+			<!-- <button type="button" class="btn btn-warning order-refundment-button">退单退款</button> -->
 		@endif
 		@if($order->state == config('statuses.order.state.waitPay.code'))
 			<button type="button" class="btn btn-danger order-cancel-button">取消</button>

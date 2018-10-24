@@ -7,6 +7,7 @@ use App\Services\AgentTypeService;
 use App\Services\OrderService;
 use App\Services\Users\UserService;
 use App\Services\AreasService;
+use App\Utils\Page;
 use EasyWeChat;
 
 use App\Http\Controllers\Controller;
@@ -40,7 +41,7 @@ class AgentController extends Controller {
         $data['showState'] = config('order.show_state');
         $data['orderType'] = intval(request('order_type'));
         $data['orderType'] = array_key_exists($data['orderType'], $data['showState']) ? $data['orderType'] : 0;
-        return view('users.order', $data);
+        return view('users.agentOrder', $data);
     }
 
     //获取下级订单列表数据

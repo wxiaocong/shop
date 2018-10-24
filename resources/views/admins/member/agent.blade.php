@@ -106,20 +106,27 @@
 <script type="text/javascript">
 //审批-通过
 $('.pass-button').click(function() {
-	merchantAudit('pass');
+    $(this).cnConfirm('确认审核通过吗?', function(){
+        merchantAudit('pass');
+    })
 });
 //审批-拒绝
 $('.refuse-button').click(function() {
-	merchantAudit('refuse');
+    $(this).cnConfirm('确认拒绝申请吗?', function(){
+        merchantAudit('refuse');
+    })
 });
 function merchantAudit(type) {
+    window.loadding();
 	$.ajax({
         url:  '/admin/agent/' + {{$agent->id}} + '/audit',
         type: 'post',
         data: {'type': type},
         dataType: 'json',
         success: function(jsonObject) {
+            window.unloadding();
             if (jsonObject.code == 200) {
+                window.tips(jsonObject.messages);
                 window.location.href = jsonObject.url;
             } else {
                 showErrorNotice(jsonObject.messages);
@@ -133,13 +140,16 @@ function merchantAudit(type) {
 //更新库存
 $('#updateStock').click(function(){
 	var stock = $('#stock').val();
+    window.loadding();
 	$.ajax({
         url:  '/admin/agent/increStock',
         type: 'post',
         data: {'id':"{{$agent->id}}",'stock': stock},
         dataType: 'json',
         success: function(jsonObject) {
+            window.unloadding();
             if (jsonObject.code == 200) {
+                window.tips(jsonObject.messages);
                 window.location.href = jsonObject.url;
             } else {
                 showErrorNotice(jsonObject.messages);
