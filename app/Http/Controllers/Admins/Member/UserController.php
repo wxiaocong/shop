@@ -35,6 +35,33 @@ class UserController extends Controller
             ->with('userLevel', config('statuses.user.levelState'));
     }
 
+    public function changeLevel($id)
+    {
+        $level = trimSpace(request('level'));
+        $user = UserService::findById($id);
+        if (!$user) {
+            return response()->json(array(
+                'code'     => 500,
+                'messages' => array('用户不存在'),
+                'url'      => '',
+            ));
+        }
+        if ($level != $user->level && in_array($level,array_keys(config('statuses.user.levelState')))) {
+            UserService::getById($id)->update(['level' => $level]);
+            return response()->json(array(
+                'code'     => 200,
+                'messages' => array('修改成功'),
+                'url'      => '',
+            ));
+        } else {
+            return response()->json(array(
+                'code'     => 500,
+                'messages' => array('级别错误,未修改'),
+                'url'      => '',
+            ));
+        }
+    }
+
     public function updateState($id)
     {
         $user = UserService::findById($id);

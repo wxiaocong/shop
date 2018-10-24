@@ -45,7 +45,14 @@
 											<th>手机号:</th><td>{{ $user->mobile }}</td>
 										</tr>
 										<tr>
-											<th>级别:</th><td>{{ $userLevel[$user->level] }}</td>
+											<th>级别:</th>
+											<td>
+												<select id="userLevel">
+													@foreach($userLevel as $key=>$val)
+													<option value="{{$key}}" @if($key == $user->level) selected @endif>{{$val}}</option>
+													@endforeach
+												</select>
+											</td>
 										</tr>
 										<tr>
 											<th>推荐人:</th><td>{{ $user->referee_nickname ?? '无' }}</td>
@@ -80,26 +87,19 @@
 </div>
 @include('include.message')
 <script type="text/javascript">
-//审批-通过
-$('.pass-button').click(function() {
-	merchantAudit('pass');
-});
-//审批-拒绝
-$('.refuse-button').click(function() {
-	merchantAudit('refuse');
-});
-function merchantAudit(type) {
-	var remark = $('textarea[name="businessAuditRemark"]').val();
-	if (remark == null || remark == '' || remark == 'undefined') {
-		$(this).cnAlert(new Array('审批备注不能为空'), 5);
-	} else {
+$('#userLevel').change(function(){
+	var newLevel = $(this).val();
+	$(this).cnConfirm('确认修改用户级别吗?', function(){
+		window.loadding();
 		$.ajax({
-	        url:  '/admin/user/' + $('.user-id').val() + '/merchantAudit',
+	        url:  '/admin/user/' + {{$user->id}} + '/changeLevel',
 	        type: 'post',
-	        data: {'type': type, 'remark': remark},
+	        data: {'level': newLevel},
 	        dataType: 'json',
 	        success: function(jsonObject) {
+	        	window.unloadding();
 	            if (jsonObject.code == 200) {
+	            	window.tips(jsonObject.messages);
 	                window.location.href = jsonObject.url;
 	            } else {
 	                showErrorNotice(jsonObject.messages);
@@ -109,7 +109,7 @@ function merchantAudit(type) {
 	            ajaxResponseError(xhr, type);
 	        }
 	    });
-	}
-}
+	})
+});
 </script>
 @include('admins.footer')

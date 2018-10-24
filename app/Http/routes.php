@@ -98,6 +98,7 @@ Route::group(array('middleware' => array('web')), function () {
         Route::resource('/admin/agent', 'Member\AgentController');
 
         //user
+        Route::post('/admin/user/{id}/changeLevel', 'Member\UserController@changeLevel');
         Route::post('/admin/user/{id}/updateState', 'Member\UserController@updateState');
         Route::resource('/admin/user', 'Member\UserController');
 
