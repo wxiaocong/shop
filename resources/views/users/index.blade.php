@@ -1,4 +1,15 @@
 @include('users.inc.header')
+<style type="text/css">
+.weui-navbar+.weui-tab__bd{
+    padding-top:40px;
+}
+.weui-tab__bd-item{
+    height: 400px;
+}
+.weui-tab__bd-item img{
+    width:100%;
+}
+</style>
 <section class="zyw-container">
     @if (!empty($adPositions))
     <div class="swiper-container">
