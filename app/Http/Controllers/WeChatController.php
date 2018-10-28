@@ -31,13 +31,13 @@ class WeChatController extends Controller {
             $userInfo = UserService::findByOpenid($openid);
             $wechatUserData = array(
                 'subscribe' => $user['subscribe'],
-                'subscribe_time' => $user['subscribe_time'],
-                'nickname' => $user['nickname'],
-                'headimgurl' => $user['headimgurl'],
-                'city' => $user['city'],
-                'province' => $user['province'],
-                'country' => $user['country'],
-                'sex' => $user['sex']
+                'subscribe_time' => $user['subscribe_time'] ?? '',
+                'nickname' => $user['nickname'] ?? '',
+                'headimgurl' => $user['headimgurl'] ?? '',
+                'city' => $user['city'] ?? '',
+                'province' => $user['province'] ?? '',
+                'country' => $user['country'] ?? '',
+                'sex' => $user['sex'] ?? ''
             );
             if(empty($userInfo)) {
                 if (env('APP_SYSTEM_TYPE') == 'test') {

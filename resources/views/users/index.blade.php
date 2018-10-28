@@ -54,7 +54,7 @@
     </div>
     <div class="index-wares">
         <div style="width:100%;margin-bottom: 60px;">
-            <img style="width:100%;margin-bottom: 60px;" src="{{ elixir('images/users/service.jpg') }}" >
+            <img style="width:100%;" src="{{ elixir('images/users/service.jpg') }}" >
         </div>
     </div>
 </section>

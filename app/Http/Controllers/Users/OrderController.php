@@ -183,7 +183,7 @@ class OrderController extends Controller {
             $templateData = array(
                 'first' => '您有一笔新的提现待处理',
                 'keyword1' => date('Y-m-d H:i:s'),
-                'keyword2' => '￥' . amount / 100 . '元',
+                'keyword2' => '￥' . $amount / 100 . '元',
                 'remark' => '请尽快处理',
             );
             $url = config('app.url');

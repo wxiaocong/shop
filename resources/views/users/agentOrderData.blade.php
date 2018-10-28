@@ -4,7 +4,7 @@
         <h4 class="order-item-id">订单编号：{{$val->order_sn}}
             <span class="order-item-state theme-color pull-right">{{$order_state[$val->state]}}</span>
         </h4>
-        <div class="media" onClick="window.location.href='/order/detail/{{$val->order_sn}}'">
+        <div class="media"">
             @if (count(explode(',',$val->img)) > 1)
             <div class="swiper-container">
                 <div class="swiper-wrapper">
