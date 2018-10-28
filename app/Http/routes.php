@@ -159,6 +159,7 @@ Route::group(array('middleware' => array('web')), function () {
         Route::get('/order/searchOrderResult/{ordersn}', 'OrderController@searchOrderResult');
         Route::get('/order/searchOrderRefundResult/{ordersn}', 'OrderController@searchOrderRefundResult');
         Route::post('/order/cartStore', 'OrderController@cartStore');
+        Route::post('/order/deliver', 'OrderController@deliver');
         Route::resource('/order', 'OrderController');
 
         Route::get('/address/getAllAreas', 'ExpressAddressController@getAllAreas');

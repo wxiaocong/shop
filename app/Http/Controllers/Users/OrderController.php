@@ -11,6 +11,7 @@ use App\Services\OrderShippingService;
 use App\Services\WithdrawService;
 use App\Services\Users\UserService;
 use App\Services\WechatNoticeService;
+use App\Services\AgentService;
 use App\Utils\Page;
 use EasyWeChat;
 
@@ -276,6 +277,47 @@ class OrderController extends Controller {
         if ($orderSn) {
             $res = OrderRefundService::searchRefundResult($orderSn);
             \Log::error($res);
+        }
+    }
+
+    //发货
+    public function deliver() {
+        $orderSn = request('order_sn');
+        $orderInfo = OrderService::findByOrderSn($orderSn, true);
+        if(!empty($orderInfo)) {
+            if($orderInfo->agent_id == session('user')->id) {
+                $agentInfo = AgentService::findByUserId($orderInfo->agent_id);
+                if (!empty($agentInfo) && $agentInfo->state == 3 ) {
+                    OrderService::getByOrderSn($orderSn)->where('state', 2)->update(['state'=>3, 'deliver_status'=>2, 'deliver_time'=>date('Y-m-d H:i:s')]);
+                    return response()->json(
+                        array(
+                            'code' => 200,
+                            'messages' => '发货成功',
+                        )
+                    );
+                } else {
+                    return response()->json(
+                        array(
+                            'code' => 500,
+                            'messages' => '代理发货错误',
+                        )
+                    );
+                }
+            } else {
+                return response()->json(
+                    array(
+                        'code' => 500,
+                        'messages' => '非代理订单，不能发货',
+                    )
+                );
+            }
+        } else {
+            return response()->json(
+                array(
+                    'code' => 500,
+                    'messages' => '订单不存在',
+                )
+            );
         }
     }
 

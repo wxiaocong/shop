@@ -259,29 +259,6 @@ class OrderService {
 
 		$expressName = trimSpace($request->input('expressName', ''));
 		$expressNo = trimSpace($request->input('expressNo', ''));
-		$orderGoodNums = $request->input('orderGoodNums', array());
-		$orderGoodIds = $request->input('orderGoodIds', array());
-
-		if (count($orderGoodNums) == 0) {
-			return array(
-				'code' => 500,
-				'messages' => array('请输入商品的发货数量'),
-				'url' => '',
-			);
-		}
-		$count = 0;
-		foreach ($orderGoodNums as $num) {
-			if (isset($num) && $num != '' && $num > 0) {
-				$count++;
-			}
-		}
-		if ($count == 0) {
-			return array(
-				'code' => 500,
-				'messages' => array('请输入商品的发货数量'),
-				'url' => '',
-			);
-		}
 
 		$order = OrderDao::findById($id);
 		if (!$order) {
@@ -309,51 +286,24 @@ class OrderService {
 			if (in_array($orderGood->state, array(config('statuses.orderGood.state.waitDelivery.code'), config('statuses.orderGood.state.partDelivery.code')))) {
 				$waitDeliveryNums += ($orderGood->num - $orderGood->send_num - $orderGood->return_num);
 			}
+			$waitDeliveryNum = $orderGood->num - $orderGood->send_num - $orderGood->return_num;
+			$orderGood->state = config('statuses.orderGood.state.delivery.code');
+			$orderGood->send_num = $waitDeliveryNums;
+			$orderGood->save();
+
+			//生成并保存发货记录
+			$orderShipping = self::generateOrderShipping($orderGood->id, $expressName, $expressNo, $currentDate);
+			$orderShipping->save();
+
+			//发货,相减sku待发货数量
+			GoodsSpecDao::decrementWaitNumber($orderGood->spec_id, $waitDeliveryNum);
+			$waitDeliveryNums = 0;
 		};
 
-		$count = count($orderGoodIds);
-		for ($i = 0; $i < $count; $i++) {
-			if (isset($orderGoodNums[$i]) && $orderGoodNums[$i] != '' && $orderGoodNums[$i] > 0
-				&& array_key_exists($orderGoodIds[$i], $orderGoods)
-				&& in_array($orderGood->state, array(config('statuses.orderGood.state.waitDelivery.code'), config('statuses.orderGood.state.partDelivery.code')))) {
-				$waitDeliveryNum = ($orderGoods[$orderGoodIds[$i]]->num - $orderGoods[$orderGoodIds[$i]]->send_num - $orderGoods[$orderGoodIds[$i]]->return_num);
-				if ($orderGoodNums[$i] > $waitDeliveryNum) {
-					return array(
-						'code' => 500,
-						'messages' => array($orderGoods[$orderGoodIds[$i]]->goods_name . '发货数量大于未发货数量'),
-						'url' => '',
-					);
-				}
-
-				//更新订单商品状态,发货数量
-				$orderGood = $orderGoods[$orderGoodIds[$i]];
-				if (($orderGood->send_num + $orderGood->return_num + $orderGoodNums[$i]) == $orderGood->num) {
-					$orderGood->state = config('statuses.orderGood.state.delivery.code');
-				} else {
-					$orderGood->state = config('statuses.orderGood.state.partDelivery.code');
-				}
-				$orderGood->send_num = $orderGood->send_num + $orderGoodNums[$i];
-				$orderGood->save();
-
-				//生成并保存发货记录
-				$orderShipping = self::generateOrderShipping($orderGood->id, $expressName, $expressNo, $currentDate);
-				$orderShipping->save();
-
-				//发货,相减sku待发货数量
-				GoodsSpecDao::decrementWaitNumber($orderGood->spec_id, $orderGoodNums[$i]);
-
-				$waitDeliveryNums -= $orderGoodNums[$i];
-			}
-		}
-
 		//更新订单发货状态,订单状态,发货时间
-		if ($waitDeliveryNums == 0) {
-			$order->deliver_status = config('statuses.order.deliverStatus.delivery.code');
-			$order->state = config('statuses.order.state.waitGood.code');
-		} else {
-			$order->deliver_status = config('statuses.order.deliverStatus.partDelivery.code');
-			$order->state = config('statuses.order.state.waitGood.code');
-		}
+		$order->deliver_status = config('statuses.order.deliverStatus.delivery.code');
+		$order->state = config('statuses.order.state.waitGood.code');
+
 		$order->deliver_time = $currentDate;
 		$order->save();
 

@@ -29,7 +29,7 @@
     <p class="text-right order-item-sum">下单人：{{$val->nickname}}，共计{{$val->num}}件商品，合计{{sprintf("%.2f",$val->payment/100)}}元）</p>
     <div class="order-item-btn pull-right">
         @if ($val->state == 2)
-        <a href="javascript:;" class="btn btn-sm btn-primary theme-bdcolor theme-bgcolor confirm_recipt" data="{{$val->order_sn}}">发货</a>
+        <a href="javascript:;" class="btn btn-sm btn-primary theme-bdcolor theme-bgcolor confirm_deliver" data="{{$val->order_sn}}">发货</a>
         @endif
     </div>
 </div>

@@ -68,8 +68,7 @@ function changeData(order_type){
             success: function(content) {
                 if(content.length > 0) {
                     $('.order-group').append(content);
-                    cancelOrder();
-                    confirmReceipt();
+                    deliver();
                 }
                 if($('.order-group .order-group-item').length < {{$pageSize}}*curPage) {
                     loadMore = false;
@@ -94,5 +93,32 @@ function changeData(order_type){
 }
 
 //发货
+function deliver() {
+    $('.order-group').on('click', '.confirm_deliver', function(){
+        var orderSn = $(this).attr('data');
+        $.confirm({
+            title: '订单发货提示',
+            text: '确定订单已经发货吗?',
+            onOK: function () {
+                $.ajax({
+                    url:  '/order/deliver',
+                    data: {order_sn:orderSn},
+                    type: 'post',
+                    dataType: 'json',
+                    success: function(jsonObject) {
+                        if (jsonObject.code == 200) {
+                            $.toast(jsonObject.messages);
+                            setTimeout(function(){
+                                window.location.reload();
+                            },1000);
+                         } else {
+                             $.toast(jsonObject.messages, "forbidden");
+                         }
+                    }
+                })
+            }
+        });
+    })
+}
 })
 </script>
