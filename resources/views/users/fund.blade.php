@@ -25,7 +25,7 @@
         <div class="weui-tab__bd">
             <div class="order-group">
                 <div class="order-group-item clearfix">
-                    <div class="team-item">余额：{{sprintf("%.2f", $userInfo->balance/100)}}&nbsp;&nbsp;锁定金额：{{sprintf("%.2f", $userInfo->lockBalance/100)}}</div>
+                    <div class="team-item">余额：{{sprintf("%.2f", $userInfo->balance/100)}}&nbsp;&nbsp;可提现金额：{{sprintf("%.2f", ($userInfo->balance-$userInfo->lockBalance)/100)}}</div>
                     <div class="pay-button">
                         <a href="/home/withdraw" class="btn btn-warning">提现</a>
                     </div>

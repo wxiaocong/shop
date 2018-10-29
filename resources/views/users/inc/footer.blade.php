@@ -20,5 +20,6 @@
 <script src="{{ elixir('js/users/jquery-weui.min.js') }}"></script>
 <script src="{{ elixir('js/users/bootstrap.min.js') }}"></script>
 <script src="{{elixir('js/users/front.js')}}"></script>
+<script src="https://s22.cnzz.com/z_stat.php?id=1275143858&web_id=1275143858" language="JavaScript"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admins\Member;
 
 use App\Http\Controllers\Controller;
 use App\Services\Users\UserService;
+use App\Services\Admins\StatisticalService;
 use App\Utils\Page;
 use Illuminate\Http\Request;
 
@@ -46,8 +47,17 @@ class UserController extends Controller
                 'url'      => '',
             ));
         }
-        if ($level != $user->level && in_array($level,array_keys(config('statuses.user.levelState')))) {
-            UserService::getById($id)->update(['level' => $level]);
+        if ($level != $user->level && $level > $user->level && in_array($level,array_keys(config('statuses.user.levelState')))) {
+            //前9000名VIP，基数1000
+             $userUpdateData = array('level' => $level);
+            if ($user->vip == 0) {
+                $vipCount = StatisticalService::findVipCount();
+                if ($vipCount < 9000) {
+                    $userUpdateData['vip'] = 1;
+                    $userUpdateData['vipNumber'] = $vipCount + 1001;
+                }
+            }
+            UserService::getById($id)->update($userUpdateData);
             return response()->json(array(
                 'code'     => 200,
                 'messages' => array('修改成功'),
