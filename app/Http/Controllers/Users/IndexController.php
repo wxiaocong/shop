@@ -16,8 +16,6 @@ class IndexController extends Controller {
         $data['category'] = CategoryService::getCategoryList();
 		//热卖推荐
 		$data['recommends'] = GoodsSpecDao::recommend();
-        //商品
-        $data['goods'] = GoodsSpecService::getIndexGood();
 
 		return view('users.index', $data);
 	}
