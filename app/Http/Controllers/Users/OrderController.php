@@ -149,11 +149,11 @@ class OrderController extends Controller {
     //企业付款到零钱
     public function withdraw() {
         $amount = intval(request('amount')) * 100;//提现金额
-        if ($amount < 1) {
+        if ($amount < 10000) {
             return response()->json(
                 array(
                     'code' => 500,
-                    'messages' => '提现金额错误',
+                    'messages' => '最小提现金额为100元',
                 )
             );
         }

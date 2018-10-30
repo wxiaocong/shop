@@ -29,6 +29,19 @@ class PayLogsService
      *
      * @return array
      */
+    public static function getAll($curPage, $pageSize, $params)
+    {
+        $page = PayLogsDao::getAll($curPage, $pageSize, $params);
+        $page->total = PayLogsDao::sumPay($params);
+        return $page;
+    }
+
+    /**
+     * 查询
+     * @param  array $params
+     *
+     * @return array
+     */
     public static function findByParams($params = array())
     {
         return PayLogsDao::findByParams($params);

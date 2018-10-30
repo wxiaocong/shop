@@ -17,7 +17,7 @@
             <span class="txje">提现金额</span>
             <span class="rmb">￥</span>
             <span class="kyye">当前零钱余额：<span id="cur-balance">{{sprintf("%.2f", ($userInfo->balance-$userInfo->lockBalance)/100)}}</span>元，<a href="javascript:;" id="getall">全部提现</a></span>
-            <input type="number" max="{{($userInfo->balance-$userInfo->lockBalance)/100}}" value="" id="getmoneys" class="t-input">
+            <input type="number" max="{{($userInfo->balance-$userInfo->lockBalance)/100}}" min="100" value="" id="getmoneys" class="t-input">
             <button id="getout">提现</button>
         </div>
      </div>
@@ -31,8 +31,8 @@
         var buttons = $(this);
         var amount = parseInt($("#getmoneys").val()) + 0;
         var maxAmount = $("#getmoneys").prop('max');
-        if (amount < 1) {
-            $.toast('提现金额错误', "forbidden");
+        if (amount < 100) {
+            $.toast('最小提现金额为100元', "forbidden");
             return false;
         }
         if (amount > maxAmount) {

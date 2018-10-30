@@ -61,6 +61,7 @@ Route::group(array('middleware' => array('web')), function () {
         Route::resource('/admin/good', 'Goods\GoodController');
 
         //order
+        Route::get('/admin/payLog', 'Order\PayLogController@index');
         Route::post('/admin/order/{id}/refundment', 'Order\OrderController@refundment');
         Route::post('/admin/order/{id}/cancel', 'Order\OrderController@cancel');
         Route::post('/admin/order/{id}/deliver', 'Order\OrderController@deliver');

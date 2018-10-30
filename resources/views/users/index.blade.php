@@ -53,7 +53,7 @@
         <div class="wares-cont">
             <ul class="clearfix" style="width:100%;margin-bottom:0;">
                 @forelse($recommends as $recommend)
-                <li class="ware-box">
+                <li class="ware-box" style="border:none;">
                     <a href="\goods\{{$recommend->id}}">
                         <div class="ware-img">
                             @if(!empty($recommend->img))<img src="{{$recommend->img}}">@endif
@@ -74,7 +74,7 @@
 <script type="text/javascript">
 // 轮播
 $(document).ready(function () {
-    // 顶部轮播图
+    //顶部轮播图
     var mySwiper = new Swiper ('.swiper-container', {
         // 如果需要分页器
         autoplay:{
