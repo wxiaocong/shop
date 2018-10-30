@@ -40,7 +40,7 @@
             @if (isset($page))
                 @foreach ($page->data as $data)
                 <tr>
-                    <td>{{$data->created_at}}</td>
+                    <td>@if($data->pay_type == 1) <a href="/admin/order/{{$data->order_id}}">{{$data->created_at}}</a> @else {{$data->created_at}} @endif</td>
                     <td>{{$data->nickname}}</td>
                     <td>@if($data->pay_type == 1) 0.00 @else{{sprintf("%.2f",$data->gain/100)}} @endif</td>
                     <td>{{sprintf("%.2f",$data->expense/100)}}</td>
@@ -48,7 +48,7 @@
                 </tr>
                 @endforeach
             @endif
-            <tr>
+            <tr style="color:red;">
                 <td colspan="2" style="text-align:right;">合计:</td>
                 <td>{{sprintf("%.2f",($page->total->total_gain??0)/100)}}</td>
                 <td>{{sprintf("%.2f",($page->total->total_expense??0)/100)}}</td>

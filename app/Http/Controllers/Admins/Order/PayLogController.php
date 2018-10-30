@@ -20,7 +20,7 @@ class PayLogController extends Controller
         $params['startDate']     = trimSpace(request('startPayDate', ''));
         $params['endDate']       = trimSpace(request('endPayDate', ''));
 
-        $param['type'] = array(
+        $params['type'] = array(
             1 => '订单付款',
             5 => '销售提成',
             6 => '协助收益',
@@ -34,7 +34,7 @@ class PayLogController extends Controller
 
         return view('admins.order.payLog')
             ->with('page', $page)
-            ->with('type', $param['type'])
+            ->with('type', $params['type'])
             ->with('search', $params['search'])
             ->with('payType', $params['payType'])
             ->with('startPayDate', $params['startDate'])

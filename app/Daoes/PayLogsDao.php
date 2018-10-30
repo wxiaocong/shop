@@ -15,7 +15,7 @@ class PayLogsDao extends BaseDao
     {
         $builder = PayLogs::join('users as u','pay_logs.user_id','=','u.id');
         if (array_key_exists('type', $params)) {
-            $builder->whereIn('pay_logs.pay_type', $params['type']);
+            $builder->whereIn('pay_logs.pay_type', array_keys($params['type']));
         }
         if (array_key_exists('userId', $params) && $params['userId'] > 0) {
             $builder->where('pay_logs.user_id', $params['userId']);
@@ -45,7 +45,7 @@ class PayLogsDao extends BaseDao
     {
         $builder = PayLogs::join('users as u','pay_logs.user_id','=','u.id');
         if (array_key_exists('type', $params)) {
-            $builder->whereIn('pay_logs.pay_type', $params['type']);
+            $builder->whereIn('pay_logs.pay_type', array_keys($params['type']));
         }
         if (array_key_exists('userId', $params) && $params['userId'] > 0) {
             $builder->where('pay_logs.user_id', $params['userId']);

@@ -73,6 +73,14 @@ button.weui-btn_warn{
           </div>
           <div class="weui-cell weui-cell_access">
             <div class="weui-cell__bd">
+              <p>开户行信息</p>
+            </div>
+            <div class="weui-cell__bd">
+              <input type="text" name="opening_bank"  class="weui-input" value="{{ $userInfo->opening_bank ?? '' }}" />
+            </div>
+          </div>
+          <div class="weui-cell weui-cell_access">
+            <div class="weui-cell__bd">
               <p>银行卡号</p>
             </div>
             <div class="weui-cell__bd">
