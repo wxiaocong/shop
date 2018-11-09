@@ -407,17 +407,17 @@ class WeChatController extends Controller {
                     [
                         "type" => "view",
                         "name" => "植得艾·简介",
-                        "url"  => "http://mp.weixin.qq.com/s?__biz=MzI4MjY2MTEzMw==&mid=100000007&idx=1&sn=c6208da57c3c6f30a0e3013958355306&chksm=6b97d9655ce0507354acb673d069da9db54956da41342f1f439f58bb3741fd3dd52e0c629023&scene=18#wechat_redirect"
+                        "url"  => "https://mp.weixin.qq.com/s/XsT3FQmp69MHnGqrfSX4iA"
                     ],
                     [
                         "type" => "view",
                         "name" => "公司介绍",
-                        "url"  => "http://mp.weixin.qq.com/s?__biz=MzI4MjY2MTEzMw==&mid=100000019&idx=1&sn=95bfbd084f7be588b6be798b521d0092&chksm=6b97d9715ce050672a5eb3eeb9d312e4ea78016bb9d66ce350f61e8c6fdd401529e52474ded5&scene=18#wechat_redirect"
+                        "url"  => "https://mp.weixin.qq.com/s/ExAv-1UDlDa5S4IEDVCqWw"
                     ],
                     [
                         "type" => "view",
                         "name" => "模式解析",
-                        "url" => "http://mp.weixin.qq.com/s?__biz=MzI4MjY2MTEzMw==&mid=100000021&idx=1&sn=8fdbc2bb2d346fd189c4d436eeb6bb70&chksm=6b97d9775ce050613f967e97b021f8115bb201ba3a490b099c8cbcf111acf691c70fecaaa24d&scene=18#wechat_redirect"
+                        "url" => "https://mp.weixin.qq.com/s/uhqGs3QhfRBoajNVH9h79g"
                     ],
                     [
                         "type" => "view",

@@ -129,7 +129,7 @@ class HomeController extends Controller {
     public function withdraw() {
         $data['bank_no'] = config('system.bank_no');
         $data['userInfo'] = UserService::findById(session('user')->id);
-        if(empty($data['userInfo']->bank_code) || empty($data['userInfo']->enc_bank_no)) {
+        if(empty($data['userInfo']->realname) || empty($data['userInfo']->bank_code) || empty($data['userInfo']->enc_bank_no)) {
             abort('404', '请先到个人中心完善银行卡信息');
         }
         return view('users.withdraw', $data);
