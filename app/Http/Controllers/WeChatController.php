@@ -292,7 +292,7 @@ class WeChatController extends Controller {
                             $parentId = str_replace('qrscene_','',$message['EventKey']);
                             if ($parentId > 0) {
                                 $parentInfo =  UserService::findById($parentId);
-                                if (empty($parentInfo)) {
+                                if (empty($parentInfo) || $parentInfo->level == 0) {
                                     $parentId = 0;
                                 }
                             } else {

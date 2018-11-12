@@ -197,7 +197,7 @@ class OrderDao extends BaseDao {
 		$p = [];
 		if (array_key_exists('search', $params) && $params['search'] != '') {
 			$sql .= " AND (o.order_sn like '%?%' or o.receiver_mobile like '%?%' or o.receiver_name like '%?%' or u.mobile like '%?%' or u.nickname like '%?%')";
-			$p = arrap_pad(array(), 5,$params['search']);
+			$p = array_pad(array(), 5,$params['search']);
 		}
 		if (array_key_exists('province', $params) && $params['province'] != 0) {
 			$sql .= " AND o.province = ?";
@@ -228,7 +228,7 @@ class OrderDao extends BaseDao {
 		if (array_key_exists('startDate', $params) && $params['startDate'] != '') {
 			// $builder->where('order.created_at', '>=', DateUtils::addDay(0, $params['startDate']));
 			$sql .= " AND o.created_at >= ?";
-			$p[] = DateUtils::addDay(0, $params['created_at']);
+			$p[] = DateUtils::addDay(0, $params['startDate']);
 		}
 		if (array_key_exists('endDate', $params) && $params['endDate'] != '') {
 			// $builder->where('order.created_at', '<', DateUtils::addDay(1, $params['endDate']));

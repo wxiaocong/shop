@@ -52,7 +52,7 @@ class UserService {
             if ($userInfo->referee_id > 0) {
                 //上级信息
                 $refereeInfo = UserDao::findById($userInfo->referee_id);
-                if (!empty($refereeInfo)) {
+                if (!empty($refereeInfo) && $refereeInfo->level > 0) {
                     if($refereeInfo->level == 1) {
                         //统计下级艾达人数量
                         $lowerNum = UserDao::countLower($userInfo->referee_id);

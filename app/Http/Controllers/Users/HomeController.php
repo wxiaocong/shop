@@ -44,9 +44,13 @@ class HomeController extends Controller {
         }
         //日期控件默认值问题，结尾有空格
         $request['birthday'] = empty(trim($request['birthday'])) ? null : trim($request['birthday']);
-
+        $userInfo = UserService::findById($id);
         if (UserService::getById($id)->update($request->all())) {
             Session(array('user' => UserService::findById($id)));
+            //修改昵称更新二维码
+            if ($request['nickname'] != $userInfo->nickname) {
+                unlink('./shareImg/'.$id.'.jpg');
+            }
             return response()->json(array(
                 'code' => 200,
                 'messages' => array('保存成功'),
