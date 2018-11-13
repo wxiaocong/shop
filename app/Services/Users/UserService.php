@@ -89,7 +89,7 @@ class UserService {
                         WechatNoticeService::sendTemplateMessage($refereeInfo->id, $refereeInfo->openid, $url, $template['template_id'], $templateData);
                         if ($refereeInfo->vip) {
                             $vip_extra_bonus = $system_param['vip_extra_bonus'];
-                            if(UserDao::profit($vip_extra_bonus * 100, $refereeInfo->id)) {
+                            if(UserDao::profit($vip_extra_bonus * 100, $refereeInfo->id, false)) {
                                 $payLogData = array(
                                     'user_id' => $refereeInfo->id,
                                     'openid' => $refereeInfo->openid,
@@ -117,7 +117,7 @@ class UserService {
                         //艾天使有下下级提成金额
                         if ($firstInfo->level == 2) {
                             $lowest_sales_commission = $system_param['lowest_sales_commission'];
-                            if(UserDao::profit($lowest_sales_commission * 100, $firstInfo->id)) {
+                            if(UserDao::profit($lowest_sales_commission * 100, $firstInfo->id, false)) {
                                 //写入支付记录
                                 $payLogData = array(
                                     'user_id' => $firstInfo->id,
