@@ -15,12 +15,14 @@ class UserController extends Controller
         $params               = array();
         $curPage              = trimSpace(request('curPage', 1));
         $pageSize             = trimSpace(request('pageSize', Page::PAGESIZE));
+        $params['level']      = intval(request('level', '-1'));
         $params['search']     = trimSpace(request('search', ''));
 
         $page = UserService::findByPageAndParams($curPage, $pageSize, $params);
         return view('admins.member.users')
             ->with('page', $page)
             ->with('search', $params['search'])
+            ->with('searchLevel', $params['level'])
             ->with('userLevel', config('statuses.user.levelState'));
     }
 

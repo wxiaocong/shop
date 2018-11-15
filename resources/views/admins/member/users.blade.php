@@ -31,6 +31,12 @@
 		<caption>
 			<form action="{{ url('/admin/user') }}" method="get" class="pull-right form-inline page-form" style="margin:0">
 				<input type="hidden" value="1" class="curPage" name="curPage">
+				<select name="level" class="form-control">
+					<option value="-1" @if($searchLevel == -1) selected @endif>所有</option>
+                    @foreach($userLevel as $k=>$v)
+                    <option value="{{$k}}" @if($searchLevel == $k) selected @endif>{{$v}}</option>
+                    @endforeach
+				</select>
 				&nbsp;&nbsp;<input class="form-control" name="search" type="text" value="@if(isset($search) && $search != '') {{ $search }} @endif" placeholder="昵称/手机号码" >
 				<button class="btn btn-default" type="submit">
 				    <i class="fa fa-search"></i>搜 索

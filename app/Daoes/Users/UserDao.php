@@ -194,6 +194,10 @@ class UserDao extends BaseDao {
             }
         }
 
+        if (array_key_exists('level', $params) && $params['level'] >= 0) {
+            $builder->where('users.level', '=', $params['level']);
+        }
+
         if (array_key_exists('search', $params) && $params['search'] != '') {
             $builder->where(function ($query) use ($params) {
                 $query->where('users.mobile', 'like', '%' . $params['search'] . '%')
