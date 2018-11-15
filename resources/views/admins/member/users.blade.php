@@ -31,6 +31,7 @@
 		<caption>
 			<form action="{{ url('/admin/user') }}" method="get" class="pull-right form-inline page-form" style="margin:0">
 				<input type="hidden" value="1" class="curPage" name="curPage">
+				级别:
 				<select name="level" class="form-control">
 					<option value="-1" @if($searchLevel == -1) selected @endif>所有</option>
                     @foreach($userLevel as $k=>$v)
@@ -88,6 +89,9 @@
 					<td><a href="{{ url('/admin/user/' . $data->id) }}"><i class='operator fa fa-file-text-o fa-lg'></i></a></td>
 				</tr>
 				@endforeach
+				<tr>
+					<td colspan="9" style="color:red;font-weight: bold;">总记录：{{$page->totalRecord}}</td>
+				</tr>
 			@endif
 		</tbody>
 	</table>
