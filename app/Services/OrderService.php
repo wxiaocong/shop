@@ -139,12 +139,14 @@ class OrderService {
 					'order_id' => $order->id,
 				);
 				PayLogsService::store($payLogData);
+				//商品数量
+				$orderGoodsNum = OrderDao::orderGoodsNum($order->id);
 				//更新库存
 				// GoodsSpecService::updateGoodsSpecNum($order->id);
 				//用户级别变更及销售奖励分配
-				UserService::upgradeUserLevel($order->user_id);
+				UserService::upgradeUserLevel($order->user_id, $orderGoodsNum);
 				//推荐店铺奖励
-				UserService::agentRefereeMoney($order);
+				UserService::agentRefereeMoney($order, $orderGoodsNum);
 
 				DB::commit();
 				//微信通知
@@ -257,6 +259,7 @@ class OrderService {
 	public static function deliver($request, $id) {
 		$currentDate = date('Y-m-d H:i:s');
 
+		$deliverType = intval($request->input('deliverType', 0));
 		$expressName = trimSpace($request->input('expressName', ''));
 		$expressNo = trimSpace($request->input('expressNo', ''));
 
@@ -291,9 +294,11 @@ class OrderService {
 			$orderGood->send_num = $waitDeliveryNums;
 			$orderGood->save();
 
-			//生成并保存发货记录
-			$orderShipping = self::generateOrderShipping($orderGood->id, $expressName, $expressNo, $currentDate);
-			$orderShipping->save();
+			if ($deliverType != 1) {
+				//生成并保存发货记录
+				$orderShipping = self::generateOrderShipping($orderGood->id, $expressName, $expressNo, $currentDate);
+				$orderShipping->save();
+			}
 
 			//发货,相减sku待发货数量
 			GoodsSpecDao::decrementWaitNumber($orderGood->spec_id, $waitDeliveryNum);

@@ -436,6 +436,13 @@
 					</tr>
 					-->
 					<tr>
+						<th>发货方式:</th>
+						<td>
+							<input type="radio" class="deliverType" name="deliverType" value='0' checked=""> 快递
+							<input type="radio" class="deliverType" name="deliverType" value='1'> 自提
+						</td>
+					</tr>
+					<tr id="expressContent">
 						<th>快递物流公司:</th><td><input type="text" class="form-control" name="expressName"/></td>
 						<th>快递单号:</th><td><input type="text" class="form-control" name="expressNo"/></td>
 					</tr>

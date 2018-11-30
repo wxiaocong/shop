@@ -110,10 +110,12 @@ class WeChatController extends Controller {
                         if ($res) {
                             //更新库存
                             // GoodsSpecService::updateGoodsSpecNum($orderInfo->id);
+                            //商品数量
+                            $orderGoodsNum = OrderService::orderGoodsNum($orderInfo->id);
                             //用户级别变更及销售奖励分配
-                            UserService::upgradeUserLevel($orderInfo->user_id);
+                            UserService::upgradeUserLevel($orderInfo->user_id, $orderGoodsNum);
                             //推荐店铺奖励
-                            UserService::agentRefereeMoney($orderInfo);
+                            UserService::agentRefereeMoney($orderInfo, $orderGoodsNum);
                             //写入支付记录
                             $payLogData = array(
                                 'user_id' => $orderInfo->user_id,

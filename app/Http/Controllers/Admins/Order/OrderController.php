@@ -81,7 +81,7 @@ class OrderController extends Controller
         return response()->json($results);
     }
 
-    public function deliver(OrderRequest $request, $id)
+    public function deliver(Request $request, $id)
     {
         $results        = OrderService::deliver($request, $id);
         $results['url'] = '/admin/order/' . $id;

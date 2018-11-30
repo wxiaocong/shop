@@ -233,7 +233,7 @@ class GoodsSpecDao extends BaseDao {
 	 * @return
 	 */
 	public static function decrementWaitNumber($id, $number) {
-		return GoodsSpec::find($id)->decrement('wait_number', $number);
+		return GoodsSpec::where('id',$id)->where('wait_number', '>=', $number)->decrement('wait_number', $number);
 	}
 
 	/**

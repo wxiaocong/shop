@@ -15,7 +15,7 @@ class UserService {
      * 付款用户及上级级别变更
      * 奖励分配
      */
-    public static function upgradeUserLevel($user_id) {
+    public static function upgradeUserLevel($user_id, $orderGoodsNum = 1) {
         $userInfo = UserDao::findById($user_id);
         if (!empty($userInfo)) {
             //系统参数
@@ -65,15 +65,15 @@ class UserService {
                     //提成金额
                     $subordinate_sales_commission = $system_param['subordinate_sales_commission'];
                     //上级奖励提成
-                    if(UserDao::getById($refereeInfo->id)->increment('balance', $subordinate_sales_commission * 100)) {
+                    if(UserDao::getById($refereeInfo->id)->increment('balance', $subordinate_sales_commission * $orderGoodsNum * 100)) {
                         //写入支付记录
                         $payLogData = array(
                             'user_id' => $refereeInfo->id,
                             'openid' => $refereeInfo->openid,
                             'pay_type' => config('statuses.payLog.payType.subordinate.code'),
-                            'gain' => $subordinate_sales_commission*100,
+                            'gain' => $subordinate_sales_commission*$orderGoodsNum*100,
                             'expense' => 0,
-                            'balance' => $refereeInfo->balance + $subordinate_sales_commission*100,
+                            'balance' => $refereeInfo->balance + $subordinate_sales_commission*$orderGoodsNum*100,
                             'order_id' => $user_id,
                         );
                         PayLogsService::store($payLogData);
@@ -81,7 +81,7 @@ class UserService {
                         $template = config('templatemessage.getCommission');
                         $templateData = array(
                             'first' => '您好，您获得了一笔新的佣金。',
-                            'keyword1' => sprintf("%.2f", $subordinate_sales_commission) .'元',
+                            'keyword1' => sprintf("%.2f", $subordinate_sales_commission*$orderGoodsNum) .'元',
                             'keyword2' => date('Y-m-d H:i:s'),
                             'remark' => '请进入系统查看详情！',
                         );
@@ -89,21 +89,21 @@ class UserService {
                         WechatNoticeService::sendTemplateMessage($refereeInfo->id, $refereeInfo->openid, $url, $template['template_id'], $templateData);
                         if ($refereeInfo->vip) {
                             $vip_extra_bonus = $system_param['vip_extra_bonus'];
-                            if(UserDao::profit($vip_extra_bonus * 100, $refereeInfo->id, false)) {
+                            if(UserDao::profit($vip_extra_bonus * $orderGoodsNum * 100, $refereeInfo->id, false)) {
                                 $payLogData = array(
                                     'user_id' => $refereeInfo->id,
                                     'openid' => $refereeInfo->openid,
                                     'pay_type' => config('statuses.payLog.payType.vip.code'),
-                                    'gain' => $vip_extra_bonus*100,
+                                    'gain' => $vip_extra_bonus * $orderGoodsNum * 100,
                                     'expense' => 0,
-                                    'balance' => $refereeInfo->balance + $vip_extra_bonus*100,
+                                    'balance' => $refereeInfo->balance + $vip_extra_bonus * $orderGoodsNum * 100,
                                     'order_id' => $user_id,
                                 );
                                 PayLogsService::store($payLogData);
                                 //消息提示
                                 $templateData = array(
                                     'first' => '您好，您获得了一笔VIP佣金。',
-                                    'keyword1' => sprintf("%.2f", $vip_extra_bonus) .'元',
+                                    'keyword1' => sprintf("%.2f", $vip_extra_bonus * $orderGoodsNum) .'元',
                                     'keyword2' => date('Y-m-d H:i:s'),
                                     'remark' => '请进入系统查看详情！',
                                 );
@@ -117,22 +117,22 @@ class UserService {
                         //艾天使有下下级提成金额
                         if ($firstInfo->level == 2) {
                             $lowest_sales_commission = $system_param['lowest_sales_commission'];
-                            if(UserDao::profit($lowest_sales_commission * 100, $firstInfo->id, false)) {
+                            if(UserDao::profit($lowest_sales_commission * $orderGoodsNum * 100, $firstInfo->id, false)) {
                                 //写入支付记录
                                 $payLogData = array(
                                     'user_id' => $firstInfo->id,
                                     'openid' => $firstInfo->openid,
                                     'pay_type' => config('statuses.payLog.payType.lowest.code'),
-                                    'gain' => $lowest_sales_commission*100,
+                                    'gain' => $lowest_sales_commission * $orderGoodsNum * 100,
                                     'expense' => 0,
-                                    'balance' => $firstInfo->balance + $lowest_sales_commission*100,
+                                    'balance' => $firstInfo->balance + $lowest_sales_commission * $orderGoodsNum * 100,
                                     'order_id' => $refereeInfo->id,
                                 );
                                 PayLogsService::store($payLogData);
                                 //消息提示
                                 $templateData = array(
                                     'first' => '您好，您获得了一笔新的佣金。',
-                                    'keyword1' => sprintf("%.2f", $lowest_sales_commission) .'元',
+                                    'keyword1' => sprintf("%.2f", $lowest_sales_commission * $orderGoodsNum) .'元',
                                     'keyword2' => date('Y-m-d H:i:s'),
                                     'remark' => '请进入系统查看详情！',
                                 );
@@ -151,7 +151,7 @@ class UserService {
      * @param  [type] $orderInfo [description]
      * @return [type]            [description]
      */
-    public static function agentRefereeMoney($orderInfo) {
+    public static function agentRefereeMoney($orderInfo, $goodsNum = 1) {
         //系统参数
         $system_param = SystemDao::getAll();
         //消息模板
@@ -159,7 +159,7 @@ class UserService {
         //减库存标记
         $hasUpdateStock = 0;
         //商品数量
-        $goodsNum = OrderService::orderGoodsNum($orderInfo->id);
+        // $goodsNum = OrderService::orderGoodsNum($orderInfo->id);
         //用户信息
         $inInfo = UserDao::findById($orderInfo->user_id);
         //发货代理id
@@ -172,15 +172,15 @@ class UserService {
 
             $inside_info = UserDao::findById($inAgent->user_id);
 
-            if(UserDao::profit($system_param['sales_inside_shop_profit'] * 100, $inInfo->referee_id)) {
+            if(UserDao::profit($system_param['sales_inside_shop_profit'] * $goodsNum * 100, $inInfo->referee_id)) {
                 //写入支付记录
                 $payLogData = array(
                     'user_id' => $inAgent->user_id,
                     'openid' => $inAgent->openid,
                     'pay_type' => config('statuses.payLog.payType.shopProfit.code'),
-                    'gain' => $system_param['sales_inside_shop_profit']*100,
+                    'gain' => $system_param['sales_inside_shop_profit'] * $goodsNum * 100,
                     'expense' => 0,
-                    'balance' => $inside_info->balance + $system_param['sales_inside_shop_profit']*100,
+                    'balance' => $inside_info->balance + $system_param['sales_inside_shop_profit'] * $goodsNum *100,
                     'order_id' => $orderInfo->id,
                 );
                 PayLogsService::store($payLogData);
@@ -188,7 +188,7 @@ class UserService {
                 if ($orderInfo->openid) {
                     $templateData = array(
                         'first' => '您好，您获得了一笔新的佣金。',
-                        'keyword1' => sprintf("%.2f", $system_param['sales_inside_shop_profit']) .'元',
+                        'keyword1' => sprintf("%.2f", $system_param['sales_inside_shop_profit'] * $goodsNum) .'元',
                         'keyword2' => date('Y-m-d H:i:s'),
                         'remark' => '请进入系统查看详情！',
                     );
@@ -198,22 +198,22 @@ class UserService {
                 //有店中店推荐人，发放推荐人奖励
                 if ($agent_referee_id) {
                     $refereeInfo = UserDao::findById($agent_referee_id);
-                    if(UserDao::profit($system_param['recommended_inside_shop_sales_commission'] * 100, $agent_referee_id)) {
+                    if(UserDao::profit($system_param['recommended_inside_shop_sales_commission'] * $goodsNum * 100, $agent_referee_id)) {
                         //写入支付记录
                         $payLogData = array(
                             'user_id' => $agent_referee_id,
                             'openid' => $refereeInfo->openid,
                             'pay_type' => config('statuses.payLog.payType.shopReward.code'),
-                            'gain' => $system_param['recommended_inside_shop_sales_commission']*100,
+                            'gain' => $system_param['recommended_inside_shop_sales_commission'] * $goodsNum * 100,
                             'expense' => 0,
-                            'balance' => $refereeInfo->balance + $system_param['recommended_inside_shop_sales_commission']*100,
+                            'balance' => $refereeInfo->balance + $system_param['recommended_inside_shop_sales_commission'] * $goodsNum * 100,
                             'order_id' => $orderInfo->id,
                         );
                         PayLogsService::store($payLogData);
                         //消息提示
                         $templateData = array(
                             'first' => '您好，您获得了一笔新的佣金。',
-                            'keyword1' => sprintf("%.2f", $system_param['recommended_inside_shop_sales_commission']) .'元',
+                            'keyword1' => sprintf("%.2f", $system_param['recommended_inside_shop_sales_commission'] * $goodsNum) .'元',
                             'keyword2' => date('Y-m-d H:i:s'),
                             'remark' => '请进入系统查看详情！',
                         );
@@ -231,7 +231,7 @@ class UserService {
             $referee_type = 'area';
             //有区域店，发放区域店提成15
             $areaInfo = UserDao::findById($areaAgent->user_id);
-            if(UserDao::profit($system_param['sales_area_shop_profit'] * 100, $areaAgent->user_id)) {
+            if(UserDao::profit($system_param['sales_area_shop_profit'] * $goodsNum * 100, $areaAgent->user_id)) {
                 $orderAgent = array(
                     'agent_id' => $areaAgent->user_id,
                     'openid' => $agent_openId
@@ -241,9 +241,9 @@ class UserService {
                     'user_id' => $areaAgent->user_id,
                     'openid' => $agent_openId,
                     'pay_type' => config('statuses.payLog.payType.shopProfit.code'),
-                    'gain' => $system_param['sales_area_shop_profit']*100,
+                    'gain' => $system_param['sales_area_shop_profit'] * $goodsNum * 100,
                     'expense' => 0,
-                    'balance' => $areaInfo->balance + $system_param['sales_area_shop_profit']*100,
+                    'balance' => $areaInfo->balance + $system_param['sales_area_shop_profit'] * $goodsNum * 100,
                     'order_id' => $orderInfo->id,
                 );
                 PayLogsService::store($payLogData);
@@ -256,7 +256,7 @@ class UserService {
                 if ($agent_openId) {
                     $templateData = array(
                         'first' => '您好，您获得了一笔新的佣金。',
-                        'keyword1' => sprintf("%.2f", $system_param['sales_area_shop_profit']) .'元',
+                        'keyword1' => sprintf("%.2f", $system_param['sales_area_shop_profit'] * $goodsNum) .'元',
                         'keyword2' => date('Y-m-d H:i:s'),
                         'remark' => '请进入系统查看详情！',
                     );
@@ -266,22 +266,22 @@ class UserService {
                 //有区域店推荐人，发放推荐人奖励
                 if ($agent_referee_id) {
                     $refereeInfo = UserDao::findById($agent_referee_id);
-                    if(UserDao::profit($system_param['recommended_area_shop_sales_commission'] * 100, $agent_referee_id)) {
+                    if(UserDao::profit($system_param['recommended_area_shop_sales_commission'] * $goodsNum * 100, $agent_referee_id)) {
                         //写入支付记录
                         $payLogData = array(
                             'user_id' => $agent_referee_id,
                             'openid' => $refereeInfo->openid,
                             'pay_type' => config('statuses.payLog.payType.shopReward.code'),
-                            'gain' => $system_param['recommended_area_shop_sales_commission']*100,
+                            'gain' => $system_param['recommended_area_shop_sales_commission'] * $goodsNum * 100,
                             'expense' => 0,
-                            'balance' => $refereeInfo->balance + $system_param['recommended_area_shop_sales_commission']*100,
+                            'balance' => $refereeInfo->balance + $system_param['recommended_area_shop_sales_commission'] * $goodsNum * 100,
                             'order_id' => $orderInfo->id,
                         );
                         PayLogsService::store($payLogData);
                         //消息提示
                         $templateData = array(
                             'first' => '您好，您获得了一笔新的佣金。',
-                            'keyword1' => sprintf("%.2f", $system_param['recommended_area_shop_sales_commission']) .'元',
+                            'keyword1' => sprintf("%.2f", $system_param['recommended_area_shop_sales_commission'] * $goodsNum) .'元',
                             'keyword2' => date('Y-m-d H:i:s'),
                             'remark' => '请进入系统查看详情！',
                         );
@@ -299,7 +299,7 @@ class UserService {
             $referee_type = 'city';
             //有旗舰店，发放旗舰店提成20
             $cityInfo = UserDao::findById($cityAgent->user_id);
-            if(UserDao::profit($system_param['sales_city_shop_profit'] * 100, $cityAgent->user_id)) {
+            if(UserDao::profit($system_param['sales_city_shop_profit'] * $goodsNum * 100, $cityAgent->user_id)) {
                 $orderAgent = array(
                     'agent_id' => $cityAgent->user_id,
                     'openid' => $agent_openId
@@ -309,9 +309,9 @@ class UserService {
                     'user_id' => $cityAgent->user_id,
                     'openid' => $agent_openId,
                     'pay_type' => config('statuses.payLog.payType.shopProfit.code'),
-                    'gain' => $system_param['sales_city_shop_profit']*100,
+                    'gain' => $system_param['sales_city_shop_profit'] * $goodsNum * 100,
                     'expense' => 0,
-                    'balance' => $cityInfo->balance + $system_param['sales_city_shop_profit']*100,
+                    'balance' => $cityInfo->balance + $system_param['sales_city_shop_profit'] * $goodsNum * 100,
                     'order_id' => $orderInfo->id,
                 );
                 PayLogsService::store($payLogData);
@@ -324,7 +324,7 @@ class UserService {
                 if ($agent_openId) {
                     $templateData = array(
                         'first' => '您好，您获得了一笔新的佣金。',
-                        'keyword1' => sprintf("%.2f", $system_param['sales_city_shop_profit']) .'元',
+                        'keyword1' => sprintf("%.2f", $system_param['sales_city_shop_profit'] * $goodsNum) .'元',
                         'keyword2' => date('Y-m-d H:i:s'),
                         'remark' => '请进入系统查看详情！',
                     );
@@ -335,22 +335,22 @@ class UserService {
                 //有旗舰店推荐人，发放推荐人奖励
                 if ($agent_referee_id) {
                     $refereeInfo = UserDao::findById($agent_referee_id);
-                    if(UserDao::profit($system_param['recommended_city_shop_sales_commission'] * 100, $agent_referee_id)) {
+                    if(UserDao::profit($system_param['recommended_city_shop_sales_commission'] * $goodsNum * 100, $agent_referee_id)) {
                         //写入支付记录
                         $payLogData = array(
                             'user_id' => $agent_referee_id,
                             'openid' => $refereeInfo->openid,
                             'pay_type' => config('statuses.payLog.payType.shopReward.code'),
-                            'gain' => $system_param['recommended_city_shop_sales_commission']*100,
+                            'gain' => $system_param['recommended_city_shop_sales_commission'] * $goodsNum * 100,
                             'expense' => 0,
-                            'balance' => $refereeInfo->balance + $system_param['recommended_city_shop_sales_commission']*100,
+                            'balance' => $refereeInfo->balance + $system_param['recommended_city_shop_sales_commission'] * $goodsNum * 100,
                             'order_id' => $orderInfo->id,
                         );
                         PayLogsService::store($payLogData);
                         //消息提示
                         $templateData = array(
                             'first' => '您好，您获得了一笔新的佣金。',
-                            'keyword1' => sprintf("%.2f", $system_param['recommended_city_shop_sales_commission']) .'元',
+                            'keyword1' => sprintf("%.2f", $system_param['recommended_city_shop_sales_commission'] * $goodsNum) .'元',
                             'keyword2' => date('Y-m-d H:i:s'),
                             'remark' => '请进入系统查看详情！',
                         );
@@ -371,16 +371,16 @@ class UserService {
                 $tuiUser = $cityInfo;
             }
             if (!empty($tuiUser)) {
-                if(UserDao::profit($system_param['subordinate_sales_commission'] * 100, $tuiUser->id)) {
+                if(UserDao::profit($system_param['subordinate_sales_commission'] * $goodsNum * 100, $tuiUser->id)) {
                     $template = config('templatemessage.getCommission');
                     //写入支付记录
                     $payLogData = array(
                         'user_id' => $tuiUser->id,
                         'openid' => $tuiUser->openid,
                         'pay_type' => config('statuses.payLog.payType.shopProfit.code'),
-                        'gain' => $system_param['subordinate_sales_commission']*100,
+                        'gain' => $system_param['subordinate_sales_commission'] * $goodsNum * 100,
                         'expense' => 0,
-                        'balance' => $tuiUser->balance + $system_param['subordinate_sales_commission']*100,
+                        'balance' => $tuiUser->balance + $system_param['subordinate_sales_commission'] * $goodsNum * 100,
                         'order_id' => $orderInfo->id,
                     );
                     PayLogsService::store($payLogData);
@@ -388,7 +388,7 @@ class UserService {
                     if ($tuiUser->openid) {
                         $templateData = array(
                             'first' => '您好，您获得了一笔新的佣金。',
-                            'keyword1' => sprintf("%.2f", $system_param['subordinate_sales_commission']) .'元',
+                            'keyword1' => sprintf("%.2f", $system_param['subordinate_sales_commission'] * $goodsNum) .'元',
                             'keyword2' => date('Y-m-d H:i:s'),
                             'remark' => '请进入系统查看详情！',
                         );
