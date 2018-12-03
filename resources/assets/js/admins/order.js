@@ -47,7 +47,7 @@ $('.order-deliver-button').click(function() {
                 ids.push(id);
                 nums.push(idKeyNumValues[id]);
             }
-            var deliverType = $('input[name="deliverType"]').val();
+            var deliverType = $('input[name="deliverType"]:checked').val();
             var expressName = $('input[name="expressName"]').val();
             var expressNo = $('input[name="expressNo"]').val();
             if(deliverType != 1 ) {
